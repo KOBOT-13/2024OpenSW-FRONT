@@ -7,10 +7,6 @@
         padding: 0;
         border: 0;
         background: none;
-        .profileImg{
-            width: 100px;
-            border-radius: 500px;
-        }
     }
     .name{
         margin: 16px 0 0 0;

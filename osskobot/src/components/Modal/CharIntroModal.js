@@ -44,6 +44,7 @@ function CharIntroModal({ isOpen, onRequestClose, name, description, src, mode, 
                 isOpen={isOpen}
                 onRequestClose={() => onRequestClose(false)}
                 className={styles.talkModal}
+                overlayClassName={styles.customOverlay}
             >
                 <div className={styles.imgDiv}>
                     <img src={src} className={styles.modalImg} />
