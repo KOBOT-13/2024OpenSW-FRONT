@@ -2,24 +2,19 @@ import styled from "styled-components";
 
 const Select = styled.select`
     font-family: 'Pretendard-SemiBold';
-    font-size: 14px;
+    font-size: ${props => props.fontSize}px;
     border: none;
     color: rgba(55, 56, 60, 0.6);
     &:focus{
         outline: 0;
     }
+    text-align: right;
+    padding-right: 10px;
 `;
 
-
-function SelectBox() {
-    const selectList = [
-        {value: 1, name:"신규등록순"},
-        {value: 2, name:"제목순"},
-        {value: 3, name:"인기순"}
-    ];
-    
+function SelectBox({selectList, fontSize=14, onChange}) {
     return(
-        <Select>
+        <Select fontSize={fontSize} onChange={onChange}>
             {selectList.map((value, key) => {
                 return <option value={value.value} key={key}>
                     {value.name}

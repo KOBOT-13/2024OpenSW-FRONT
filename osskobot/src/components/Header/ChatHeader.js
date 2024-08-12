@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Div = styled.div`
     &.BG-Top{
+        margin-top: 38px;
         display: flex;
         align-items: center;
         padding: 17px 0 17px 50px;

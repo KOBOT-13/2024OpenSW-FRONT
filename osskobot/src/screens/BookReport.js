@@ -1,39 +1,44 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import styles from './BookReport.module.css';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import reportForm1 from '../forms/reportForm1';
 import reportForm2 from '../forms/reportForm2';
 import reportForm3 from '../forms/reportForm3';
 import { privateAxios } from '../services/axiosConfig';
 import postReadBook from '../services/postReadBook';
+import ChatHeader from '../components/Header/ChatHeader';
+import SelectBox from '../components/SelectBox/SelectBox';
+import { Div, TextArea, Button } from './BookReportStyled';
 
 function BookReport() {
     const naviate = useNavigate();
     const bookId = useParams('id').id;
     const selectList = [
-        { id: 0, value: "양식 선택" },
-        { id: 1, value: "독후감" },
-        { id: 2, value: "등장인물에게 편지쓰기" },
-        { id: 3, value: "뒷 내용 생각해보기" }
+        { value: 0, name: "양식 선택" },
+        { value: 1, name: "독후감" },
+        { value: 2, name: "등장인물에게 편지쓰기" },
+        { value: 3, name: "뒷 내용 생각해보기" }
     ]
 
     const [selected, setSelected] = useState("양식 선택");
     const [formContent, setFormContent] = useState("");
 
+    const { state } = useLocation();
+    const { cover_image, title } = state;
+
     const handleSelect = (e) => {
         const selectForm = e.target.value;
         setSelected(selectForm);
 
-        if (selectForm === "독후감") {
+        if (selectForm === '1') {
             setFormContent(reportForm1);
         }
-        else if (selectForm === "등장인물에게 편지쓰기") {
+        else if (selectForm === '2') {
             setFormContent(reportForm2);
         }
-        else if(selectForm === "뒷 내용 생각해보기"){
+        else if (selectForm === '3') {
             setFormContent(reportForm3);
         }
-        else{
+        else {
             setFormContent("");
         }
     };
@@ -42,7 +47,7 @@ function BookReport() {
         setFormContent(e.target.value);
     }
 
-    const onClickApply = () =>{
+    const onClickApply = () => {
         privateAxios.post(`books/posts/`,
             {
                 "book": bookId,
@@ -52,36 +57,29 @@ function BookReport() {
             postReadBook(bookId);
             alert("독후감 작성이 완료되었습니다.");
             naviate(`/bookclick/${bookId}`);
-        }).catch((error) =>{
+        }).catch((error) => {
             console.log(error);
         });
     }
 
-    const onClickCancle = () =>{
+    const onClickCancle = () => {
         naviate(-1);
     }
 
     return (
-        <div className={styles.mainContainer}>
-            <div className={styles.titleDiv}>
-                <span className={styles.titleSpan}>독후감 작성</span>
-                <select value={selected} onChange={handleSelect}>
-                    {selectList.map((item) => {
-                        return <option value={item.value} key={item.id}>
-                            {item.value}
-                        </option>
-                    })}
-                </select>
-            </div>
-            <div className={styles.contentDiv}>
-                <textarea className={styles.contentText} value={formContent} onChange={handleContent}>
-                </textarea>
-            </div>
-            <div className={styles.btnDiv}>
-                <button className={styles.btn} onClick={onClickApply}>작성</button>
-                <button className={styles.btn} onClick={onClickCancle}>취소</button>
-            </div>
-        </div>
+        <Div className='MainContainer'>
+            <ChatHeader cover_image={cover_image} title={title} />
+            <Div className='Top'>
+                <SelectBox selectList={selectList} fontSize={18} onChange={handleSelect} />
+            </Div>
+            <Div className='Mid'>
+                <TextArea value={formContent} onChange={handleContent} placeholder='독후감 작성...'/>
+                <Div className='Btns-Mid'>
+                    <Button style={{marginRight:"10px"}} onClick={onClickApply}>작성하기</Button>
+                    <Button onClick={onClickCancle}>취소</Button>
+                </Div>
+            </Div>
+        </Div>
     )
 }
 

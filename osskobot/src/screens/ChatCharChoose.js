@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from 'react';
 import CharProfile from "../components/CharProfile/CharProfile";
-import { useParams, useNavigate } from 'react-router-dom';
-import { publicAxios, privateAxios } from '../services/axiosConfig';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { publicAxios } from '../services/axiosConfig';
 import ChatHeader from "../components/Header/ChatHeader";
 
 const Div = styled.div`
@@ -87,8 +87,10 @@ function CharCharChoose() {
     const [characters, setCharacters] = useState([]);
     const { id, characterid } = useParams();
     const [charIndex, setCharIndex] = useState(undefined);
-    const [book, setBook] = useState("");
+    
     const navigate = useNavigate();
+    const {state} = useLocation();
+    const {cover_image, title} = state;
 
     useEffect(() => {
         const getCharacters = async () => {
@@ -103,14 +105,6 @@ function CharCharChoose() {
         getCharacters();
     }, [id]);
 
-    useEffect(() => {
-        privateAxios.get(`books/book/${id}/`)
-            .then((response) => {
-                setBook(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
-    }, []);
     
     const onClickTalk = () => {
         navigate(`/bookclick/${id}/chatcharchoose/${characters[charIndex].id}/chat`)
@@ -119,7 +113,7 @@ function CharCharChoose() {
     return (
         <Div className="MainContainer">
             <Div className="Top">
-                <ChatHeader cover_image={book.cover_image} title={book.title} />
+                <ChatHeader cover_image={cover_image} title={title} />
             </Div>
             <Div className="Mid">
                 <P>대화하고 싶은 등장인물을 선택해주세요</P>
