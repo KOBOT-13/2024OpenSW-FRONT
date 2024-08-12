@@ -150,7 +150,7 @@ function BookClick() {
                         : index === 2 ?
                             <Div className='Char-Intro'>
                                 {charProfileInfos.map((value, key) => {
-                                    return <CharProfile character={value} key={key} />
+                                    return <CharProfile character={value} key={key} mode={1} />
                                 })}
                             </Div>
                             : <Div className='Comment-Middle'>

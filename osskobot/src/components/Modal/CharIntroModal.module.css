@@ -40,12 +40,16 @@
     }
 }
 
+.customOverlay{
+    background: none;
+}
+
 .talkModal{
     position: absolute;
     inset: 70% 10% 1% 10%;
-    background: gainsboro;
+    background: #f2f3f7;
     overflow: auto;
-    border-radius: 4px;
+    border-radius: 10px;
     border: 1px solid black;
     outline: none;
     display: flex;
