@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from 'react';
 import CharProfile from "../components/CharProfile/CharProfile";
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import ChatHeader from "../components/Header/ChatHeader";
 
@@ -88,6 +88,7 @@ function CharCharChoose() {
     const { id, characterid } = useParams();
     const [charIndex, setCharIndex] = useState(undefined);
     const [book, setBook] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getCharacters = async () => {
@@ -111,6 +112,10 @@ function CharCharChoose() {
             });
     }, []);
     
+    const onClickTalk = () => {
+        navigate(`/bookclick/${id}/chatcharchoose/${characters[charIndex].id}/chat`)
+    }
+
     return (
         <Div className="MainContainer">
             <Div className="Top">
@@ -134,19 +139,11 @@ function CharCharChoose() {
                             </Div>
                         <P className="description">{characters[charIndex].description}</P>
                     </Div>
-                    <Button>대화하기</Button>
+                    <Button onClick={onClickTalk}>대화하기</Button>
                 </Div>
                 : null}
             </Div>
         </Div>
-        // <div className={styles.charProfileDiv}>
-        //     {characters.map(character => (
-        //         <CharProfile
-        //             key={character.id}
-        //             character={character}
-        //             mode={2}/>
-        //     ))}
-        // </div>
     );
 }
 
