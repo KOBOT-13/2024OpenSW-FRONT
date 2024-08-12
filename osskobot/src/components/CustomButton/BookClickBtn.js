@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { privateAxios } from "../../services/axiosConfig";
 
 const Div = styled.div`
     background: #3063d2;
@@ -21,9 +23,20 @@ const P = styled.p`
 
 function BookClickBtn({icon: Icon, label, path, id}){
     const navigate = useNavigate();
+    const [book, setBook] = useState("");
+    useEffect(() => {
+        privateAxios.get(`books/book/${id}/`)
+            .then((response) => {
+                setBook(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
     const onClickDiv = () => {
-        navigate(`/bookclick/${id}/${path}`);
+        navigate(`/bookclick/${id}/${path}`, {state: {cover_image:book.cover_image, title:book.title}});
     };
+
     return(
         <Div onClick={onClickDiv}>
             <Icon/>

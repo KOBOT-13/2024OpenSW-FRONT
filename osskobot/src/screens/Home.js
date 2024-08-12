@@ -38,9 +38,10 @@ function Home() {
     const [books, setBooks] = useState([]);
     const [index, setIndex] = useState(1);
 
-    const filters = [
-        { id: 1, text: '내 책장' },
-        { id: 2, text: '둘러보기' },
+    const selectList = [
+        {value: 1, name:"신규등록순"},
+        {value: 2, name:"제목순"},
+        {value: 3, name:"인기순"}
     ];
 
     const category = [
@@ -87,7 +88,7 @@ function Home() {
             <SubHeader/>
             <Div className='Wrap-Heading'>
                 <P>둘러보기</P>
-                <SelectBox/>
+                <SelectBox selectList={selectList}/>
             </Div>
             <Div className='Category'>
                 {category.map((value, key) => {
