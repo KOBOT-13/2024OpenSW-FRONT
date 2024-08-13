@@ -4,86 +4,137 @@ import Modal from 'react-modal';
 import { privateAxios, publicAxios } from '../../services/axiosConfig';
 import styled from 'styled-components';
 import cookies from 'js-cookie';
+import { IoCalendarNumberOutline } from "react-icons/io5";
 
 const ErrorSpan = styled.span`
-    position: absolute;
-    left: 50%;   /* 부모 요소의 50% 오른쪽으로 이동 */
-    transform: translate(-50%, -50%); /* 본래 위치에서 -50%, -50% 이동하여 중앙 정렬 */
+    font-family: 'Pretendard-Medium';
     font-size: 10px;
-    color: lightcoral;
+    color: #ff4040;
+    position: absolute;
+    top: 33px;
+    left: 10px;
+    transform: translate(-50%, -50%); /* 본래 위치에서 -50%, -50% 이동하여 중앙 정렬 */
 `;
 
-function LabelContent({ label, type, placeholder, value, onChange }) {
-    const [activeBorder, setActiveBorder] = useState({
-        labelBorder: false,
-    });
-    const { labelBorder } = activeBorder;
-    const handleFocusBorder = border => {
-        setActiveBorder({
-            ...activeBorder,
-            [border]: true,
-        });
-    };
-    const handleBlurBorder = border => {
-        setActiveBorder({
-            ...activeBorder,
-            [border]: false,
-        });
-    };
-    return (
-        <div className={styles.labelContentDiv}>
-            <p
-                className={`${styles['label']} ${labelBorder ? styles['active'] : ''}`}
-            >
-                {label}
-            </p>
-            <input
-                type={type}
-                className={`${styles['content']} ${labelBorder ? styles['active'] : ''}`}
-                onFocus={() => handleFocusBorder('labelBorder')}
-                onBlur={() => handleBlurBorder('labelBorder')}
-                placeholder={placeholder}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-            />
-        </div >
-    )
-}
+const H1 = styled.h1`
+    position: absolute; 
+    left: 50px;
+    top: 60px;
+    font-family: 'Pretendard-Bold';
+    font-size: 35px;
+    margin: 0;
+`;
 
-function LabelPassword({ label, btnName, type, value, onChange, onClick }) {
-    const [activeBorder, setActiveBorder] = useState({
-        labelBorder: false,
-    });
-    const { labelBorder } = activeBorder;
-    const handleFocusBorder = border => {
-        setActiveBorder({
-            ...activeBorder,
-            [border]: true,
-        });
-    };
-    const handleBlurBorder = border => {
-        setActiveBorder({
-            ...activeBorder,
-            [border]: false,
-        });
-    };
+const Div = styled.div`
+    &.Modify-Container{
+        display: flex;
+        align-items: center;
+    }
+    &.Modify-Input{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+    &.Nickname{
+        position: absolute;
+        left: 137px;
+        top: 134px;
+    }
+    &.Date{
+        position: absolute;
+        left: 119px;
+        top: 190px;
+    }
+    &.Password{
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: 78px;
+        top: 244px;
+    }
+`;
+
+const P = styled.p`
+    margin: 0;
+    margin-right: 36px;
+    font-family: 'Pretendard-Medium';
+    font-size: 21px;
+    color: #696969;
+`;
+
+const Input = styled.input`
+    font-family: 'Pretendard-Medium';
+    font-size: 18px;
+    width: 340px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: #f2f3f7;
+`;
+
+const Calendar = styled(IoCalendarNumberOutline)`
+    position: absolute;
+    top: -10px;
+    left: 421px;
+    width: 29px;
+    height: 29px;
+`;
+
+const Button = styled.button`
+    &.EmailBtn{
+        font-family: 'Pretendard-Medium';
+        font-size: 12px;
+        background-color: white;
+        border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 10px;
+        width: 75px;
+        height: 26px;
+        position: absolute;
+        left: 416px;
+        top: -7px;
+    }
+    &.CancleBtn{
+        font-family: 'Pretendard-Bold';
+        font-size: 17px;
+        width: 107px;
+        height: 40px;
+        background-color: white;
+        border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 10px;
+        position: absolute;
+        left: 442px;
+        top: 324px;
+    }
+    &.EditBtn{
+        font-family: 'Pretendard-Bold';
+        font-size: 17px;
+        color: white;
+        width: 107px;
+        height: 40px;
+        background-color: Black;
+        border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 10px;
+        position: absolute;
+        left: 564px;
+        top: 324px;
+    }
+`;
+
+
+function LabelContent({ label, type, placeholder, value, onChange }) {
     return (
-        <div className={styles.labelPasswordDiv}>
-            <div className={styles.labelDiv}>
-                <label className={`${styles['label']} ${labelBorder ? styles['active'] : ''}`}>
-                    {label}
-                </label>
-            </div>
-            <input
-                type={type}
-                className={`${styles['password']} ${labelBorder ? styles['active'] : ''}`}
-                onFocus={() => handleFocusBorder('labelBorder')}
-                onBlur={() => handleBlurBorder('labelBorder')}
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-            />
-            <button className={styles.btn} onClick={onClick} >{btnName}</button>
-        </div>
+        <Div className='Modify-Container'>
+            <P>{label}</P>
+            <Div className='Modify-Input'>
+                <Input
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                />
+                <ErrorSpan>Test</ErrorSpan>
+            </Div>
+        </Div>
     )
 }
 
@@ -157,8 +208,27 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
             onRequestClose={() => onRequestClose(false)}
             className={styles.profileModal}
         >
-            <h1>프로필 수정</h1>
-            <div className={styles.modifyDiv}>
+            <H1>프로필 수정</H1>
+            <Div className='Nickname'>
+                <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} />
+            </Div>
+            <Div className='Date'>
+                <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
+                <Calendar />
+            </Div>
+            <Div className='Password'>
+                <P>비밀번호 변경</P>
+                <Div className='Modify-Input'>
+                    <Input
+                        placeholder='이메일을 입력해주세요.'
+                    />
+                    <ErrorSpan>Test</ErrorSpan>
+                </Div>
+                <Button className='EmailBtn'>이메일 인증</Button>
+            </Div>
+            <Button className='CancleBtn'>취소하기</Button>
+            <Button className='EditBtn'>수정하기</Button>
+            {/* <div className={styles.modifyDiv}>
                 <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} />
                 <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
                 <p style={{ marginLeft: "3%", marginBottom: "0px" }}>비밀번호 변경</p>
@@ -166,7 +236,7 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                 <ErrorSpan>{validMsg}</ErrorSpan>
                 <button className={styles.applyBtn} onClick={onClickApply}>적용</button>
                 <button className={styles.cancleBtn} onClick={() => onRequestClose(false)}>취소</button>
-            </div>
+            </div> */}
         </Modal>
     )
 }

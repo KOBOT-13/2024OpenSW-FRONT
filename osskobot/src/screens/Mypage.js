@@ -110,10 +110,11 @@ function Mypage() {
                         <P className='email'>Email : {email}</P>
                     </Div>
                 </Div>
-                <Div className='Modify-Btn'>
+                <Div className='Modify-Btn' onClick={onClickProfile}>
                     <HiOutlinePencilSquare/>
                     <P className='profile-modify'>프로필 수정</P>
                 </Div>
+                <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
             </Div>
         </Div>
         // <div className={styles.mainContainer}>
@@ -125,7 +126,7 @@ function Mypage() {
         //             <p className={styles.profileP}>E-mail : {email}</p>
         //         </div>
         //     </div>
-        //     <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
+            // <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
         //     <div className={styles.myReadActDiv}>
         //         <h3 style={{ marginBottom: "0" }}>나의 독후활동</h3>
         //         <div className={styles.btnsDiv}>
