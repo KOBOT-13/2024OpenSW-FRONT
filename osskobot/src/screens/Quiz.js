@@ -4,7 +4,7 @@ import Question from '../components/Quiz/Question';
 import './Quiz.css'; // 추가된 CSS 파일 import
 import { privateAxios } from '../services/axiosConfig';
 import postReadBook from '../services/postReadBook';
-import { Div, Image, P } from './QuizStyled';
+import { Div, Span, Button, ResultP } from './QuizStyled';
 import ChatHeader from '../components/Header/ChatHeader';
 import ResultModal from '../components/Modal/ResultModal';
 
@@ -24,7 +24,7 @@ const Quiz = () => {
   const [characters, setCharacters] = useState(
     { 0: { id: 0, character_image: "" } },
   );
-  const [charIndex, setCharIndex] = useState();
+
 
   useEffect(() => {
     const getQuizzes = async () => {
@@ -70,6 +70,7 @@ const Quiz = () => {
       setCurrentQuestionIndex(nextQuestionIndex);
     } else {
       setShowResult(true);
+      setIsStart(false);
       sendScore(); // 퀴즈가 끝났을 때 점수를 서버에 전송
       postReadBook(bookId)
     }
@@ -82,6 +83,7 @@ const Quiz = () => {
     setShowAnswer(false); // 답변 표시 숨기기
     setIsCorrect(false); // 정답 여부 초기화
     setIsAnswered(false);
+    setIsStart(true);
   };
 
   const goCommunity = () => {
@@ -110,13 +112,26 @@ const Quiz = () => {
       <ChatHeader cover_image={cover_image} title={title} />
       <Div className='Mid'>
         {isStart ? <Question
-          characters={characters}
+          character={characters[0]}
           data={quizData[currentQuestionIndex]}
           onAnswer={handleAnswer}
           showAnswer={showAnswer}
           isCorrect={isCorrect}
           handleNextQuestion={handleNextQuestion}
-        /> : null}
+        /> : showResult ?
+          <Div>
+            <Div className='Result'>
+              <ResultP className='first'>🎉 퀴즈 맞추기 완료! 🎉</ResultP>
+              <ResultP className='second'>5문제 중 <Span>{score}문제</Span>를 맞았어요</ResultP>
+              {score > 3 ? <ResultP className='third'>훌륭해요! 독서를 열심히 했군요!</ResultP> : <ResultP className='third'>다시해볼까? 랄랄랄라라</ResultP>}
+            </Div>
+            <Div className='Result-Btns'>
+              <Button className='retry' onClick={retryQuiz}>다시 시도하기</Button>
+              <Button className='exit' onClick={goCommunity}>결과 공유하기</Button>
+            </Div>
+          </Div> 
+          : null
+        }
       </Div>
       <Div>
         {showAnswer && !showResult && (
@@ -124,31 +139,6 @@ const Quiz = () => {
         )}
       </Div>
     </Div>
-    // <div className="quiz-container">
-    //   {showResult ? (
-    //     <div className="quiz-result">
-    //       <h1>🎉 퀴즈 완료! 🎉</h1>
-    //       <h2>점수: {score} / {quizData.length}</h2>
-    //       {score > 3 ? <p>훌륭해요! 독서를 열심히 했군요!</p> : <p>다시해볼까? 랄랄랄라라</p>}
-    //       <div className="actions">
-    //         <button className="retry-button" onClick={retryQuiz}>다시 시도하기</button>
-    //         <button className="share-button" onClick={goCommunity}>결과 공유하기</button> 
-    //       </div>
-    //     </div>
-    //   ) : isStart ? (
-    //     <Question
-    //       data={quizData[currentQuestionIndex]}
-    //       onAnswer={handleAnswer}
-    //       showAnswer={showAnswer}
-    //       isCorrect={isCorrect}
-    //       handleNextQuestion={handleNextQuestion}
-    //     />
-    //   ) : <div>Loading...</div>}
-    //   {/* 로딩 페이지  */}
-    //   {showAnswer && !showResult && (
-    //     <button onClick={handleNextQuestion} className="next-button">다음 질문</button>
-    //   )}
-    // </div>
   );
 };
 

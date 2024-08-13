@@ -71,14 +71,8 @@ const Button = styled.button`
   }
 `;
 
-const Question = ({characters, data, onAnswer, showAnswer, isCorrect, handleNextQuestion }) => {
+const Question = ({character, data, onAnswer, showAnswer, isCorrect, handleNextQuestion }) => {
   const [clickBtn, setClickBtn] = useState(undefined);
-  const getRandomIndex = (length) => {
-    if (length === undefined) {
-      return 0;
-    }
-    return parseInt(Math.random() * length);
-  }
   useEffect(() => {
     if (showAnswer) {
       const timer = setTimeout(() => {
@@ -91,7 +85,7 @@ const Question = ({characters, data, onAnswer, showAnswer, isCorrect, handleNext
   return (
     <Div className='Question-Container'>
       <Div className='Question-Box'>
-        <Image src={characters[getRandomIndex(characters.length)].character_image} />
+        <Image src={character.character_image} />
         <ChatDiv>
           <QuestionP>{data.question}</QuestionP>
         </ChatDiv>

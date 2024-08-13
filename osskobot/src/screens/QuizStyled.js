@@ -11,24 +11,59 @@ export const Div = styled.div`
         margin-top: 73px;
         display: flex;
     }
+    &.Result{
+        width: 1160px;
+        height: 324px;
+        background-color: #f2f3f7;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    &.Result-Btns{
+        margin-top: 15px;
+        display: flex;
+        justify-content: flex-end;
+    }
 `;
 
-export const Image = styled.img`
-    width: 214px;
-    height: 214px;
-`;
-
-export const P = styled.p`
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
+export const ResultP = styled.p`
     font-family: 'Pretendard-Bold';
-    font-size: 27px;
     margin: 0;
-    margin-left: 10px; 
-    max-width: 90%; /* 최대 너비를 부모 요소에 맞추기 */
-    overflow-wrap: break-word; /* 단어 단위로 줄바꿈 */
-    white-space: normal; /* 공백을 여러 줄로 표시 */
-    text-align: center; /* 중앙 정렬 */
+    &.first{
+        font-size: 35px;
+        margin-top: 56px;
+    }
+    &.second{
+        font-size: 50px;
+        margin-top: 42px;
+    }
+    &.third{
+        font-family: 'Pretendard-SemiBold';
+        font-size: 30px;
+        color: #646464;
+        margin-top: 27px;
+    }
+`;
+
+export const Span = styled.span`
+    color: #33b254;
+`;
+
+export const Button = styled.button`
+    font-family: 'Pretendard-Bold';
+    font-size: 17px;
+    border-radius: 10px;
+    padding: 10px 24px 10px 24px;
+    margin-left:10px;
+    &.retry{
+        border: 1px solid rgba(0,0,0,0.15);
+        background-color: white;
+    }
+    &.exit{
+        border:none;
+        color: white;
+        background-color: black;
+    }
 `;
