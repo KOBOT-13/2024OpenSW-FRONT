@@ -40,7 +40,7 @@ function Logout({setReload}) {
     
     return (
         <div>
-            <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} setIsDel={setIsLogout} msg={"정말로 로그아웃 하시겠습니까?"} />
+            <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} del={() => setIsLogout(true)} msg={"정말로 로그아웃 하시겠습니까?"} />
         </div>
     )
 }
