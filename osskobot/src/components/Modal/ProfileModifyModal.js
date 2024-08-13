@@ -11,9 +11,7 @@ const ErrorSpan = styled.span`
     font-size: 10px;
     color: #ff4040;
     position: absolute;
-    top: 33px;
-    left: 10px;
-    transform: translate(-50%, -50%); /* 본래 위치에서 -50%, -50% 이동하여 중앙 정렬 */
+    top: 25px;
 `;
 
 const H1 = styled.h1`
@@ -63,6 +61,9 @@ const P = styled.p`
 `;
 
 const Input = styled.input`
+    &:focus{
+        outline: 0;
+    }
     font-family: 'Pretendard-Medium';
     font-size: 18px;
     width: 340px;
@@ -70,14 +71,6 @@ const Input = styled.input`
     border: none;
     border-bottom: 1px solid black;
     background-color: #f2f3f7;
-`;
-
-const Calendar = styled(IoCalendarNumberOutline)`
-    position: absolute;
-    top: -10px;
-    left: 421px;
-    width: 29px;
-    height: 29px;
 `;
 
 const Button = styled.button`
@@ -118,10 +111,14 @@ const Button = styled.button`
         left: 564px;
         top: 324px;
     }
+    
+    &:hover{
+        background-color: #e0e0e0;
+    }
 `;
 
 
-function LabelContent({ label, type, placeholder, value, onChange }) {
+function LabelContent({ label, type, placeholder, value, onChange, errorMsg }) {
     return (
         <Div className='Modify-Container'>
             <P>{label}</P>
@@ -132,7 +129,7 @@ function LabelContent({ label, type, placeholder, value, onChange }) {
                     value={value}
                     onChange={(e) => onChange(e.target.value)}
                 />
-                <ErrorSpan>Test</ErrorSpan>
+                <ErrorSpan>{errorMsg}</ErrorSpan>
             </Div>
         </Div>
     )
@@ -142,14 +139,16 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
     const [newNickName, setNewNickName] = useState('');
     const [newDate, setNewDate] = useState('');
     const [email, setEmail] = useState('');
-    const [validMsg, setValidMsg] = useState('');
+    const [emailValidMsg, setEmailValidMsg] = useState('');
+    const [dateValidMsg, setDateValidMsg] = useState('');
+    const [passwordMsg, setPasswordMsg] = useState('');
 
     useEffect(() => {
         setNewNickName(nickname);
         setNewDate(date);
     }, [nickname, date])
 
-    const onClickApply = async() => {
+    const onClickApply = () => {
         if(newNickName === nickname){
             privateAxios.patch(`users/profile/update/`,
                 {
@@ -176,17 +175,17 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                     alert("프로필을 수정하였습니다.");
                     cookies.set("username", newNickName);
                     reload((current) => {return !current});
-                    setValidMsg("");
                 }).catch((error) => {
                     console.log(error);
                 });
             }).catch((error) => {
-                setValidMsg(error.response.data.detail);
+                setEmailValidMsg(error.response.data.detail)
             });
         }
     }
  
     const onClickEmailValidate = () => {
+        console.log(cookies.get('email'))
         if(cookies.get('email') === email){
             publicAxios.post(`users/password_reset/`, 
                 {
@@ -194,11 +193,12 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                 }
             ).then(() => {
                 alert("비밀번호 변경 이메일이 전송되었습니다.");
+                setPasswordMsg("");
             }).catch((error) => {
-                console.log(error);
+                setPasswordMsg(error.response.data.detail);
             })
         }else{
-            alert("로그인 된 계정의 이메일을 입력해주세요.");
+            setPasswordMsg('로그인 된 계정의 이메일을 입력해주세요.');
         }
     }
 
@@ -210,33 +210,25 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
         >
             <H1>프로필 수정</H1>
             <Div className='Nickname'>
-                <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} />
+                <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} errorMsg={emailValidMsg} />
             </Div>
             <Div className='Date'>
-                <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
-                <Calendar />
+                <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} errorMsg={dateValidMsg} />
             </Div>
             <Div className='Password'>
                 <P>비밀번호 변경</P>
                 <Div className='Modify-Input'>
                     <Input
                         placeholder='이메일을 입력해주세요.'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
-                    <ErrorSpan>Test</ErrorSpan>
+                    <ErrorSpan>{passwordMsg}</ErrorSpan>
                 </Div>
-                <Button className='EmailBtn'>이메일 인증</Button>
+                <Button className='EmailBtn' onClick={onClickEmailValidate}>이메일 인증</Button>
             </Div>
-            <Button className='CancleBtn'>취소하기</Button>
-            <Button className='EditBtn'>수정하기</Button>
-            {/* <div className={styles.modifyDiv}>
-                <LabelContent label={"닉네임"} type={"text"} placeholder={nickname} value={newNickName} onChange={setNewNickName} />
-                <LabelContent label={"생년월일"} type={"date"} value={newDate} onChange={setNewDate} />
-                <p style={{ marginLeft: "3%", marginBottom: "0px" }}>비밀번호 변경</p>
-                <LabelPassword label={"이메일"} btnName={"이메일 인증"} type={"text"} value={email} onChange={setEmail} onClick={onClickEmailValidate} />
-                <ErrorSpan>{validMsg}</ErrorSpan>
-                <button className={styles.applyBtn} onClick={onClickApply}>적용</button>
-                <button className={styles.cancleBtn} onClick={() => onRequestClose(false)}>취소</button>
-            </div> */}
+            <Button className='CancleBtn' onClick={() => {setEmailValidMsg('');setDateValidMsg('');setPasswordMsg('');onRequestClose(false)}}>취소하기</Button>
+            <Button className='EditBtn' onClick={onClickApply}>수정하기</Button>
         </Modal>
     )
 }
