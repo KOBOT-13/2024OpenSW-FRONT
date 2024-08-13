@@ -1,106 +1,13 @@
 .profileModal {
     position: absolute;
-    height: 350px;
-    width: 382px;
+    height: 400px;
+    width: 720px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: white;
+    background: #f2f3f7;
     overflow-y: auto;
     border-radius: 4px;
     border: 1px solid black;
     outline: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .modifyDiv {
-        width: 100%;
-        .applyBtn{
-            position: absolute;
-            left: 30%;
-            bottom: 3%;
-            transform: translate(30%, 0%);
-            font-size: large;
-        }
-        .cancleBtn{
-            position: absolute;
-            right: 30%;
-            bottom: 3%;
-            transform: translate(-30%, 0%);
-            font-size: large;
-        }
-    }
-}
-
-.labelContentDiv {
-    margin: 5%;
-
-    .label {
-        font-size: small;
-        color: rgba(0,0,0,0.7);
-        font-weight: bold;
-        margin-bottom: 0;
-    }
-    .label.active {
-        color: #adc088;
-    }
-
-    .content:focus{
-        outline:none;
-    }
-    .content::placeholder{
-        color: rgba(0,0,0,0.3)
-
-    }
-    .content {
-        width: 100%;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: 1px solid black;
-        cursor: none;
-        
-    }
-    .content.active {
-        border-bottom: 1px solid #adc088;
-    }
-}
-
-.labelPasswordDiv {
-    display: flex;
-    margin: 5%;
-    .labelDiv{
-        width: 20%;
-        .label {
-            font-size: small;
-            color: rgba(0,0,0,0.7);
-            font-weight: bold;
-            margin-bottom: 0;
-            margin-right: 3%;
-        }
-        .label.active {
-            color: #adc088;
-        }
-    }
-
-    .password:focus{
-        outline:none;
-    }
-
-    .password {
-        width: 50%;
-        box-sizing: border-box;
-
-        border: none;
-        border-bottom: 1px solid black;
-    }
-
-    .password.active{
-        border-bottom: 1px solid #adc088;
-    }
-
-    .btn{
-        margin-left: 5%;
-        width: 30%;
-    }
 }
