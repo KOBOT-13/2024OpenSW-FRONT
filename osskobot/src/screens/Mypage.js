@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import MyComments from '../components/MyComments/MyComments';
 import {Div, P, Hr, Image, Button} from './MypageStyled';
 import { HiOutlinePencilSquare } from "react-icons/hi2";
+import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
+import CommentBoard from '../components/CommentBoard/CommentBoard';
+import { CommentsPage } from './BookClickStyled';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -28,6 +31,7 @@ function Mypage() {
     const [comments, setComments] = useState([]);
     const [readBooks, setReadBooks] = useState([]);
     const navigate = useNavigate();
+    const [index, setIndex] = useState(1);
     const imgs = {
         2: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
         4: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/5.jpg`, title: "흥부와 놀부" },
@@ -35,6 +39,16 @@ function Mypage() {
         5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title: "헨젤과 그레텔" },
         1: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/2.jpg`, title: "아기 돼지 삼형제" }
     }
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 10;
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentComments = comments.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => {
         const userInfoFetch = async () => {
@@ -80,7 +94,7 @@ function Mypage() {
     }, []);
 
     useEffect(() => {
-        privateAxios.get('books/comments')
+        privateAxios.get('books/my_comments')
             .then(response => {
                 setComments(response.data);
             })
@@ -97,6 +111,19 @@ function Mypage() {
     const chatlistclick = (id, characterid) => {
         navigate(`/bookclick/${id}/chatcharchoose/${characterid}/chat`);
     };
+
+    const removeComment = (id) => {
+        const updatedComments = comments.filter(commnet => commnet.id !== id);
+        setComments(updatedComments);
+    };
+
+    const bottomBtn = [
+        { index: 1, label: "나중에 읽을 책" },
+        { index: 2, label: "이전 대화 내용 보기" },
+        { index: 3, label: "작성한 독후감" },
+        { index: 4, label: "퀴즈 기록 보기" },
+        { index: 5, label: "내가 쓴 댓글" },
+    ];
 
     return (
         <Div className='Main'>
@@ -115,6 +142,48 @@ function Mypage() {
                     <P className='profile-modify'>프로필 수정</P>
                 </Div>
                 <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
+            </Div>
+            <Div className='Mid'>
+                <Div className='Mid-Btns'>
+                    {bottomBtn.map((value, key) => {
+                        return <BottomBorderBtn label={value.label} index={value.index === index} onClick={() => setIndex(value.index)} />
+                    })}
+                </Div>
+                <Div className='Active'>
+                    {
+                        index === 1 ? <Div></Div>
+                        :index === 2 ? <Div></Div>
+                        :index === 3 ? <Div></Div>
+                        :index === 4 ? <Div></Div>
+                                        :
+                                        <Div className='Comment-Written'>
+                                            <Div className='Comments'>
+                                                {currentComments.map((value) => {
+                                                    return <CommentBoard
+                                                        key={value.id}
+                                                        id={value.id}
+                                                        nickname={value.user}
+                                                        comment={value.content}
+                                                        date={format(new Date(value.created_at), 'yyyy-MM-dd h:mm a')}
+                                                        likes={value.likes_count}
+                                                        onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
+                                                        isMine={value.user === cookies.get('username')}
+                                                        delCommnet={removeComment}
+                                                    />
+                                                })}
+                                            </Div>
+                                            <CommentsPage
+                                                activePage={page}
+                                                itemsCountPerPage={itemsPerPage}
+                                                totalItemsCount={comments.length}
+                                                pageRangeDisplayed={10}
+                                                prevPageText={"<"}
+                                                nextPageText={">"}
+                                                onChange={handlePageChange}
+                                            />
+                                        </Div>
+                    }
+                </Div>
             </Div>
         </Div>
         // <div className={styles.mainContainer}>

@@ -4,7 +4,7 @@ import CustomModal from '../Modal/CheckModal';
 import { privateAxios } from '../../services/axiosConfig';
 import { Div, Ul, Li, HeartIcon, Button, TextArea, P } from './CommentBoardStyled.js';
 
-function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, reload, delCommnet}) {
+function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, delCommnet}) {
     const [isLikes, setIsLikes] = useState(onLikes);
     const [isEdit, setIsEdit] = useState(false);
     const [newComment, setNewComment] = useState(comment);

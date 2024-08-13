@@ -175,7 +175,6 @@ function BookClick() {
                                                     likes={value.likes_count}
                                                     onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
                                                     isMine={value.user === cookies.get('username')}
-                                                    reload={setMode}
                                                     delCommnet={removeComment}
                                                 />
                                             })}
