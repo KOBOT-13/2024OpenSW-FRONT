@@ -10,6 +10,8 @@ import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import MyComments from '../components/MyComments/MyComments';
+import {Div, P, Hr, Image, Button} from './MypageStyled';
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -18,6 +20,7 @@ function Mypage() {
     const nickname = cookies.get('username');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
+    const [userProfile, setUserProfile] = useState('');
     const [reload, setReload] = useState(false);
     const [reloadPost, setReloadPost] = useState(false);
     const [reportInfo, setReportInfo] = useState([]);
@@ -39,6 +42,7 @@ function Mypage() {
                 .then((response) => {
                     setDate(response.data.birth_date);
                     setEmail(response.data.email);
+                    setUserProfile(response.data.profile_image);
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -95,50 +99,67 @@ function Mypage() {
     };
 
     return (
-        <div className={styles.mainContainer}>
-            <div className={styles.profileDiv} onClick={onClickProfile}>
-                <img src={image} className={styles.profileImg} />
-                <div className={styles.userInfoDiv}>
-                    <p className={styles.profileP}><u>{nickname}</u>님 안녕하세요.</p>
-                    <p className={styles.profileP}>생년월일 : {date}</p>
-                    <p className={styles.profileP}>E-mail : {email}</p>
-                </div>
-            </div>
-            <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
-            <div className={styles.myReadActDiv}>
-                <h3 style={{ marginBottom: "0" }}>나의 독후활동</h3>
-                <div className={styles.btnsDiv}>
-                    {btns.map((label, index) => (
-                        <button
-                            key={index}
-                            className={`${styles['btn']} ${activeIndex === index ? styles['active'] : ''}`}
-                            onClick={() => handleButtonClick(index)}
-                        >
-                            {label}
-                        </button>
-                    ))}
-                </div>
-                <hr />
-                <div className={styles.readActDiv}>
-                    {
-                        activeIndex === 0 ? 
-                            readBooks.map((value, key) => {
-                                console.log(value);
-                                return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book.id].img} title={imgs[value.book.id].title} reviewDate={value.read_date} />
-                            })
-                            : activeIndex === 1 ? <PreviousChat conversations={conversations} onChatClick={chatlistclick} />    
-                                : activeIndex === 2 ?
-                                    reportInfo.map((value, key) => {
-                                        return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} content={value.body} setReload={setReloadPost} />
-                                    })
-                                    : activeIndex === 3 ? <QuizRecord/>
-                                        : activeIndex === 4 ? <MyComments comments={comments} />
-                                            : <div>4</div>
-                    }
-                </div>
+        <Div className='Main'>
+            <Div className='Top'>
+                <Div className='Profile-Container'>
+                    <Image src={`${process.env.REACT_APP_ADDRESS}${userProfile}`} />
+                    <Div className='UserInfo'>
+                        <P className='nickname'>{nickname} 님</P>
+                        <Hr/>
+                        <P className='date'>생년월일 : {date}</P>
+                        <P className='email'>Email : {email}</P>
+                    </Div>
+                </Div>
+                <Div className='Modify-Btn'>
+                    <HiOutlinePencilSquare/>
+                    <P className='profile-modify'>프로필 수정</P>
+                </Div>
+            </Div>
+        </Div>
+        // <div className={styles.mainContainer}>
+        //     <div className={styles.profileDiv} onClick={onClickProfile}>
+        //         <img src={image} className={styles.profileImg} />
+        //         <div className={styles.userInfoDiv}>
+        //             <p className={styles.profileP}><u>{nickname}</u>님 안녕하세요.</p>
+        //             <p className={styles.profileP}>생년월일 : {date}</p>
+        //             <p className={styles.profileP}>E-mail : {email}</p>
+        //         </div>
+        //     </div>
+        //     <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
+        //     <div className={styles.myReadActDiv}>
+        //         <h3 style={{ marginBottom: "0" }}>나의 독후활동</h3>
+        //         <div className={styles.btnsDiv}>
+        //             {btns.map((label, index) => (
+        //                 <button
+        //                     key={index}
+        //                     className={`${styles['btn']} ${activeIndex === index ? styles['active'] : ''}`}
+        //                     onClick={() => handleButtonClick(index)}
+        //                 >
+        //                     {label}
+        //                 </button>
+        //             ))}
+        //         </div>
+        //         <hr />
+        //         <div className={styles.readActDiv}>
+        //             {
+        //                 activeIndex === 0 ? 
+        //                     readBooks.map((value, key) => {
+        //                         console.log(value);
+        //                         return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book.id].img} title={imgs[value.book.id].title} reviewDate={value.read_date} />
+        //                     })
+        //                     : activeIndex === 1 ? <PreviousChat conversations={conversations} onChatClick={chatlistclick} />    
+        //                         : activeIndex === 2 ?
+        //                             reportInfo.map((value, key) => {
+        //                                 return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} content={value.body} setReload={setReloadPost} />
+        //                             })
+        //                             : activeIndex === 3 ? <QuizRecord/>
+        //                                 : activeIndex === 4 ? <MyComments comments={comments} />
+        //                                     : <div>4</div>
+        //             }
+        //         </div>
 
-            </div>
-        </div>
+        //     </div>
+        // </div>
     )
 }
 
