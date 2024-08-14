@@ -107,7 +107,7 @@ function CharCharChoose() {
 
     
     const onClickTalk = () => {
-        navigate(`/bookclick/${id}/chatcharchoose/${characters[charIndex].id}/chat`)
+        navigate(`/bookclick/${id}/chatcharchoose/${characters[charIndex].id}/chat`, {state:{cover_image:cover_image, title:title}})
     }
 
     return (
