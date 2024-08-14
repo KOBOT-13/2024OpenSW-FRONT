@@ -1,6 +1,10 @@
 .customModal{
-    position: absolute;
-    inset: 200px 250px 200px 250px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    height: 275px;
     background: white;
     overflow: auto;
     border-radius: 4px;
