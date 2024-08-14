@@ -2,6 +2,11 @@ import styled from "styled-components";
 import ChatImage from '../assets/ChatImage.png'
 
 export const Div = styled.div`
+    &.Main{
+        display: flex;
+        flex-direction: column;
+        align-items: normal;
+    }
     &.Top{
         display:flex;
         justify-content: center;
@@ -23,6 +28,8 @@ export const Div = styled.div`
         font-family: 'Pretendard-Regular';
         font-size: 17px;
         color: rgba(0,0,0,0.5);
+        user-select: none;
+        cursor: pointer;
     }
     &.Input-Box{
         display: flex;
@@ -30,6 +37,17 @@ export const Div = styled.div`
         justify-content: center;
         gap: 12px;
         margin-top: 25px;
+    }
+    &.Chat-Box{
+        width: 1160px;
+        height: 500px;
+        overflow-y: auto;
+        border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 10px;
+        align-self:center;
+        margin-top: 25px;
+        display: flex;
+        flex-direction: column;
     }
 `;
 
@@ -46,15 +64,15 @@ export const Speech = styled.p`
     position: absolute;
     left: 50%;
     top: 50%;
+    width: 800px;
     transform: translate(-50%, -50%);
     font-family: 'Pretendard-Medium';
     font-size: 25px;
     margin: 0;
     margin-left: 10px; 
-    max-width: 90%; /* 최대 너비를 부모 요소에 맞추기 */
+    // max-width: 90%; /* 최대 너비를 부모 요소에 맞추기 */
     overflow-wrap: break-word; /* 단어 단위로 줄바꿈 */
     white-space: normal; /* 공백을 여러 줄로 표시 */
-    text-align: center; /* 중앙 정렬 */
 `;
 
 export const Input = styled.input`

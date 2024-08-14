@@ -18,6 +18,7 @@ import * as St from './ChatStyled';
 import ChatHeader from '../components/Header/ChatHeader';
 import { IoIosCheckboxOutline } from "react-icons/io";
 import { FaMicrophone } from "react-icons/fa";
+import useInterval from '../hooks/useInterval'; 
 
 const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
 
@@ -37,6 +38,38 @@ function Chat() {
 
     const { state } = useLocation();
     const { cover_image, title } = state;
+    const [lastMsg, setLastMsg] = useState('');
+    
+    const [landingTitle, setLandingTitle] = useState("");
+    const [count, setCount] = useState(0);
+
+    useInterval(() => {
+        // 만약, count가 completedTitle의 길이와 같거나 커지면 반복을 멈춘다.
+        if (count >= lastMsg.length) {
+          return;
+        }
+      
+        setLandingTitle((prev) => {
+          // 빈 문자열("")은 false이므로 completedTitle의 가장 앞 글자가 result에 할당된다.
+          // 그 뒤로는 landingTitle이 빈 문자열이 아니므로
+          // 이전에 존재하던 것과 count번 인덱스에 존재하는 문자열을 합쳐서
+          // 다시 result에 할당한다.
+          let result = prev ? prev + lastMsg[count] : lastMsg[0];
+      
+          // count를 증가시킨다.
+          setCount((prev) => prev + 1);
+      
+          // 연산된 result를 반환한다.
+          return result;
+        });
+
+    }, 100);
+
+    // count가 lastMsg 길이에 도달하면 useEffect를 통해 초기화
+    useEffect(() => {
+        setLandingTitle(''); // 타이틀을 초기화
+        setCount(0); // 카운트를 초기화
+      }, [lastMsg]);
 
     // API로부터 캐릭터 데이터 가져오기
     useEffect(() => {
@@ -79,7 +112,7 @@ function Chat() {
             const last30Messages = data.slice(-30);
             const lastMessages = last30Messages.map(msg => ({
                 message: msg.message,
-                time: format(new Date(msg.timestamp), 'hh:mm aa'),
+                time: format(new Date(msg.timestamp), 'yy.MM.dd hh:mm aa'),
                 tts: msg.tts_file,
                 isOwnMessage: msg.sender_type === 'user',
                 date: formatDate(msg.timestamp),
@@ -120,12 +153,13 @@ function Chat() {
                 const tts_url = response.data.file_url
                 const newMsg = {
                     message: bot_response,
-                    time: format(new Date(), 'hh:mm aa'),
+                    time: format(new Date(), 'yy.MM.dd hh:mm aa'),
                     tts: `${process.env.REACT_APP_ADDRESS}${tts_url}`,
                     isOwnMessage: false,
                     date: formatDate(new Date()),
                 };
                 console.log(newMsg.tts)
+                setLastMsg(newMsg.message);
                 setMessages((prevMessages) => [...prevMessages, newMsg]);
                 playAudio(`${process.env.REACT_APP_ADDRESS}${tts_url}`)
             });
@@ -137,7 +171,6 @@ function Chat() {
     }
 
     const onClickChatBtn = () => {
-
         if (msg === "") {
             return;
         }
@@ -147,7 +180,7 @@ function Chat() {
         }
         const newMsg = {
             message: msg,
-            time: format(new Date(), 'hh:mm aa'),
+            time: format(new Date(), 'yy.MM.dd hh:mm aa'),
             isOwnMessage: true,
             data: formatDate(new Date()),
         }
@@ -164,7 +197,7 @@ function Chat() {
             if (transcript) {
                 const newMsg = {
                     message: transcript,
-                    time: format(new Date(), 'hh:mm aa'),
+                    time: format(new Date(), 'yy.MM.dd hh:mm aa'),
                     isOwnMessage: true,
                     data: formatDate(new Date()),
                 };
@@ -176,7 +209,6 @@ function Chat() {
             }
             resetTranscript();
         } else {
-            console.log("Debug");
             resetTranscript();
             SpeechRecognition.startListening({ language: 'ko-KR', continuous: true });
             setSTTNone(false);
@@ -191,7 +223,6 @@ function Chat() {
 
             return (
                 <React.Fragment key={index}>
-                    {showDate && msg.isOwnMessage && <div className={styles.dateSeparator}>{msg.date}</div>}
                     <ChatMsg
                         message={msg.message}
                         time={msg.time}
@@ -211,7 +242,7 @@ function Chat() {
 
     useEffect(() => {
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
         }
     }, [messages]);
 
@@ -223,7 +254,7 @@ function Chat() {
     };
 
     return (
-        <St.Div>
+        <St.Div className='Main'>
             <St.Div className='Top'>
                 <ChatHeader cover_image={cover_image} title={title} />
             </St.Div>
@@ -231,16 +262,16 @@ function Chat() {
                 <St.Div className='Char-Bubble'>
                     <St.Image src={character.character_image} />
                     <St.ChatDiv>
-                        <St.Speech>Test</St.Speech>
+                        <St.Speech>{landingTitle}</St.Speech>
                     </St.ChatDiv>
                 </St.Div>
-                <St.Div className='Voice-Box'>
+                <St.Div className='Voice-Box' onClick={() => playAudio(messages[messages.length-1].tts)}>
                     <IoIosCheckboxOutline/>
                     음성으로 다시 듣기
                 </St.Div>
                 <St.Div className='Input-Box'>
-                    <St.Input />
-                    <St.Button className='Send'>전송</St.Button>
+                    <St.Input onChange={handleChatInput} value={msg} type='text'/>
+                    <St.Button className='Send' onClick={onClickChatBtn}>전송</St.Button>
                     <St.Button className='Mic' onClick={onClickSTTBtn}>
                         {listening ?
                             <STTLoading type="bubbles" color="#00f" /> : <FaMicrophone />}
@@ -253,6 +284,10 @@ function Chat() {
                     </div>
                 )}
             </St.Div>
+            <St.Div className='Chat-Box' ref={messagesEndRef}>
+                {renderMsg()}
+            </St.Div>
+            <audio ref={audioRef} />
         </St.Div>
         // <div className={styles.mainContainer}>
         //     <div className={styles.imgChatDiv}>
