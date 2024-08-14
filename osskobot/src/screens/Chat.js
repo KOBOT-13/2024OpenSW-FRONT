@@ -17,13 +17,14 @@ import postReadBook from '../services/postReadBook';
 import * as St from './ChatStyled';
 import ChatHeader from '../components/Header/ChatHeader';
 import { IoIosCheckboxOutline } from "react-icons/io";
+import { FaMicrophone } from "react-icons/fa";
 
 const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
 
 function Chat() {
     const [messages, setMessages] = useState([]);
     const [msg, setMsg] = useState("");
-    const [character, setCharacter] = useState(null);
+    const [character, setCharacter] = useState({character_image:""});
     const [STTNone, setSTTNone] = useState(false);
     const { conversationid, setConversationid } = useConversation();
     const messagesEndRef = useRef(null);
@@ -175,6 +176,7 @@ function Chat() {
             }
             resetTranscript();
         } else {
+            console.log("Debug");
             resetTranscript();
             SpeechRecognition.startListening({ language: 'ko-KR', continuous: true });
             setSTTNone(false);
@@ -236,6 +238,20 @@ function Chat() {
                     <IoIosCheckboxOutline/>
                     음성으로 다시 듣기
                 </St.Div>
+                <St.Div className='Input-Box'>
+                    <St.Input />
+                    <St.Button className='Send'>전송</St.Button>
+                    <St.Button className='Mic' onClick={onClickSTTBtn}>
+                        {listening ?
+                            <STTLoading type="bubbles" color="#00f" /> : <FaMicrophone />}
+                    </St.Button>
+                </St.Div>
+                {STTNone && (
+                    <div className={styles.warningContainer}>
+                        <IoIosWarning size={24} color="red" />
+                        <span className={styles.warningText}>음성 인식 결과가 없습니다. 다시 시도해 주세요.</span>
+                    </div>
+                )}
             </St.Div>
         </St.Div>
         // <div className={styles.mainContainer}>
@@ -247,15 +263,15 @@ function Chat() {
         //         </div>
         //     </div>
         //     {STTNone && (
-        //         <div className={styles.warningContainer}>
-        //             <IoIosWarning size={24} color="red" />
-        //             <span className={styles.warningText}>음성 인식 결과가 없습니다. 다시 시도해 주세요.</span>
-        //         </div>
-        //     )}
+            //     <div className={styles.warningContainer}>
+            //         <IoIosWarning size={24} color="red" />
+            //         <span className={styles.warningText}>음성 인식 결과가 없습니다. 다시 시도해 주세요.</span>
+            //     </div>
+            // )}
         //     <div className={styles.inputDiv}>
         //         {listening && (
         //             <div className={styles.sttLoading}>
-        //                 <STTLoading type="bubbles" color="#00f" />
+                        // <STTLoading type="bubbles" color="#00f" />
         //             </div>
         //         )}
         //         <input

@@ -24,6 +24,13 @@ export const Div = styled.div`
         font-size: 17px;
         color: rgba(0,0,0,0.5);
     }
+    &.Input-Box{
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 25px;
+    }
 `;
 
 export const ChatDiv = styled.div`
@@ -48,4 +55,47 @@ export const Speech = styled.p`
     overflow-wrap: break-word; /* 단어 단위로 줄바꿈 */
     white-space: normal; /* 공백을 여러 줄로 표시 */
     text-align: center; /* 중앙 정렬 */
+`;
+
+export const Input = styled.input`
+    width: 960px;
+    height: 35px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 10px;
+    &:focus{
+        outline: 0;
+    }
+    font-family: 'Pretendard-SemiBold';
+    font-size: 18px;
+    padding-left: 10px;
+`;
+
+export const Button = styled.button`
+    &.Send{
+        width: 73px;
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+        background-color: black;
+        color: white;
+        font-family: 'Pretendard-Bold';
+        font-size: 14px;
+        padding: 0;
+        &:hover{
+            background-color: rgba(0,0,0,0.5);
+        }
+    }
+    &.Mic{
+        width: 50px;
+        height: 40px;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 10px;
+        background-color: white;
+        &:hover{
+            background-color: rgba(0,0,0,0.5);
+        }
+        display:flex;
+        align-items:center;
+        justify-content: center;
+    }
 `;
