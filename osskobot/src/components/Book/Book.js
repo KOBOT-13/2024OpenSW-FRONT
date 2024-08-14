@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { FaHeart } from "react-icons/fa6";
+import { GoHeartFill } from "react-icons/go";
 import { useState } from "react";
 import { privateAxios } from "../../services/axiosConfig";
+import cookies from 'js-cookie';
 
 const Div = styled.div`
     &.Book{
@@ -49,7 +50,7 @@ const P = styled.p`
     }
 `;
 
-const Heart = styled(FaHeart)`
+const Heart = styled(GoHeartFill)`
     color: ${(props) => props.$isWish ? "red" : "rgba(0,0,0,0.3)"};
     background-color: rgba(0,0,0,0.05);
     border: 1px solid rgba(0,0,0,0.05);
@@ -64,6 +65,7 @@ const Heart = styled(FaHeart)`
 function Book({title, author, id, cover_image, isWish}) {
     const navigate = useNavigate();
     const [_isWish, setIsWish] = useState(isWish);
+    const token = cookies.get('token');
     const click = () => {
         privateAxios.post(`books/wishlist/toggle/${id}/`, )
         .then(() => {
@@ -74,11 +76,7 @@ function Book({title, author, id, cover_image, isWish}) {
     };
 
     const onClickBook = () => {
-        navigate(`/bookclick/${id}/`)
-    }
-
-    const onClickWish = () => {
-        
+        navigate(`/bookclick/${id}/`, {state:{isWish: _isWish}});
     }
 
     return (
@@ -90,7 +88,7 @@ function Book({title, author, id, cover_image, isWish}) {
                         <P className="title">{title}</P>
                         <P className="author">저자 {author}</P>
                     </Div>
-                    <Heart $isWish={_isWish} onClick={(e) => {e.stopPropagation();click()}}/>
+                    {token ? <Heart $isWish={_isWish} onClick={(e) => {e.stopPropagation();click()}}/> : null}
                 </Div>
             </Div>
         </Div>

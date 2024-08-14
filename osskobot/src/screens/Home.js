@@ -37,6 +37,7 @@ function Home() {
     const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
     const [books, setBooks] = useState([]);
     const [index, setIndex] = useState(1);
+    const [wishes, setWishes] = useState([]);
 
     const selectList = [
         {value: 1, name:"신규등록순"},
@@ -70,18 +71,24 @@ function Home() {
     } 
 
     useEffect(() => {
-        const getBooks = async () => {
-            publicAxios.get(`books/AllBooks/`)
-                .then((response) => {
-                    setBooks(response.data)
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("로그인을 해주세요.");
-                });
-        }
-        getBooks();
-    }, [])
+        publicAxios.get(`books/AllBooks/`)
+        .then((response) => {
+            setBooks(response.data)
+        })
+        .catch((error) => {
+            console.log(error);
+            alert("로그인을 해주세요.");
+        });
+    }, []);
+
+    useEffect(() => {
+        privateAxios.get(`books/wishlist/`)
+        .then((response) => {
+            setWishes(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
 
     return (
         <div className={styles.mainDiv}>
@@ -97,7 +104,7 @@ function Home() {
             </Div>
             <Div className='Books'>
                 {books.map((value, key) => {
-                    return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image}/>
+                    return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                 })}
             </Div>
             {/* <div className={styles.bookshelp}>

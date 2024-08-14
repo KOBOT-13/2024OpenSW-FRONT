@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
 import cookies from 'js-cookie';
 import { format } from 'date-fns'
 import postReadBook from '../services/postReadBook';
-import { Div, Image, P, Hr, TextArea, Button, CommentsPage } from './BookClickStyled';
+import { Div, Image, P, Hr, TextArea, Button, CommentsPage, Heart } from './BookClickStyled';
 import BookClickBtn from '../components/CustomButton/BookClickBtn';
 import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';
 import { ReactComponent as report } from '../assets/report.svg';
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 
+
 function BookClick() {
-    const location = useLocation();
     const params = useParams();
+    const { state } = useLocation();
+    const { isWish } = state;
     const [book, setBook] = useState(
         {
             title: "",
@@ -26,13 +28,21 @@ function BookClick() {
             synopsis: ""
         }
     );
-    const [mode, setMode] = useState(false);
     const [index, setIndex] = useState(1)
     const [commentMsg, setCommentMsg] = useState('');
     const [commentInfos, setCommentInfos] = useState([]);
     const [charProfileInfos, setCharProfileInfos] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [_isWish, setIsWish] = useState(isWish);
 
+    const click = () => {
+        privateAxios.post(`books/wishlist/toggle/${params.id}/`, )
+        .then(() => {
+            setIsWish((current) => !current);
+        }).catch((error) => {
+            console.log(error);
+        });
+    };
+    
     const [page, setPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -91,7 +101,7 @@ function BookClick() {
             setCommentMsg(e.target.value);
         }
     }
-    const onSubmitClk = async (e) => {
+    const onSubmitClk = (e) => {
         e.preventDefault();
         if (commentMsg !== '') {
             setCommentMsg('');
@@ -133,6 +143,7 @@ function BookClick() {
                                 return <BookClickBtn key={key} label={value.label} icon={value.icon} path={value.path} id={params.id} />
                             })}
                         </Div>
+                        <Heart $isWish={_isWish} onClick={(e) => {e.stopPropagation();click()}} />
                     </Div>
                 </Div>
             </Div>

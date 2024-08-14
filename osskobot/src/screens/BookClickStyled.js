@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Pagination from 'react-js-pagination';
+import { GoHeartFill } from "react-icons/go";
 
 export const Div = styled.div`
     &.MainContainer{
@@ -24,6 +25,7 @@ export const Div = styled.div`
         display:flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative;
     }
     &.Info{
         margin-top: 57px;
@@ -33,6 +35,7 @@ export const Div = styled.div`
         flex-wrap: wrap;
         width: 100%;
         gap:20px;
+        margin-bottom: 22px;
     }
     &.Middle{
         margin-top: 40px;
@@ -196,6 +199,19 @@ const StyledPaginationWrapper = styled.div`
         color: #ccc;
         cursor: not-allowed;
     }
+`;
+
+export const Heart = styled(GoHeartFill)`
+    width: 20px;
+    height: 20px;
+    color: ${(props) => props.$isWish ? "red" : "rgba(0,0,0,0.3)"};
+    background-color: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 100%;
+    padding: 5px;
+    position: absolute; /* 위치를 절대적으로 설정 */
+    top: 42px; /* 상단 위치를 조정 */
+    right: 30px; /* 우측 위치를 조정 */
 `;
 
 export const CommentsPage = (props) => {
