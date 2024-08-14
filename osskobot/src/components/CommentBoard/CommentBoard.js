@@ -13,9 +13,9 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, del
 
     const click = () => {
         setIsLikes((current) => !current);
-        privateAxios.post(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/like/`, )
+        privateAxios.post(`books/comments/${id}/like/`, )
         .then(() => {
-            privateAxios.get(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/liked_users/`)
+            privateAxios.get(`books/comments/${id}/liked_users/`)
             .then((response) => {
                 setLikes(response.data.liked_users.length);
             }).catch((error) => console.log(error));
@@ -25,7 +25,7 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, del
     };
     const onClickDelete = () => {
         delCommnet(id);
-        privateAxios.delete(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`)
+        privateAxios.delete(`books/comments/${id}/`)
         .catch((error) => {
             console.log(error);
         })
@@ -39,7 +39,7 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, del
         }
     }
     const onClickChangeComment = () => {
-        privateAxios.patch(`${process.env.REACT_APP_API_ADDRESS}books/comments/${id}/`, 
+        privateAxios.patch(`books/comments/${id}/`, 
             {
                 content: newComment
             },
