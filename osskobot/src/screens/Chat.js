@@ -10,11 +10,13 @@ import EndChat from '../components/ChatMsg/EndChat'
 import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import { useConversation } from '../components/ChatMsg/ConversationContext';
 import postReadBook from '../services/postReadBook';
-
+import * as St from './ChatStyled';
+import ChatHeader from '../components/Header/ChatHeader';
+import { IoIosCheckboxOutline } from "react-icons/io";
 
 const formatDate = (date) => format(new Date(date), 'yyyy-MM-dd');
 
@@ -32,6 +34,8 @@ function Chat() {
 
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
 
+    const { state } = useLocation();
+    const { cover_image, title } = state;
 
     // API로부터 캐릭터 데이터 가져오기
     useEffect(() => {
@@ -217,38 +221,55 @@ function Chat() {
     };
 
     return (
-        <div className={styles.mainContainer}>
-            <div className={styles.imgChatDiv}>
-                <img src={image} className={styles.profileImg} alt="Profile" />
-                <div className={styles.chatDiv}>
-                    {renderMsg()}
-                    <div ref={messagesEndRef} />
-                </div>
-            </div>
-            {STTNone && (
-                <div className={styles.warningContainer}>
-                    <IoIosWarning size={24} color="red" />
-                    <span className={styles.warningText}>음성 인식 결과가 없습니다. 다시 시도해 주세요.</span>
-                </div>
-            )}
-            <div className={styles.inputDiv}>
-                {listening && (
-                    <div className={styles.sttLoading}>
-                        <STTLoading type="bubbles" color="#00f" />
-                    </div>
-                )}
-                <input
-                    className={styles.chatInput}
-                    onChange={handleChatInput}
-                    value={msg}
-                    type="text"
-                    placeholder=""/>
-                <button className={styles.chatBtn} onClick={onClickChatBtn}><IoSend size={20} /></button>
-                <button className={styles.STTBtn} onClick={onClickSTTBtn}><IoMdMic size={20} color={listening ? "red" : "black"} /></button>
-            </div>
-            <button className={styles.endBtn} onClick={onClickEndBtn}></button>
-            <audio ref={audioRef} />
-        </div>
+        <St.Div>
+            <St.Div className='Top'>
+                <ChatHeader cover_image={cover_image} title={title} />
+            </St.Div>
+            <St.Div className='Mid'>
+                <St.Div className='Char-Bubble'>
+                    <St.Image src={character.character_image} />
+                    <St.ChatDiv>
+                        <St.Speech>Test</St.Speech>
+                    </St.ChatDiv>
+                </St.Div>
+                <St.Div className='Voice-Box'>
+                    <IoIosCheckboxOutline/>
+                    음성으로 다시 듣기
+                </St.Div>
+            </St.Div>
+        </St.Div>
+        // <div className={styles.mainContainer}>
+        //     <div className={styles.imgChatDiv}>
+        //         <img src={image} className={styles.profileImg} alt="Profile" />
+        //         <div className={styles.chatDiv}>
+        //             {renderMsg()}
+        //             <div ref={messagesEndRef} />
+        //         </div>
+        //     </div>
+        //     {STTNone && (
+        //         <div className={styles.warningContainer}>
+        //             <IoIosWarning size={24} color="red" />
+        //             <span className={styles.warningText}>음성 인식 결과가 없습니다. 다시 시도해 주세요.</span>
+        //         </div>
+        //     )}
+        //     <div className={styles.inputDiv}>
+        //         {listening && (
+        //             <div className={styles.sttLoading}>
+        //                 <STTLoading type="bubbles" color="#00f" />
+        //             </div>
+        //         )}
+        //         <input
+        //             className={styles.chatInput}
+        //             onChange={handleChatInput}
+        //             value={msg}
+        //             type="text"
+        //             placeholder=""/>
+        //         <button className={styles.chatBtn} onClick={onClickChatBtn}><IoSend size={20} /></button>
+        //         <button className={styles.STTBtn} onClick={onClickSTTBtn}><IoMdMic size={20} color={listening ? "red" : "black"} /></button>
+        //     </div>
+        //     <button className={styles.endBtn} onClick={onClickEndBtn}></button>
+        //     <audio ref={audioRef} />
+        // </div>
     );
 }
 
