@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import { privateAxios } from '../../services/axiosConfig';
 import cookies from 'js-cookie';
+import * as styled from './BookRequestModalStyled';
 
 function LabelContent({ label, placeholder, value, onChange }) {
     const [activeBorder, setActiveBorder] = useState({
@@ -49,8 +50,8 @@ function BookRequest({isOpen, onRequestClose}) {
     const [characters, setCharacters] = useState('');
 
     const onClickApply = () => {
-        if(bookName.length === 0){
-            alert("책제목은 필수입니다.");
+        if(bookName.length === 0 || author.length === 0){
+            alert("책 제목 / 저자는 필수입니다.");
             return;
         }
         privateAxios.post(`books/book_requests/`, 
@@ -79,17 +80,23 @@ function BookRequest({isOpen, onRequestClose}) {
             onRequestClose={() => onRequestClose(false)}
             className={styles.bookRequestModal}
         >
-            <div className={styles.titleDiv}>
-                <h3>도서 신청하기</h3>
-                <button className={styles.titleBtn} onClick={() => onRequestClose(false)} >X</button>
-            </div>
-            <div className={styles.contentDiv}>
-                <LabelContent label={"책제목"} placeholder={"책제목을 입력해주세요."} value={bookName} onChange={setBookName}/>
-                <LabelContent label={"저자"} placeholder={"저자를 입력해주세요."} value={author} onChange={setAuthor}/>
-                <LabelContent label={"출판사"} placeholder={"출판사를 입력해주세요."} value={publisher} onChange={setPublisher}/>
-                <LabelContent label={"대화하고 싶은 등장인물"} placeholder={"대화하고 싶은 인물을 입력해주세요."} value={characters} onChange={setCharacters}/>
-            </div>
-            <button className={styles.applyBtn} onClick={onClickApply}>신청하기</button>
+            <styled.H1>도서 신청하기</styled.H1>
+            <styled.Button onClick={() => onRequestClose(false)}>X</styled.Button>
+            <styled.Div className='BookName'>
+                <LabelContent label={"책 제목"} placeholder={"책 제목을 입력해주세요."} value={bookName} onChange={setBookName} />
+            </styled.Div>
+            <styled.Div className='Author'>
+                <LabelContent label={"저자"} placeholder={"저자를 입력해주세요."} value={author} onChange={setAuthor} />
+            </styled.Div>
+            <styled.Div className='Publisher'>
+                <LabelContent label={"출판사"} placeholder={"출판사를 입력해주세요."} value={publisher} onChange={setPublisher} />
+            </styled.Div>
+            <styled.Div className='Character'>
+                <LabelContent label={"대화하고 싶은 등장인물"} placeholder={"대화하고 싶은 인물을 입력해주세요."} value={characters} onChange={setCharacters} />
+            </styled.Div>
+            <styled.Apply onClick={onClickApply}>
+                신청하기
+            </styled.Apply>
         </Modal>
     )
 }
