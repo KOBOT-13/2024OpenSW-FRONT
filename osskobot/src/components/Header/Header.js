@@ -5,6 +5,8 @@ import { useConversation } from '../ChatMsg/ConversationContext';
 import { ReactComponent as Logo } from '../../assets/Logo.svg';
 import { ReactComponent as Search } from "../../assets/search.svg";
 import { ReactComponent as Arrow } from "../../assets/Arrow.svg";
+import BookRequest from '../Modal/BookRequestModal';
+import { useState } from 'react';
 
 const Div = styled.div`
     &.BG1440{
@@ -138,7 +140,7 @@ function Header(props) {
     const { isLogin, setIsLogin } = props;
     const location = useLocation();
     const { conversationid } = useConversation();
-
+    const [isOpen, setIsOpen] = useState(false);
     const handleChatEndBtn = () => {
         if (location.pathname.startsWith('/bookclick/') && location.pathname.includes('/chat')) {
             EndChat(conversationid)
@@ -173,10 +175,11 @@ function Header(props) {
                             <Div className='Right'>
                                 <CustomLink to='/logout'><P className='Login'>로그아웃</P></CustomLink>
                                 <CustomLink to='/mypage'><P className='Join'>마이페이지</P></CustomLink>
-                                <Div className='BookApplyContainer'>
+                                <Div className='BookApplyContainer' onClick={() => setIsOpen(true)}>
                                     <P className='BookApply'>도서 신청하기</P>
                                     <Arrow />
                                 </Div>
+                                <BookRequest isOpen={isOpen} onRequestClose={setIsOpen} />
                             </Div>
                             :
                             <Div className='Right'>

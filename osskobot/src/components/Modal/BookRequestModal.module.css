@@ -1,13 +1,13 @@
 .bookRequestModal{
-    position: fixed;
+    position: relative;
     top: 50%;
     left: 50%;
-    width: 300px;
-    height: 400px;
+    width: 720px;
+    height: 650px;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: #f2f3f7;
     border: 1px solid black;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -31,13 +31,10 @@
 }
 
 .labelContentDiv {
-    margin: 5%;
-    margin-bottom: 8%;
-
+    font-family: 'Pretendard-Medium';
     .label {
-        font-size: small;
-        color: rgba(0,0,0,0.7);
-        font-weight: bold;
+        font-size: 25px;
+        color: black;
         margin-bottom: 0;
     }
     .label.active {
@@ -48,16 +45,18 @@
         outline:none;
     }
     .content::placeholder{
-        color: rgba(0,0,0,0.3)
+        color: #878787;
 
     }
     .content {
+        margin-top: 5px;
+        background-color: #f2f3f7;
         width: 100%;
         box-sizing: border-box;
         border: none;
         border-bottom: 1px solid black;
         cursor: none;
-        
+        font-size: 20px;
     }
     .content.active {
         border-bottom: 1px solid #adc088;
