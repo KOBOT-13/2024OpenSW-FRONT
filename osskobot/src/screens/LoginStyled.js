@@ -78,6 +78,10 @@ export const Button = styled.button`
     font-size: 16px;
     color: #3063d2;
     margin-top: 36px;
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(48, 99, 210, 0.3);
+    }
 `;
 
 export const Ul = styled.ul`
