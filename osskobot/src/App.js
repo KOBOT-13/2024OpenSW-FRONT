@@ -22,6 +22,7 @@ import { ConversationProvider } from "./components/ChatMsg/ConversationContext";
 function App() {
   const [isLogin, setIsLogin] = useState(undefined);
   const [reload, setReload] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const token = cookies.get('token');
   useEffect(() => {
     if (token) {
@@ -35,9 +36,9 @@ function App() {
   return (
     <Router>
       <ConversationProvider>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} setSearchQuery={setSearchQuery} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home searchQuery={searchQuery} />} />
         <Route path="/login" element={<LoginProtectedRoute>
           <Login setReload={setReload} />
         </LoginProtectedRoute>} />

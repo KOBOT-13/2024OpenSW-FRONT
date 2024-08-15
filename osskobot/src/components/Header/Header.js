@@ -137,13 +137,20 @@ const CustomLink = styled(Link)`
 `
 
 function Header(props) {
-    const { isLogin, setIsLogin } = props;
+    const { isLogin, setIsLogin, setSearchQuery } = props;
+    const [search, setSearch] = useState('');
     const location = useLocation();
     const { conversationid } = useConversation();
     const [isOpen, setIsOpen] = useState(false);
     const handleChatEndBtn = () => {
         if (location.pathname.startsWith('/bookclick/') && location.pathname.includes('/chat')) {
             EndChat(conversationid)
+        }
+    }
+
+    const inputEnter = (e) => {
+        if(e.key === "Enter"){
+            setSearchQuery(search);
         }
     }
 
@@ -163,8 +170,8 @@ function Header(props) {
                                 <CustomLink to="/serviceinfo"><Li><P className='service-intro'>서비스 소개</P></Li></CustomLink>
                                 <Li className='Test'>
                                     <Div className='SearchContainer'>
-                                        <SearchIcon />
-                                        <Input placeholder='도서검색' />
+                                        <SearchIcon onClick={() => setSearchQuery(search)} />
+                                        <Input placeholder='도서검색' onChange={(e) => setSearch(e.target.value.toLocaleLowerCase())} value={search} onKeyDown={inputEnter} />
                                     </Div>
                                 </Li>
                             </Ul>
