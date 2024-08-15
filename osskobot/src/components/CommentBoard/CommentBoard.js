@@ -68,8 +68,16 @@ function CommentBoard({ id, nickname, comment, likes, date, onLikes, isMine, del
                 :<Div className='Option'>
                     <Button onClick={onClickEdit} className='Edit'>수정</Button>
                     <Button onClick={() => setModalIsOpen(true)} className='Delete'>삭제</Button>
-                    <CustomModal isOpen={modalIsOpen} onRequestClose={setModalIsOpen} del={onClickDelete} msg={"정말로 삭제하시겠습니까?"} />
-                </Div>:null}
+                        <CustomModal isOpen={modalIsOpen}
+                            onRequestClose={setModalIsOpen}
+                            del={onClickDelete}
+                            msg={"삭제하시겠습니까?"}
+                            content={"삭제 시 댓글을 다시 복구할 수 없습니다."}
+                            yes={"삭제하기"}
+                            no={"취소하기"}
+                            icon={true}
+                        />
+                    </Div> : null}
             </Div>
             {isEdit
                 ? <Div className='New-Commnet-Board'>
