@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import styles from './CheckModal.module.css';
 import styled from 'styled-components';
 import { FaTrashAlt } from "react-icons/fa";
+import { IoLogOutSharp } from "react-icons/io5";
 
 const Div = styled.div`
     &.Btns{
@@ -12,7 +13,13 @@ const Div = styled.div`
     }
 `;
 
-const Icon = styled(FaTrashAlt)`
+const DeleteIcon = styled(FaTrashAlt)`
+    margin-top: 45px;
+    width: 52px;
+    height: 52px;
+`;
+
+const LogoutIcon = styled(IoLogOutSharp)`
     margin-top: 45px;
     width: 52px;
     height: 52px;
@@ -50,7 +57,7 @@ const Button = styled.button`
     }
 `;
 
-function CustomModal({ isOpen, onRequestClose, del, msg }) {
+function CustomModal({ isOpen, icon, onRequestClose, del, msg, content, yes, no }) {
     const onClickYes = () => {
         del();
         onRequestClose(false);
@@ -58,17 +65,18 @@ function CustomModal({ isOpen, onRequestClose, del, msg }) {
     const onClickNo = () => {
         onRequestClose(false);
     }
+
     return (
         <Modal
             isOpen={isOpen}
             className={styles.customModal}
         >
-            <Icon/>
-            <P className="title">삭제하시겠습니까?</P>
-            <P className="content">삭제 시 댓글을 다시 복구할 수 없습니다.</P>
+            {icon ? <DeleteIcon/> : <LogoutIcon/>}
+            <P className="title">{msg}</P>
+            <P className="content">{content}</P>
             <Div className="Btns">
-                <Button className="Cancle" onClick={onClickNo}>취소하기</Button>
-                <Button className="Delete" onClick={onClickYes}>삭제하기</Button>
+                <Button className="Cancle" onClick={onClickNo}>{no}</Button>
+                <Button className="Delete" onClick={onClickYes}>{yes}</Button>
             </Div>
         </Modal>
 

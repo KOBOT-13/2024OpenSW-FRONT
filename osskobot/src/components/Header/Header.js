@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import EndChat from '../ChatMsg/EndChat';
 import { useConversation } from '../ChatMsg/ConversationContext';
@@ -6,7 +6,10 @@ import { ReactComponent as Logo } from '../../assets/Logo.svg';
 import { ReactComponent as Search } from "../../assets/search.svg";
 import { ReactComponent as Arrow } from "../../assets/Arrow.svg";
 import BookRequest from '../Modal/BookRequestModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import CustomModal from '../Modal/CheckModal';
+import cookies from 'js-cookie';
+import { privateAxios } from '../../services/axiosConfig';
 
 const Div = styled.div`
     &.BG1440{
@@ -137,11 +140,42 @@ const CustomLink = styled(Link)`
 `
 
 function Header(props) {
-    const { isLogin, setIsLogin, setSearchQuery } = props;
+    const { isLogin, setIsLogin, setSearchQuery, setReload } = props;
     const [search, setSearch] = useState('');
     const location = useLocation();
     const { conversationid } = useConversation();
     const [isOpen, setIsOpen] = useState(false);
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [isLogout, setIsLogout] = useState(undefined);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isLogout){
+            privateAxios.post(`users/auth/logout/`, 
+                {
+                    refresh: cookies.get('refresh_token')
+                },
+            ).then(() => {
+                cookies.remove('token');
+                cookies.remove('refresh_token');
+                cookies.remove('username');
+                cookies.remove('pk');
+                cookies.remove('expires');
+                navigate('/');
+                alert("로그아웃 되었습니다.");
+                setIsLogout(undefined);
+                setReload((current) => { return !current });
+            }).catch((error) => {
+                console.log(error);
+            })
+        }
+        else if(isLogout === false){
+            navigate('/');
+        }
+    }, [isLogout]);
+
     const handleChatEndBtn = () => {
         setSearch('');
         setSearchQuery('');
@@ -155,7 +189,7 @@ function Header(props) {
             setSearchQuery(search);
         }
     }
-
+    
     return (
         <header>
             <Div className='BG1440'>
@@ -182,7 +216,16 @@ function Header(props) {
                     {
                         isLogin ?
                             <Div className='Right'>
-                                <CustomLink to='/logout'><P className='Login'>로그아웃</P></CustomLink>
+                                <P className='Login' onClick={() => setModalIsOpen(true)}>로그아웃</P>
+                                <CustomModal
+                                    isOpen={modalIsOpen}
+                                    onRequestClose={setModalIsOpen}
+                                    del={() => setIsLogout(true)}
+                                    msg={"로그아웃 하시겠습니까?"}
+                                    yes={"로그아웃"}
+                                    no={"취소"}
+                                    Icon={false}
+                                />
                                 <CustomLink to='/mypage'><P className='Join'>마이페이지</P></CustomLink>
                                 <Div className='BookApplyContainer' onClick={() => setIsOpen(true)}>
                                     <P className='BookApply'>도서 신청하기</P>

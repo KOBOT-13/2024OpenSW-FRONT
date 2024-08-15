@@ -6,7 +6,6 @@ import Login from './screens/Login';
 import Join from './screens/Join';
 import Mypage from './screens/Mypage';
 import Bookclick from './screens/BookClick';
-import Logout from './screens/Logout';
 import ChatCharChoose from "./screens/ChatCharChoose";
 import Chat from "./screens/Chat";
 import BookReport from './screens/BookReport';
@@ -36,15 +35,12 @@ function App() {
   return (
     <Router>
       <ConversationProvider>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} setSearchQuery={setSearchQuery} />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} setSearchQuery={setSearchQuery} setReload={setReload} />
       <Routes>
         <Route path="/" element={<Home searchQuery={searchQuery} />} />
         <Route path="/login" element={<LoginProtectedRoute>
           <Login setReload={setReload} />
         </LoginProtectedRoute>} />
-        <Route path="/logout" element={<ProtectedRoute>
-          <Logout setReload={setReload} />
-        </ProtectedRoute>} />
         <Route path="/join" element={<Join />} />
         <Route path="/find" element={<Find />} />
         <Route path="/mypage" element={<ProtectedRoute>
