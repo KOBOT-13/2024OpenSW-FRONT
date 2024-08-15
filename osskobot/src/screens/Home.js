@@ -32,10 +32,11 @@ const P = styled.p`
     margin: 0;
 `;
 
-function Home() {
+function Home({searchQuery}) {
     const navigate = useNavigate();
     const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
     const [books, setBooks] = useState([]);
+    const [filteringBooks, setFilteringBooks] = useState([]);
     const [index, setIndex] = useState(1);
     const [wishes, setWishes] = useState([]);
 
@@ -90,6 +91,15 @@ function Home() {
         });
     }, []);
 
+    useEffect(() => {
+        privateAxios.get(`books/search/?q=${searchQuery}`)
+        .then((response) => {
+            setFilteringBooks(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, [searchQuery]);
+
     return (
         <div className={styles.mainDiv}>
             <SubHeader/>
@@ -103,7 +113,7 @@ function Home() {
                 })}
             </Div>
             <Div className='Books'>
-                {books.map((value, key) => {
+                {filteringBooks.map((value, key) => {
                     return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                 })}
             </Div>
