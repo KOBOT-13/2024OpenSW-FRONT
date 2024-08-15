@@ -143,6 +143,8 @@ function Header(props) {
     const { conversationid } = useConversation();
     const [isOpen, setIsOpen] = useState(false);
     const handleChatEndBtn = () => {
+        setSearch('');
+        setSearchQuery('');
         if (location.pathname.startsWith('/bookclick/') && location.pathname.includes('/chat')) {
             EndChat(conversationid)
         }
