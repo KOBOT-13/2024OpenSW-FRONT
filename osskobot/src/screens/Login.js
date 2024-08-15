@@ -1,8 +1,8 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
-import styles from './Login.module.css';
 import {privateAxios, publicAxios} from '../services/axiosConfig';
 import cookies from 'js-cookie';
+import {Div, H1, Line, LineWithDots, Input, Button, P, Ul, Li} from './LoginStyled';
 
 function Login({ setReload }) {
     const navigate = useNavigate();
@@ -61,22 +61,25 @@ function Login({ setReload }) {
         })
     }
     return (
-        <div className={styles.mainContainer}>
-            <div className={styles.loginDiv}>
-                <div className={styles.loginFontDiv}>
-                    로그인
-                </div>
-                <div className={styles.loginInfo}>
-                    <input type='text' className={styles.idInput} placeholder='이메일' name='email' onChange={handleInputChange} />
-                    <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={handleInputChange} />
-                </div>
-                <button className={styles.loginBtn} onClick={login}><strong>로그인</strong></button>
-                <div className={styles.linkDiv}>
-                    <Link className={styles.findLink} to='/find'>비밀번호 찾기</Link>
-                    <Link className={styles.joinLink} to='/join'>회원가입</Link>
-                </div>
-            </div>
-        </div>
+        <Div>
+            <Div className='Top'>
+                <H1>로그인</H1>
+                <LineWithDots>
+                    <Line />
+                </LineWithDots>
+            </Div>
+            <Div className='Mid'>
+                <Input placeholder='이메일을 입력해주세요.' type='text' name='email' onChange={handleInputChange} />
+                <Input placeholder='비밀번호를 입력해주세요.' type='password' name='password' onChange={handleInputChange} />
+                <Button onClick={login}>로그인</Button>
+                <Div className='Bottom'>
+                    <Ul>
+                        <Li><Link style={{textDecoration:"none", color:"#464646"}} to='/find'>비밀번호 찾기</Link></Li>
+                        <Li><Link style={{textDecoration:"none", color:"#464646"}} to='/join'>회원가입</Link></Li>
+                    </Ul>
+                </Div>
+            </Div>
+        </Div>
     );
 }
 
