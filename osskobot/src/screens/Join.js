@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { publicAxios } from '../services/axiosConfig';
 import styles from './Join.module.css';
+import {Div, H1, Line, LineWithDots, LabelInput, LabelInputButton, Apply} from './JoinStyled';
 
 function Join() {
     const navigate = useNavigate();
@@ -40,15 +41,16 @@ function Join() {
         handleInputChange(e);
         const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
         const emailCurrent = e.target.value;
-
+        setIsEmail(false);
         if (e.target.value.length === 0) {
             setValidEmailMsg("필수 입력항목입니다.");
         }
         else if (!emailRegEx.test(emailCurrent)) {
             setValidEmailMsg("이메일 형식을 지켜주세요.");
         }
-        else if(!isEmail){
+        else{
             setValidEmailMsg("이메일 중복 확인을 해주세요");
+            setIsEmail(true);
         }
 
     });
@@ -67,7 +69,7 @@ function Join() {
             setIsPassword(false)
         }
         else {
-            setValidPasswordMsg('O')
+            setValidPasswordMsg('')
             setIsPassword(true)
         }
 
@@ -80,22 +82,23 @@ function Join() {
             setIsPassword2(false);
         }
         else {
-            setValidPassword2Msg('O');
+            setValidPassword2Msg('');
             setIsPassword2(true);
         }
     });
 
     const onChangeNickname = ((e) => {
         handleInputChange(e);
-
+        setIsNickname(false);
         if (e.target.value.length === 0) {
             setValidNickname("필수 입력항목입니다.");
         }
         else if (e.target.value.length < 3 || e.target.value.length > 11 ) {
             setValidNickname("닉네임은 3자에서 11자 사이로 입력해주세요.");
         }
-        else if(!isNickname){
+        else{
             setValidNickname("닉네임 중복 확인을 해주세요.");
+            setIsNickname(true);
         }
     });
 
@@ -107,35 +110,37 @@ function Join() {
             setValidDateMsg("날짜를 다시 선택해주세요.");
         }
         else{
-            setValidDateMsg("O");
+            setValidDateMsg("");
             setIsDate(true);
         }
     });
 
     const onClickCheckEmail = (() => {
-        publicAxios.post('users/check-email/',
-            {
-                "email": userInfo.email
-            }
-        ).then((response) => {
-            setValidEmailMsg(response.data.detail);
-            setIsEmail(true);
-        }).catch((error) => {
-            setValidEmailMsg(error.response.data.detail);
-        });
+        if(isEmail){
+            publicAxios.post('users/check-email/',
+                {
+                    "email": userInfo.email
+                }
+            ).then((response) => {
+                setValidEmailMsg(response.data.detail);
+            }).catch((error) => {
+                setValidEmailMsg(error.response.data.detail);
+            });
+        }
     });
 
     const onClickCheckNickname = (() => {
-        publicAxios.post('users/check-username/',
-            {
-                "username": userInfo.nickname
-            }
-        ).then((response) => {
-            setValidNickname(response.data.detail)
-            setIsNickname(true);
-        }).catch((error) => {
-            setValidNickname(error.response.data.detail);
-        });
+        if(isNickname){
+            publicAxios.post('users/check-username/',
+                {
+                    "username": userInfo.nickname
+                }
+            ).then((response) => {
+                setValidNickname(response.data.detail)
+            }).catch((error) => {
+                setValidNickname(error.response.data.detail);
+            });
+        }
     });
 
     const join = () => {
@@ -151,7 +156,7 @@ function Join() {
             )
                 .then((response) => {
                     navigate("/login");
-                    alert("회원가입이 완료되었습니다.");
+                    alert("인증 이메일이 전송되었습니다.");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -166,35 +171,53 @@ function Join() {
     }
 
     return (
-        <div className={styles.mainContainer}>
-            <div className={styles.joinDiv}>
-                <div className={styles.joinFontDiv}>
-                    회원가입
-                </div>
-                <div className={styles.joinInfo1}>
-                    <div className={styles.emailDiv}>
-                        <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
-                        <button onClick={onClickCheckEmail} className={styles.checkBtn}>중복확인</button>
-                    </div>
-                    <span className={styles.validSpan}>{validEmailMsg}</span>
-                    <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />
-                    <span className={styles.validSpan}>{validPasswordMsg}</span>
-                    <input type='password' className={styles.passwordInput} placeholder='비밀번호 확인' name='password2' onChange={onChangePassword2} />
-                    <span className={styles.validSpan}>{validPassword2Msg}</span>
-                    <div>
-                        <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={onChangeNickname} />
-                        <button onClick={onClickCheckNickname} className={styles.checkBtn}>중복확인</button>
-                    </div>
-                    <span className={styles.validSpan}>{validNicknameMsg}</span>
-                    <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={onChangeDate} />
-                    <span className={styles.validSpan}>{validDateMsg}</span>
-                </div>
-                <div>
-                    <pre className={styles.errorMsg}>{errorMsg}</pre>
-                    <button className={styles.joinBtn} onClick={join}><strong>회원가입</strong></button>
-                </div>
-            </div>
-        </div>
+        <Div>
+            <Div className='Top'>
+                <H1>회원가입</H1>
+                <LineWithDots>
+                    <Line />
+                </LineWithDots>
+            </Div>
+            <Div className='Mid'>
+                <LabelInputButton label={"이메일"} onChange={onChangeEmail} onClick={onClickCheckEmail} ErrorMsg={validEmailMsg} name={'email'} />
+                <LabelInputButton label={"닉네임"} onChange={onChangeNickname} onClick={onClickCheckNickname} ErrorMsg={validNicknameMsg} name={'nickname'} />
+                <LabelInput label={"비밀번호"} onChange={onChangePassword} ErrorMsg={validPasswordMsg} name={'password'} type={"password"} />
+                <LabelInput label={"비밀번호 확인"} onChange={onChangePassword2} ErrorMsg={validPassword2Msg} name={'password2'} type={"password"} />
+                <LabelInput label={"생년월일"} onChange={onChangeDate} ErrorMsg={validDateMsg} name={'date'} type={"date"} />
+            </Div>
+            <Div className='Bottom'>
+                <Apply onClick={join}>가입하기</Apply>
+            </Div>
+        </Div>
+        // <div className={styles.mainContainer}>
+        //     <div className={styles.joinDiv}>
+        //         <div className={styles.joinFontDiv}>
+        //             회원가입
+        //         </div>
+        //         <div className={styles.joinInfo1}>
+        //             <div className={styles.emailDiv}>
+        //                 <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
+        //                 <button onClick={onClickCheckEmail} className={styles.checkBtn}>중복확인</button>
+        //             </div>
+        //             <span className={styles.validSpan}>{validEmailMsg}</span>
+        //             <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />
+        //             <span className={styles.validSpan}>{validPasswordMsg}</span>
+        //             <input type='password' className={styles.passwordInput} placeholder='비밀번호 확인' name='password2' onChange={onChangePassword2} />
+        //             <span className={styles.validSpan}>{validPassword2Msg}</span>
+        //             <div>
+        //                 <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={onChangeNickname} />
+        //                 <button onClick={onClickCheckNickname} className={styles.checkBtn}>중복확인</button>
+        //             </div>
+        //             <span className={styles.validSpan}>{validNicknameMsg}</span>
+        //             <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={onChangeDate} />
+        //             <span className={styles.validSpan}>{validDateMsg}</span>
+        //         </div>
+        //         <div>
+        //             <pre className={styles.errorMsg}>{errorMsg}</pre>
+        //             <button className={styles.joinBtn} onClick={join}><strong>회원가입</strong></button>
+        //         </div>
+        //     </div>
+        // </div>
     )
 }
 
