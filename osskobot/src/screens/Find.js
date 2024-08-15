@@ -4,10 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { publicAxios } from "../services/axiosConfig";
 
 const Container = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 163px;
     width: 300px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -35,7 +32,7 @@ const Input = styled.input`
 const Button = styled.button`
   width: 84%;
   padding: 10px;
-  background-color: #4caf50;
+  background-color: rgba(48, 99, 210, 1);
   color: white;
   border: none;
   border-radius: 4px;
@@ -44,8 +41,15 @@ const Button = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #45a049;
+    background-color: rgba(48, 99, 210, 0.5);
   }
+`;
+
+const Div = styled.div`
+    height: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 function Find() {
@@ -81,16 +85,18 @@ function Find() {
     };
 
     return (
-        <Container>
-            <Title>비밀번호 변경</Title>
-            <Input
-                type="email"
-                placeholder="이메일 입력"
-                value={email}
-                onChange={handleEmailChange}
-            />
-            <Button onClick={handleSubmit}>확인</Button>
-        </Container>
+        <Div>
+            <Container>
+                <Title>비밀번호 변경</Title>
+                <Input
+                    type="email"
+                    placeholder="이메일 입력"
+                    value={email}
+                    onChange={handleEmailChange}
+                />
+                <Button onClick={handleSubmit}>확인</Button>
+            </Container>
+        </Div>
     )
 }
 
