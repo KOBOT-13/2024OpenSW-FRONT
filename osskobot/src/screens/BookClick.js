@@ -22,10 +22,10 @@ function BookClick() {
         {
             title: "",
             author: "",
-            publisher: "",
-            publication_date: "",
             cover_image: "",
-            synopsis: ""
+            synopsis: "",
+            category: "",
+            tags: [],
         }
     );
     const [index, setIndex] = useState(1)
@@ -71,6 +71,7 @@ function BookClick() {
             await publicAxios.get(`books/book/${params.id}/`)
                 .then((response) => {
                     setBook(response.data);
+                    console.log(response.data.tags.map((value) => console.log(value)));
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -134,8 +135,8 @@ function BookClick() {
                             <Hr />
                             <Div className='Sub-Info'>
                                 <P>저자 : {book.author}</P>
-                                <P>출판사 : {book.publisher}</P>
-                                <P>출간일 : {book.publication_date}</P>
+                                <P>카테고리 : {book.category}</P>
+                                <P>태그 : {book.tags.map(tag => `#${tag.name}`).join(' ')}</P>
                             </Div>
                         </Div>
                         <Div className='Btns'>
