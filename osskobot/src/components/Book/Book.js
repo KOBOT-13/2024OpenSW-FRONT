@@ -56,7 +56,6 @@ const Heart = styled(GoHeartFill)`
     border: 1px solid rgba(0,0,0,0.05);
     border-radius: 100%;
     padding: 5px;
-    z-index: 999;
     position: absolute; /* 위치를 절대적으로 설정 */
     top: 25%; /* 상단 위치를 조정 */
     right: 0; /* 우측 위치를 조정 */

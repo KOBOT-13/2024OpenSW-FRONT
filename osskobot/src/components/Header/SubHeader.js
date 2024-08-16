@@ -64,11 +64,10 @@ const Li = styled.li`
     }
 `;
 
-function SubHeader() {
-    const [index, setIndex] = useState(0);
-
+function SubHeader({index, setSubHeaderIndex}) {
     const handleMenuClick = (index) => {
-        setIndex(index);
+        console.log(index);
+        setSubHeaderIndex(index);
     };
 
     return (
