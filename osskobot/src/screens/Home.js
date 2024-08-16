@@ -32,11 +32,15 @@ const P = styled.p`
     margin: 0;
 `;
 
-function Home({searchQuery}) {
+function Home({searchQuery, setSearchQuery}) {
     const navigate = useNavigate();
     const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
-    const [filteringBooks, setFilteringBooks] = useState([]);
+    const [books, setBooks] = useState([]);
+    const [searchBooks, setSearchBooks] = useState([]);
+    const [genreBooks, setGenreBooks] = useState([]);
+    const [totlaBooks, setTotalBooks] = useState([]);
     const [index, setIndex] = useState(0);
+    const [subHeaderIndex, setSubHeaderIndex] = useState(0);
     const [wishes, setWishes] = useState([]);
 
     const selectList = [
@@ -47,24 +51,23 @@ function Home({searchQuery}) {
 
     const category = [
         {index: 0, content: "전체"},
-        {index: 1, content: "사랑"},
-        {index: 2, content: "모험"},
-        {index: 3, content: "지혜"},
-        {index: 4, content: "공주"},
-        {index: 5, content: "용기"},
-        {index: 6, content: "효"},
-        {index: 7, content: "선"},
-        {index: 8, content: "가족"},
-        {index: 9, content: "행복"},
-        {index: 10, content: "은혜"},
-        {index: 11, content: "우정"},
-        {index: 12, content: "청결"},
-        {index: 13, content: "위로"},
-        {index: 14, content: "성실"},
-        {index: 15, content: "신비"},
-        {index: 16, content: "창의"},
-        {index: 17, content: "희생"},
+        {index: 1, content: "판타지"},
+        {index: 2, content: "소설"},
+        {index: 3, content: "그림책"},
+        {index: 4, content: "위인전"},
+        {index: 5, content: "전래동화"},
+        {index: 6, content: "우화"},
     ];
+
+    // const category = [
+    //     {index: 0, content: "전체"},
+    //     {index: 1, content: "fantasy"},
+    //     {index: 2, content: "novel"},
+    //     {index: 3, content: "picture book"},
+    //     {index: 4, content: "biography"},
+    //     {index: 5, content: "traditional fairy tale"},
+    //     {index: 6, content: "falbe"},
+    // ];
 
     const onClickApplyBtn = async () => {
         const token = cookies.get('token');
@@ -85,6 +88,27 @@ function Home({searchQuery}) {
     } 
 
     useEffect(() => {
+        setIndex(0);
+        setSearchQuery('');
+        if(subHeaderIndex === 0){
+            publicAxios.get(`books/AllBooks/`)
+            .then((response) => {
+                setBooks(response.data);
+                setGenreBooks(response.data);
+                setSearchBooks(response.data);
+                setTotalBooks(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        } else if(subHeaderIndex === 1){
+            // 내 책장 api 실행
+        } else{
+            // 추천 도서 api 실행
+        }
+
+    }, [subHeaderIndex]);
+    
+    useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
             setWishes(response.data);
@@ -94,35 +118,40 @@ function Home({searchQuery}) {
     }, []);
 
     useEffect(() => {
-        publicAxios.get(`books/search/?q=${searchQuery}`)
-        .then((response) => {
-            setFilteringBooks(response.data);
-        }).catch((error) => {
-            console.log(error);
-        });
+        if(searchQuery.length === 0){
+            setSearchBooks(books);
+            return;
+        }
+        setSearchBooks(books.filter((item) => item.title.toLowerCase().includes(searchQuery)));
     }, [searchQuery]);
 
     useEffect(() => {
         if(index == 0){
-            publicAxios.get(`books/AllBooks/`)
-            .then((response) => {
-                setFilteringBooks(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            setGenreBooks(books);
+            return;
         }
-        publicAxios.get(`books/tag/${index}/`)
-        .then((response) => {
-            setFilteringBooks(response.data);
-        }).catch((error) => {
-            console.log(error);
-        });
+        setGenreBooks(books.filter(item => item.category === category[index].content))
+        // if(index !== 0){
+        //     publicAxios.get(`books/tag/${index}/`)
+        //     .then((response) => {
+        //         setFilteringBooks(books.filter(item1 => response.data.some(item2 => item1.id === item2.id)));
+        //     }).catch((error) => {
+        //         console.log(error);
+        //     });
+        // }
     }, [index]);
+
+    useEffect(() => {
+        const filter = books.filter(item => 
+            searchBooks.some(item2 => item.id === item2.id) &&
+            genreBooks.some(item3 => item.id === item3.id)
+        );
+        setTotalBooks(filter);
+    }, [books, searchBooks, genreBooks])
 
     return (
         <div className={styles.mainDiv}>
-            <SubHeader/>
+            <SubHeader index={subHeaderIndex} setSubHeaderIndex={setSubHeaderIndex}/>
             <Div className='Wrap-Heading'>
                 <P>둘러보기</P>
                 <SelectBox selectList={selectList}/>
@@ -133,7 +162,7 @@ function Home({searchQuery}) {
                 })}
             </Div>
             <Div className='Books'>
-                {filteringBooks.map((value, key) => {
+                {totlaBooks.map((value, key) => {
                     return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                 })}
             </Div>
