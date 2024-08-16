@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import CharProfile from '../components/CharProfile/CharProfile';
@@ -16,8 +16,6 @@ import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 
 function BookClick() {
     const params = useParams();
-    const { state } = useLocation();
-    const { isWish } = state;
     const [book, setBook] = useState(
         {
             title: "",
@@ -32,7 +30,7 @@ function BookClick() {
     const [commentMsg, setCommentMsg] = useState('');
     const [commentInfos, setCommentInfos] = useState([]);
     const [charProfileInfos, setCharProfileInfos] = useState([]);
-    const [_isWish, setIsWish] = useState(isWish);
+    const [_isWish, setIsWish] = useState(false);
 
     const click = () => {
         privateAxios.post(`books/wishlist/toggle/${params.id}/`, )
@@ -102,6 +100,16 @@ function BookClick() {
             setCommentMsg(e.target.value);
         }
     }
+
+    useEffect(() => {
+        privateAxios.get(`books/wishlist/`)
+        .then((response) => {
+            setIsWish(response.data.includes(parseInt(params.id)));
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
     const onSubmitClk = (e) => {
         e.preventDefault();
         if (commentMsg !== '') {

@@ -2,13 +2,14 @@ import styles from './Home.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import BookRequestModal from '../components/Modal/BookRequestModal';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useLayoutEffect } from 'react';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import cookies from 'js-cookie';
 import SubHeader from '../components/Header/SubHeader';
 import SelectBox from '../components/SelectBox/SelectBox';
 import CategoryBtn from '../components/CustomButton/CategoryBtn';
 import Book from '../components/Book/Book';
+import {ReactComponent as ErrorLogo} from '../assets/ErrorLogo.svg';
 
 const Div = styled.div`
     width: 70%;
@@ -27,7 +28,9 @@ const Div = styled.div`
     &.MsgDiv{
         width: 100%;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 110px;
     }
 `;
 
@@ -36,22 +39,35 @@ const P = styled.p`
     font-size: 22px;
     margin: 0;
     &.DataMsg{
+        font-family: 'Pretendard-Bold';
+        font-size: 30px;
+        color: rgba(0,0,0,0.35);
         text-align: center;
+        line-height: 50px;
     }
+`;
+
+const Logo = styled(ErrorLogo)`
+
 `;
 
 function Home({searchQuery, setSearchQuery}) {
     const navigate = useNavigate();
     const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
     const [books, setBooks] = useState([]);
+    const [allBooks, setAllBooks] = useState([]);
+    const [myBooks, setMyBooks] = useState([]);
+    const [recommendBooks, setRecommendBooks] = useState([]);
     const [searchBooks, setSearchBooks] = useState([]);
     const [genreBooks, setGenreBooks] = useState([]);
     const [totlaBooks, setTotalBooks] = useState([]);
     const [index, setIndex] = useState(0);
     const [subHeaderIndex, setSubHeaderIndex] = useState(0);
     const [wishes, setWishes] = useState([]);
+    const [isActiveData, setIsActiveData] = useState(false);
     const [isLackData, setIsLackData] = useState(false);
-
+    const [state, setState] = useState(null);
+    const token = cookies.get('token');
     const selectList = [
         {value: 1, name:"신규등록순"},
         {value: 2, name:"제목순"},
@@ -67,76 +83,15 @@ function Home({searchQuery, setSearchQuery}) {
         {index: 5, content: "전래동화"},
         {index: 6, content: "우화"},
     ];
-
-    // const category = [
-    //     {index: 0, content: "전체"},
-    //     {index: 1, content: "fantasy"},
-    //     {index: 2, content: "novel"},
-    //     {index: 3, content: "picture book"},
-    //     {index: 4, content: "biography"},
-    //     {index: 5, content: "traditional fairy tale"},
-    //     {index: 6, content: "falbe"},
-    // ];
-
-    const onClickApplyBtn = async () => {
-        const token = cookies.get('token');
-        if(token){
-            await privateAxios.post(`users/auth/token/verify/`,
-                {
-                    token: token
-                }
-            ).then((response) => {
-                setIsBookRequestModalOpen(true);
-            }).catch((error) => {
-                setIsBookRequestModalOpen(true);
-            })
-        } else{
-            alert("로그인을 해주세요.");
-            navigate('/login');
-        }
-    } 
-
-    useEffect(() => {
-        setIndex(0);
-        setSearchQuery('');
-        if(subHeaderIndex === 0){
-            publicAxios.get(`books/AllBooks/`)
-            .then((response) => {
-                setBooks(response.data);
-                setGenreBooks(response.data);
-                setSearchBooks(response.data);
-                setTotalBooks(response.data);
-            }).catch((error) => {
-                console.log(error);
-            });
-        } else if(subHeaderIndex === 1){
-            privateAxios.get(`books/user-read-book-list/get/`)
-            .then((response) => {
-                const data = response.data.map((value) => value.book);
-                if(data.length === 0){
-                    setIsLackData(true);
-                }
-                setBooks(data);
-                setGenreBooks(data);
-                setSearchBooks(data);
-                setTotalBooks(data);
-            }).catch((error) => {
-                console.log(error);
-                if(error.response.data.code === "token_not_valid"){
-                    setBooks([]);
-                    setGenreBooks([]);
-                    setSearchBooks([]);
-                    setTotalBooks([]);
-                    alert("로그인을 해주세요.");
-                    navigate('/login');
-                }
-            });
-        } else{
-            // 추천 도서 api 실행
-        }
-
-    }, [subHeaderIndex]);
     
+    useEffect(() => {
+        const filter = books.filter(item => 
+            searchBooks.some(item2 => item.id === item2.id) &&
+            genreBooks.some(item3 => item.id === item3.id)
+        );
+        setTotalBooks(filter);
+    }, [books, searchBooks, genreBooks])
+
     useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
@@ -148,6 +103,7 @@ function Home({searchQuery, setSearchQuery}) {
 
     useEffect(() => {
         if(searchQuery.length === 0){
+            console.log(books);
             setSearchBooks(books);
             return;
         }
@@ -163,12 +119,89 @@ function Home({searchQuery, setSearchQuery}) {
     }, [index]);
 
     useEffect(() => {
-        const filter = books.filter(item => 
-            searchBooks.some(item2 => item.id === item2.id) &&
-            genreBooks.some(item3 => item.id === item3.id)
-        );
-        setTotalBooks(filter);
-    }, [books, searchBooks, genreBooks])
+        if(state){
+            setIndex(0);
+            setSearchQuery('');
+            if(subHeaderIndex === 0){
+                setBooks(allBooks);
+                setGenreBooks(allBooks);
+                setSearchBooks(allBooks);
+                setTotalBooks(allBooks);
+            } else if(subHeaderIndex === 1){
+                if(token){
+                    setBooks(myBooks);
+                    setGenreBooks(myBooks);
+                    setSearchBooks(myBooks);
+                    setTotalBooks(myBooks);
+                }
+                else{
+                    setBooks([]);
+                    setGenreBooks([]);
+                    setSearchBooks([]);
+                    setTotalBooks([]);
+                    alert("로그인을 해주세요.");
+                    navigate('/login');
+                }
+            } else{
+                if(token){
+                    console.log(recommendBooks);
+                    setBooks(recommendBooks);
+                    setGenreBooks(recommendBooks);
+                    setSearchBooks(recommendBooks);
+                    setTotalBooks(recommendBooks);
+                }
+                else{
+                    setBooks([]);
+                    setGenreBooks([]);
+                    setSearchBooks([]);
+                    setTotalBooks([]);
+                    alert("로그인을 해주세요.");
+                    navigate('/login');
+                }
+            }
+        }
+    }, [state, subHeaderIndex]);
+
+    useEffect(() => {
+        publicAxios.get(`books/AllBooks/`)
+        .then((response) => {
+            setAllBooks(response.data);
+            setBooks(response.data)
+            setState(true);
+        }).catch((error) => {
+            console.log(error);
+        });
+
+        if(token){
+            privateAxios.get(`books/user-read-book-list/get/`)
+            .then((response) => {
+                const data = response.data.map((value) => value.book);
+                if(data.length === 0){
+                    setIsActiveData(true);
+                }
+                setMyBooks(data);
+            }).catch((error) => {
+                console.log(error);
+            });
+
+            privateAxios.get(`books/recommend/list/`)
+            .then((response) => {
+                const data = response.data.map((value) => value.book);
+                setRecommendBooks(data);
+            }).catch((error) => {
+                console.log(error);
+                setIsLackData(true);
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        if(!token){
+            setSearchQuery('');
+            setIndex(0);
+            setSubHeaderIndex(0);
+        }
+    }, [token])
 
     return (
         <div className={styles.mainDiv}>
@@ -189,40 +222,25 @@ function Home({searchQuery, setSearchQuery}) {
                     })
                     :
                 subHeaderIndex === 1 ?
-                    isLackData ? <Div className='MsgDiv'><P className='DataMsg'>데이터 부족</P></Div> :
+                    isActiveData ? 
+                    <Div className='MsgDiv'>
+                        <Logo/>
+                        <P className='DataMsg'>내 책장이 비어있어요.<br/>독후활동을 하고 책을 꽂아보아요!</P>
+                    </Div> :
                     totlaBooks.map((value, key) => {
                         return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                     })
                     :
-                isLackData ? <Div className='MsgDiv'><P className='DataMsg'>데이터 부족</P></Div> :
+                    isLackData ? 
+                    <Div className='MsgDiv'>
+                        <Logo/>
+                        <P className='DataMsg'>독후활동을 해볼까요?<br/>자신에게 맞는 책을 추천받을 수 있어요!</P>
+                    </Div> :
                     totlaBooks.map((value, key) => {
                         return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                     })
                 }
             </Div>
-            {/* <div className={styles.bookshelp}>
-                <div>
-                    <ul className={styles.bookFilter}>
-                        {filters.map(filter => (
-                            <li className={styles.filter} key={filter.id}>
-                                <button className={styles.filterBtn}>
-                                    {filter.text}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className={styles.bookSlide}>
-                    {
-                        books.map((key, value) => {
-                            return <Link to={`/bookclick/${key.id}`}>
-                                <img className={styles.bookImg} alt='책' src={`${process.env.REACT_APP_ADDRESS}${key.cover_image}/`} />
-                            </Link>
-                        })
-                    }
-                </div>
-            </div>
-            <BookRequestModal isOpen={isBookRequestModalOpen} onRequestClose={setIsBookRequestModalOpen} /> */}
         </div>
     )
 }

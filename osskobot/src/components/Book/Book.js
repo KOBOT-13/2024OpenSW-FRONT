@@ -75,7 +75,7 @@ function Book({title, author, id, cover_image, isWish}) {
     };
 
     const onClickBook = () => {
-        navigate(`/bookclick/${id}/`, {state:{isWish: _isWish}});
+        navigate(`/bookclick/${id}/`);
     }
 
     return (
