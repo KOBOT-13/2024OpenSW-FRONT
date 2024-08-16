@@ -48,13 +48,13 @@ function BookReport() {
     }
 
     const onClickApply = () => {
+        postReadBook(bookId);
         privateAxios.post(`books/posts/`,
             {
                 "book": bookId,
                 "body": formContent
             }
         ).then(() => {
-            postReadBook(bookId);
             alert("독후감 작성이 완료되었습니다.");
             naviate(`/bookclick/${bookId}`);
         }).catch((error) => {

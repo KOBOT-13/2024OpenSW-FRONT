@@ -35,9 +35,9 @@ function App() {
   return (
     <Router>
       <ConversationProvider>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} setSearchQuery={setSearchQuery} setReload={setReload} />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} searchQuery={searchQuery} setSearchQuery={setSearchQuery} setReload={setReload} />
       <Routes>
-        <Route path="/" element={<Home searchQuery={searchQuery} />} />
+        <Route path="/" element={<Home searchQuery={searchQuery} setSearchQuery={setSearchQuery} />} />
         <Route path="/login" element={<LoginProtectedRoute>
           <Login setReload={setReload} />
         </LoginProtectedRoute>} />
