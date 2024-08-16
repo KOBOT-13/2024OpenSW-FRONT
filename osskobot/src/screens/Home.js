@@ -24,12 +24,20 @@ const Div = styled.div`
         display:flex;
         flex-flow: row wrap;   
     }
+    &.MsgDiv{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 `;
 
 const P = styled.p`
     font-family: 'Pretendard-SemiBold';
     font-size: 22px;
     margin: 0;
+    &.DataMsg{
+        text-align: center;
+    }
 `;
 
 function Home({searchQuery, setSearchQuery}) {
@@ -42,6 +50,7 @@ function Home({searchQuery, setSearchQuery}) {
     const [index, setIndex] = useState(0);
     const [subHeaderIndex, setSubHeaderIndex] = useState(0);
     const [wishes, setWishes] = useState([]);
+    const [isLackData, setIsLackData] = useState(false);
 
     const selectList = [
         {value: 1, name:"신규등록순"},
@@ -101,7 +110,27 @@ function Home({searchQuery, setSearchQuery}) {
                 console.log(error);
             });
         } else if(subHeaderIndex === 1){
-            // 내 책장 api 실행
+            privateAxios.get(`books/user-read-book-list/get/`)
+            .then((response) => {
+                const data = response.data.map((value) => value.book);
+                if(data.length === 0){
+                    setIsLackData(true);
+                }
+                setBooks(data);
+                setGenreBooks(data);
+                setSearchBooks(data);
+                setTotalBooks(data);
+            }).catch((error) => {
+                console.log(error);
+                if(error.response.data.code === "token_not_valid"){
+                    setBooks([]);
+                    setGenreBooks([]);
+                    setSearchBooks([]);
+                    setTotalBooks([]);
+                    alert("로그인을 해주세요.");
+                    navigate('/login');
+                }
+            });
         } else{
             // 추천 도서 api 실행
         }
@@ -131,14 +160,6 @@ function Home({searchQuery, setSearchQuery}) {
             return;
         }
         setGenreBooks(books.filter(item => item.category === category[index].content))
-        // if(index !== 0){
-        //     publicAxios.get(`books/tag/${index}/`)
-        //     .then((response) => {
-        //         setFilteringBooks(books.filter(item1 => response.data.some(item2 => item1.id === item2.id)));
-        //     }).catch((error) => {
-        //         console.log(error);
-        //     });
-        // }
     }, [index]);
 
     useEffect(() => {
@@ -162,9 +183,22 @@ function Home({searchQuery, setSearchQuery}) {
                 })}
             </Div>
             <Div className='Books'>
-                {totlaBooks.map((value, key) => {
-                    return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
-                })}
+                {subHeaderIndex === 0 ?
+                    totlaBooks.map((value, key) => {
+                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
+                    })
+                    :
+                subHeaderIndex === 1 ?
+                    isLackData ? <Div className='MsgDiv'><P className='DataMsg'>데이터 부족</P></Div> :
+                    totlaBooks.map((value, key) => {
+                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
+                    })
+                    :
+                isLackData ? <Div className='MsgDiv'><P className='DataMsg'>데이터 부족</P></Div> :
+                    totlaBooks.map((value, key) => {
+                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
+                    })
+                }
             </Div>
             {/* <div className={styles.bookshelp}>
                 <div>
