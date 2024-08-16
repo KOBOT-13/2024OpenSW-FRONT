@@ -47,12 +47,10 @@ const P = styled.p`
     color: rgba(55, 56, 60, 0.6);
 `;
 
-const InstarIcon = styled(Instargram)`
-    background-color: rgba(255, 229, 253, 0.7);
+const InstaIcon = styled(Instargram)`
 `;
 
 const YoutubeIcon = styled(Youtube)`
-    background-color: rgba(255, 229, 253, 0.7);
 `;
 
 const _Logo = styled(Logo)`
@@ -60,7 +58,7 @@ const _Logo = styled(Logo)`
 `;
 
 function Footer(){
-    const instarLink = "https://www.instagram.com/kobot_kmu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
+    const instaLink = "https://www.instagram.com/kobot_kmu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
     const youtubeLink = "";
 
     return(
@@ -75,7 +73,7 @@ function Footer(){
                 <Div className="Content">
                     <P>© 2024 아이랑 아이(AI)랑</P>
                     <Div className="Action">
-                        <InstarIcon onClick={() => (window.open(instarLink))} />
+                        <InstaIcon onClick={() => (window.open(instaLink))} />
                         <YoutubeIcon onClick={() => (window.open(youtubeLink))}/>
                     </Div>
                 </Div>

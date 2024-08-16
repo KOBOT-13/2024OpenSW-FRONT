@@ -10,6 +10,7 @@ import SelectBox from '../components/SelectBox/SelectBox';
 import CategoryBtn from '../components/CustomButton/CategoryBtn';
 import Book from '../components/Book/Book';
 import {ReactComponent as ErrorLogo} from '../assets/ErrorLogo.svg';
+import Pagination from 'react-js-pagination';
 
 const Div = styled.div`
     width: 70%;
@@ -47,9 +48,52 @@ const P = styled.p`
     }
 `;
 
-const Logo = styled(ErrorLogo)`
+const Logo = styled(ErrorLogo)``;
+const StyledPaginationWrapper = styled.div`
+    ul {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        list-style: none;
+    }
+  
+    li {
+        margin: 0 5px;
+    }
 
+    li a {
+        display: block;
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #007bff;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+        background-color: rgba(0, 123, 255, 0.5);
+        }
+    }
+
+    .active a {
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+    }
+
+    .disabled a {
+        color: #ccc;
+        cursor: not-allowed;
+    }
 `;
+
+const CommentsPage = (props) => {
+    return (
+        <StyledPaginationWrapper>
+            <Pagination {...props} />
+        </StyledPaginationWrapper>
+    );
+}
 
 function Home({searchQuery, setSearchQuery}) {
     const navigate = useNavigate();
@@ -68,6 +112,18 @@ function Home({searchQuery, setSearchQuery}) {
     const [isLackData, setIsLackData] = useState(false);
     const [state, setState] = useState(null);
     const token = cookies.get('token');
+
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 12;
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
+    const indexOfLastItem = page * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentBooks = totlaBooks.slice(indexOfFirstItem, indexOfLastItem);
+
     const selectList = [
         {value: 1, name:"신규등록순"},
         {value: 2, name:"제목순"},
@@ -217,7 +273,7 @@ function Home({searchQuery, setSearchQuery}) {
             </Div>
             <Div className='Books'>
                 {subHeaderIndex === 0 ?
-                    totlaBooks.map((value, key) => {
+                    currentBooks.map((value, key) => {
                         return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                     })
                     :
@@ -227,7 +283,7 @@ function Home({searchQuery, setSearchQuery}) {
                         <Logo/>
                         <P className='DataMsg'>내 책장이 비어있어요.<br/>독후활동을 하고 책을 꽂아보아요!</P>
                     </Div> :
-                    totlaBooks.map((value, key) => {
+                    currentBooks.map((value, key) => {
                         return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                     })
                     :
@@ -236,11 +292,20 @@ function Home({searchQuery, setSearchQuery}) {
                         <Logo/>
                         <P className='DataMsg'>독후활동을 해볼까요?<br/>자신에게 맞는 책을 추천받을 수 있어요!</P>
                     </Div> :
-                    totlaBooks.map((value, key) => {
+                    currentBooks.map((value, key) => {
                         return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
                     })
                 }
             </Div>
+            <CommentsPage
+                    activePage={page}
+                    itemsCountPerPage={itemsPerPage}
+                    totalItemsCount={books.length}
+                    pageRangeDisplayed={12}
+                    prevPageText={"<"}
+                    nextPageText={">"}
+                    onChange={handlePageChange}
+                />
         </div>
     )
 }
