@@ -6,6 +6,7 @@ const Div = styled.div`
   padding: 20px 50px 0 50px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   padding-bottom: 25px;
+  cursor: pointer;
 `;
 
 const Ul = styled.ul`
