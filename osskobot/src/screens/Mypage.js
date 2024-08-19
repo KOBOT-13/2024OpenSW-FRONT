@@ -15,11 +15,11 @@ import { HiOutlinePencilSquare } from "react-icons/hi2";
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import { CommentsPage } from './BookClickStyled';
+import Book from '../components/Book/Book';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
-    const btns = ['내가 읽은 책', '이전 대화', '독후감', '퀴즈기록', '내가 쓴 글'];
     const nickname = cookies.get('username');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
@@ -29,7 +29,7 @@ function Mypage() {
     const [reportInfo, setReportInfo] = useState([]);
     const [conversations, setConversations] = useState([]);
     const [comments, setComments] = useState([]);
-    const [readBooks, setReadBooks] = useState([]);
+    const [wishBook, setWishBook] = useState([]);
     const navigate = useNavigate();
     const [index, setIndex] = useState(1);
     const imgs = {
@@ -77,10 +77,13 @@ function Mypage() {
     }, [reloadPost])
 
     useEffect(() => {
-        privateAxios.get(`books/user-read-book-list/get/`)
+        privateAxios.get(`books/wishlist/`)
         .then((response) => {
-            setReadBooks(response.data);
-        })        
+            console.log(response.data);
+            setWishBook(response.data);
+        }).catch((error) => {
+            console.log(error);
+        })
     }, []);
 
     useEffect(() => {
@@ -151,7 +154,12 @@ function Mypage() {
                 </Div>
                 <Div className='Active'>
                     {
-                        index === 1 ? <Div></Div>
+                        index === 1 ?
+                            <Div className='WishList'>
+                                {wishBook.map((value, key) => {
+                                    return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={true} />
+                                })}
+                            </Div>
                         :index === 2 ? <Div></Div>
                         :index === 3 ? <Div></Div>
                         :index === 4 ? <Div></Div>
