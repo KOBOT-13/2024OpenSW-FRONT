@@ -68,6 +68,10 @@ export const Div = styled.div`
         display: flex;
         flex-flow: row wrap;
     }
+    &.BookReport{
+        width: 100%;
+        background-color: #f7f7f7;
+    }
 `;
 
 export const P = styled.p`
