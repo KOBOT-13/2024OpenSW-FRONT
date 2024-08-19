@@ -4,13 +4,13 @@ import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
 import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
-import { privateAxios } from '../services/axiosConfig';
+import { privateAxios, publicAxios } from '../services/axiosConfig';
 import QuizRecord from './MypageQuizRecord';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import MyComments from '../components/MyComments/MyComments';
-import {Div, P, Hr, Image, Button} from './MypageStyled';
+import {Div, P, Hr, Image} from './MypageStyled';
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
@@ -30,15 +30,10 @@ function Mypage() {
     const [conversations, setConversations] = useState([]);
     const [comments, setComments] = useState([]);
     const [wishBook, setWishBook] = useState([]);
+    const [allBooks, setAllBooks] = useState([]);
+
     const navigate = useNavigate();
     const [index, setIndex] = useState(1);
-    const imgs = {
-        2: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/1.jpg`, title: "백설공주" },
-        4: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/5.jpg`, title: "흥부와 놀부" },
-        3: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/3.jpg`, title: "피터팬" },
-        5: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/4.jpeg`, title: "헨젤과 그레텔" },
-        1: { img: `${process.env.REACT_APP_ADDRESS}/media/book_covers/2.jpg`, title: "아기 돼지 삼형제" }
-    }
     const [page, setPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -65,15 +60,13 @@ function Mypage() {
     }, [reload]);
 
     useEffect(() => {
-        const getPosts = () => {
-            privateAxios.get(`books/my_posts`)
-                .then((response) => {
-                    setReportInfo(response.data);
-                }).catch((error) => {
-                    console.log(error);
-                });
-        }
-        getPosts();
+        privateAxios.get(`books/my_posts`)
+        .then((response) => {
+            console.log(response.data);
+            setReportInfo(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
     }, [reloadPost])
 
     useEffect(() => {
@@ -89,7 +82,6 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`dialogs/conversation/`)
             .then(response => { 
-                console.log(response.data)
                 const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
                 setConversations(sortedConversations);
             })
@@ -101,6 +93,16 @@ function Mypage() {
             .then(response => {
                 setComments(response.data);
             })
+    }, []);
+
+    useEffect(() => {
+        publicAxios.get('books/AllBooks')
+        .then((response) => {
+            console.log(response.data);
+            setAllBooks(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
     }, []);
 
     const handleButtonClick = (index) => {
@@ -118,6 +120,11 @@ function Mypage() {
     const removeComment = (id) => {
         const updatedComments = comments.filter(commnet => commnet.id !== id);
         setComments(updatedComments);
+    };
+
+    const removePost = (id) => {
+        const updatedPost = reportInfo.filter(post => post.id !== id);
+        setReportInfo(updatedPost);
     };
 
     const bottomBtn = [
@@ -160,8 +167,16 @@ function Mypage() {
                                     return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={true} />
                                 })}
                             </Div>
-                        :index === 2 ? <Div></Div>
-                        :index === 3 ? <Div></Div>
+                        :index === 2 ? 
+                            <Div>
+                                
+                            </Div>
+                        :index === 3 ? 
+                            <Div className='BookReport'>
+                                {reportInfo.map((value, key) => {
+                                    return <BookReportInfo key={key} id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
+                                })}
+                            </Div>
                         :index === 4 ? <Div></Div>
                                         :
                                         <Div className='Comment-Written'>

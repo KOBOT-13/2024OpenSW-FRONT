@@ -1,55 +1,62 @@
 import styled from "styled-components";
 import BookReportModal from "../Modal/BookReportModal";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const CardContainer = styled.div`
-  width: 160px; /* Adjust the width as needed */
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin-bottom: 8px;
+const Div = styled.div`
+  padding: 20px 50px 0 50px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding-bottom: 25px;
 `;
 
-const Image = styled.img`
-  width: 160px;
-  height: 180px;
-  object-fit: cover;
-`;
-
-const Content = styled.div`
-  padding: 16px;
-  background-color: #f9f9f9;
-`;
-
-const Title = styled.h3`
-  margin: 0 0 8px 0;
-  font-size: 1.2em;
-`;
-
-const Date = styled.p`
+const Ul = styled.ul`
+  display: flex;
+  font-family: 'Pretendard-Regular';
+  font-size: 15px;
+  color: rgba(0,0,0,0.4);
+  padding: 0;
   margin: 0;
-  color: #555;
-  font-size: 0.9em;
 `;
 
-function BookReportInfo({ imageSrc, title, reviewDate, content, id, setReload }) {
-    const [isOpen, setIsOpen] = useState(false);
+const Li = styled.li`
+  float: left;
+  list-style: none;
 
-    return (
-        <div>
-            <CardContainer onClick={() => setIsOpen(true)}>
-                <Image src={imageSrc} alt="Book Cover" />
-                <Content>
-                    <Title>{title}</Title>
-                    <Date>작성일: {reviewDate}</Date>
-                </Content>
-            </CardContainer>
-            <BookReportModal isOpen={isOpen} onRequestClose={setIsOpen} content={content} id={id} setReload={setReload} />
-        </div>
+  &::before {
+    content: '|';
+    margin-right: 10px;
+    margin-left: 10px;
+  }
 
-    );
+  &:first-child::before {
+    content: none;
+  }
+`;
+
+const Content = styled.p`
+  font-family: 'Pretendard-Regular';
+  font-size: 15px;
+  margin: 0;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+`;
+
+function BookReportInfo({title, reviewDate, content, id, removePost }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Div onClick={() => setIsOpen(true)}>
+      <Ul>
+        <Li>{title}</Li>
+        <Li>{reviewDate}</Li>
+      </Ul>
+      <Content>{content}</Content>
+      <BookReportModal isOpen={isOpen} content={content} title={title} date={reviewDate} onRequestClose={setIsOpen} id={id} removePost={removePost} />
+    </Div>
+  );
 }
 
 export default BookReportInfo;

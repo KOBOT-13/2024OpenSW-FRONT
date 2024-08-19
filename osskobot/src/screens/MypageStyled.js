@@ -68,6 +68,10 @@ export const Div = styled.div`
         display: flex;
         flex-flow: row wrap;
     }
+    &.BookReport{
+        width: 100%;
+        background-color: #f7f7f7;
+    }
 `;
 
 export const P = styled.p`
@@ -100,8 +104,4 @@ export const Hr = styled.hr`
 export const Image = styled.img`
     width: 125px;
     margin: 38px 55px 38px 55px;
-`;
-
-export const Button = styled.button`
-
 `;
