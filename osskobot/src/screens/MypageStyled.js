@@ -72,6 +72,14 @@ export const Div = styled.div`
         width: 100%;
         background-color: #f7f7f7;
     }
+    &.QuizRecord{
+        margin-top: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: start;  /* 왼쪽 정렬 */
+        row-gap: 20px;
+        column-gap: 40px;
+    }
 `;
 
 export const P = styled.p`
