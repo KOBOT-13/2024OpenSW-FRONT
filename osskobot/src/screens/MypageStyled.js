@@ -39,6 +39,7 @@ export const Div = styled.div`
         }
     }
     &.Mid{
+        width: 1160px;
         margin-top: 50px;
         display: flex;
         flex-direction: column;
@@ -61,6 +62,11 @@ export const Div = styled.div`
         margin-top: 20px;
         border-top: 1px solid rgba(0, 0, 0, 0.5);
         background-color: #F7F7F7;
+    }
+    &.WishList{
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
     }
 `;
 

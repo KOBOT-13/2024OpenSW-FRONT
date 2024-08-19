@@ -24,7 +24,7 @@ const Div = styled.div`
     &.Books{
         margin-top: 30px;
         display:flex;
-        flex-flow: row wrap;   
+        flex-flow: row wrap;
     }
     &.MsgDiv{
         width: 100%;
