@@ -10,7 +10,7 @@ import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import MyComments from '../components/MyComments/MyComments';
-import {Div, P, Hr, Image, Button} from './MypageStyled';
+import {Div, P, Hr, Image} from './MypageStyled';
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
@@ -82,7 +82,6 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`dialogs/conversation/`)
             .then(response => { 
-                console.log(response.data)
                 const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
                 setConversations(sortedConversations);
             })
@@ -121,6 +120,11 @@ function Mypage() {
     const removeComment = (id) => {
         const updatedComments = comments.filter(commnet => commnet.id !== id);
         setComments(updatedComments);
+    };
+
+    const removePost = (id) => {
+        const updatedPost = reportInfo.filter(post => post.id !== id);
+        setReportInfo(updatedPost);
     };
 
     const bottomBtn = [
@@ -170,7 +174,7 @@ function Mypage() {
                         :index === 3 ? 
                             <Div className='BookReport'>
                                 {reportInfo.map((value, key) => {
-                                    return <BookReportInfo id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} />
+                                    return <BookReportInfo key={key} id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
                                 })}
                             </Div>
                         :index === 4 ? <Div></Div>

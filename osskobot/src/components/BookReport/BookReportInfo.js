@@ -45,16 +45,16 @@ const Content = styled.p`
   white-space: pre-wrap;
 `;
 
-function BookReportInfo({title, reviewDate, content, id }) {
+function BookReportInfo({title, reviewDate, content, id, removePost }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <Div>
+    <Div onClick={() => setIsOpen(true)}>
       <Ul>
         <Li>{title}</Li>
         <Li>{reviewDate}</Li>
       </Ul>
       <Content>{content}</Content>
-      <BookReportModal isOpen={true} />
+      <BookReportModal isOpen={isOpen} content={content} title={title} date={reviewDate} onRequestClose={setIsOpen} id={id} removePost={removePost} />
     </Div>
   );
 }

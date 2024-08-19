@@ -105,7 +105,3 @@ export const Image = styled.img`
     width: 125px;
     margin: 38px 55px 38px 55px;
 `;
-
-export const Button = styled.button`
-
-`;
