@@ -14,6 +14,9 @@ const ReportModal = styled(Modal)`
     background-color: #f2f3f7;
     border: 1px solid rgba(0,0,0,0.4);
     border-radius: 10px;
+    &:focus{
+        outline: 0;
+    }
 `;
 
 const TestArea = styled.textarea`
