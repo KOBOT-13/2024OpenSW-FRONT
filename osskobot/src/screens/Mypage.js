@@ -16,6 +16,7 @@ import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
 import { CommentsPage } from './BookClickStyled';
 import Book from '../components/Book/Book';
+import QuizRecordComponent from '../components/Quiz/QuizRecord';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -28,9 +29,11 @@ function Mypage() {
     const [reloadPost, setReloadPost] = useState(false);
     const [reportInfo, setReportInfo] = useState([]);
     const [conversations, setConversations] = useState([]);
+    const [quizRecords, setQuizRecords] = useState([]);
     const [comments, setComments] = useState([]);
     const [wishBook, setWishBook] = useState([]);
     const [allBooks, setAllBooks] = useState([]);
+    const [allChars, setAllChars] = useState([]);
 
     const navigate = useNavigate();
     const [index, setIndex] = useState(1);
@@ -62,7 +65,6 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`books/my_posts`)
         .then((response) => {
-            console.log(response.data);
             setReportInfo(response.data);
         }).catch((error) => {
             console.log(error);
@@ -72,7 +74,6 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
-            console.log(response.data);
             setWishBook(response.data);
         }).catch((error) => {
             console.log(error);
@@ -89,6 +90,16 @@ function Mypage() {
     }, []);
 
     useEffect(() => {
+        privateAxios.get(`mypages/quizRecord`)
+            .then(response => { 
+                console.log(response);
+                // const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                setQuizRecords(response.data);
+            })
+
+    }, []);
+
+    useEffect(() => {
         privateAxios.get('books/my_comments')
             .then(response => {
                 setComments(response.data);
@@ -98,8 +109,16 @@ function Mypage() {
     useEffect(() => {
         publicAxios.get('books/AllBooks')
         .then((response) => {
-            console.log(response.data);
             setAllBooks(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
+    useEffect(() => {
+        publicAxios.get('books/character/')
+        .then((response) => {
+            setAllChars(response.data);
         }).catch((error) => {
             console.log(error);
         });
@@ -177,34 +196,42 @@ function Mypage() {
                                     return <BookReportInfo key={key} id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
                                 })}
                             </Div>
-                        :index === 4 ? <Div></Div>
-                                        :
-                                        <Div className='Comment-Written'>
-                                            <Div className='Comments'>
-                                                {currentComments.map((value) => {
-                                                    return <CommentBoard
-                                                        key={value.id}
-                                                        id={value.id}
-                                                        nickname={value.user}
-                                                        comment={value.content}
-                                                        date={format(new Date(value.created_at), 'yyyy-MM-dd h:mm a')}
-                                                        likes={value.likes_count}
-                                                        onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
-                                                        isMine={value.user === cookies.get('username')}
-                                                        delCommnet={removeComment}
-                                                    />
-                                                })}
-                                            </Div>
-                                            <CommentsPage
-                                                activePage={page}
-                                                itemsCountPerPage={itemsPerPage}
-                                                totalItemsCount={comments.length}
-                                                pageRangeDisplayed={10}
-                                                prevPageText={"<"}
-                                                nextPageText={">"}
-                                                onChange={handlePageChange}
-                                            />
-                                        </Div>
+                        :index === 4 ? 
+                            <Div className='QuizRecord'>
+                                {
+                                    quizRecords.map((value, key) => {
+                                        const char = allChars.find(item => item.book === value.book.id)
+                                        return <QuizRecordComponent charImg={char.character_image} quiz={value}/>
+                                    })
+                                }
+                            </Div>
+                        :
+                        <Div className='Comment-Written'>
+                            <Div className='Comments'>
+                                {currentComments.map((value) => {
+                                    return <CommentBoard
+                                        key={value.id}
+                                        id={value.id}
+                                        nickname={value.user}
+                                        comment={value.content}
+                                        date={format(new Date(value.created_at), 'yyyy-MM-dd h:mm a')}
+                                        likes={value.likes_count}
+                                        onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
+                                        isMine={value.user === cookies.get('username')}
+                                        delCommnet={removeComment}
+                                    />
+                                })}
+                            </Div>
+                            <CommentsPage
+                                activePage={page}
+                                itemsCountPerPage={itemsPerPage}
+                                totalItemsCount={comments.length}
+                                pageRangeDisplayed={10}
+                                prevPageText={"<"}
+                                nextPageText={">"}
+                                onChange={handlePageChange}
+                            />
+                        </Div>
                     }
                 </Div>
             </Div>
