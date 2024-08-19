@@ -102,8 +102,8 @@ function QuizRecordComponent({charImg, quiz}){
             <Img src={charImg} />
             <InfoContainer>
                 <Ul>
-                    <Li>{quiz.book.title}</Li>
-                    <Li>{format(quiz.completed_at, 'yy.MM.dd HH:mm')}</Li>                    
+                    <Li key={1}>{quiz.book.title}</Li>
+                    <Li key={2}>{format(quiz.completed_at, 'yy.MM.dd HH:mm')}</Li>                    
                 </Ul>
                 <StarContainer>
                     {[1,2,3,4,5].map((rating) => {

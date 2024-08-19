@@ -175,7 +175,7 @@ function Mypage() {
             <Div className='Mid'>
                 <Div className='Mid-Btns'>
                     {bottomBtn.map((value, key) => {
-                        return <BottomBorderBtn label={value.label} index={value.index === index} onClick={() => setIndex(value.index)} />
+                        return <BottomBorderBtn key={key} label={value.label} index={value.index === index} onClick={() => setIndex(value.index)} />
                     })}
                 </Div>
                 <Div className='Active'>
