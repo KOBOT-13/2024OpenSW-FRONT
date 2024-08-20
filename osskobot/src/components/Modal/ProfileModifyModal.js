@@ -4,7 +4,6 @@ import Modal from 'react-modal';
 import { privateAxios, publicAxios } from '../../services/axiosConfig';
 import styled from 'styled-components';
 import cookies from 'js-cookie';
-import { IoCalendarNumberOutline } from "react-icons/io5";
 
 const ErrorSpan = styled.span`
     font-family: 'Pretendard-Medium';

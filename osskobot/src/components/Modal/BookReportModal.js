@@ -73,7 +73,7 @@ const Button = styled.button`
     background: none;
     border: none;
     font-family: 'Pretendard-Regular';
-    font-size: 33px;
+    font-size: 30px;
     cursor: pointer;
 `;
 
