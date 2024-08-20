@@ -27,6 +27,9 @@ const Div = styled.div`
         justify-content: space-between;
         position: relative;
     }
+    &.BookCover{
+        position: relative;
+    }
 `;
 
 const BookImage = styled.img`
@@ -47,6 +50,17 @@ const P = styled.p`
         font-size: 14px;
         opacity: 0.4;
         margin-top: 10px;
+    }
+    &.bookTitle{
+        width: 200px;
+        font-family: 'Pretendard-Bold';
+        font-size: 30px;
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        pointer-events: none; /* 클릭 불가, 이미지 클릭 시 방해되지 않도록 설정 */
     }
 `;
 
@@ -85,7 +99,10 @@ function Book({title, author, id, cover_image, isWish}) {
     return (
         <Div className="Book" onClick={onClickBook}>
             <Div className="Frame">
-                <BookImage src={`${process.env.REACT_APP_ADDRESS}/${cover_image}`} />
+                <Div className="BookCover">
+                    <BookImage src={`${process.env.REACT_APP_ADDRESS}/${cover_image}`} />
+                    <P className="bookTitle">{title}</P>
+                </Div>
                 <Div className="WishList">
                     <Div className="Info">
                         <P className="title">{title}</P>
