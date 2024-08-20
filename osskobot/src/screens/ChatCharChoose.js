@@ -54,7 +54,12 @@ const Div = styled.div`
     }
 `;
 
-const Image = styled.img``;
+const Image = styled.img`
+    &.CharImage{
+        width: 120px;
+        height: 120px;
+    }
+`;
 
 const P = styled.p`
     font-family: 'Pretendard-Bold';
@@ -81,6 +86,11 @@ const Button = styled.button`
     border-radius: 10px;
     align-self: flex-end;
     margin-top: 15px;
+    &:hover{
+        background-color: rgba(0,0,0,0.7);
+        transition: background-color 0.3s;
+    }
+    cursor: pointer;
 `;
 
 function CharCharChoose() {
