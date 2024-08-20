@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Div = styled.div`
     &.CardContainer{
-        position: relative;
         width: 150px;
         height: 225px;
         border: 2px solid rgba(66, 133, 244, 0.8);
@@ -18,22 +17,21 @@ const Div = styled.div`
             background-color: rgba(66, 133, 244, 0.4);
             transition: background-color 0.3s;
         }
-    }
-    &.InfoContainer{
-        position: absolute;
-        left:29px;
-        bottom: 12px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
+    &.InfoContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 12px;
+    }
 `;
 
 const Img = styled.img`
-    position: absolute;
-    left:14px;
-    top:16px;
     width: 121px;
     height: 121px;
 `;
