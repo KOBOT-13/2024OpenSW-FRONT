@@ -80,6 +80,13 @@ export const Div = styled.div`
         row-gap: 20px;
         column-gap: 40px;
     }
+    &.ConversationList{
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        row-gap: 50px;
+        column-gap: 60px;
+    }
 `;
 
 export const P = styled.p`
