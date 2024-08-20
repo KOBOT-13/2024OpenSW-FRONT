@@ -1,8 +1,8 @@
 import {publicAxios} from "./axiosConfig";
 import cookies from 'js-cookie';
 
-const refreshToken = async() => {
-    await publicAxios.post(`users/auth/token/refresh/`, 
+const refreshToken = () => {
+    publicAxios.post(`users/auth/token/refresh/`, 
         {
             'refresh': cookies.get('refresh_token')
         }
