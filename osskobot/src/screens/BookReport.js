@@ -75,7 +75,7 @@ function BookReport() {
             <Div className='Mid'>
                 <TextArea value={formContent} onChange={handleContent} placeholder='독후감 작성...'/>
                 <Div className='Btns-Mid'>
-                    <Button className='cancle' onClick={onClickCancle}>취소</Button>
+                    <Button className='cancle' onClick={onClickCancle}>취소하기</Button>
                     <Button onClick={onClickApply}>작성하기</Button>
                 </Div>
             </Div>
