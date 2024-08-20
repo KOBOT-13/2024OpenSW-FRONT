@@ -45,6 +45,7 @@ const Div = styled.div`
 const P = styled.p`
     margin: 0;
     font-family: 'Pretendard-Bold';
+    user-select: none;
     &.title{
         font-size: 56px;
         margin-bottom: 20px;
@@ -56,6 +57,7 @@ const P = styled.p`
     &.sub-content{
         font-family: 'Pretendard-Regular';
         font-size: 16px;
+        line-height: 26px;
     }
     &.developer{
         font-family: 'Pretendard-SemiBold';
@@ -80,8 +82,11 @@ function ServiceInfo() {
                 <Logo/>
                 <Div className='Intro'>
                     <P className='title'>아이랑 아이(AI)랑</P>
-                    <P className='content'>책을 멀리하게 된 아이들을 위해서</P>
-                    <P className='sub-content'>아이랑 아이(AI)랑은 어린이들을 대상으로 기획하였고,<br/>전자기기에 익숙해져 책을 멀리하게 된 아이들을 위한 기능들로 이루어져 있습니다.</P>
+                    <P className='content'>인공지능이 도와주는 아이들의 독후활동</P>
+                    <P className='sub-content'>‘아이랑 아이(AI)랑’에서는 아이들과 인공지능(AI)이 함께 새로운 학습 경험을 만들어갑니다.
+                        <br/>책 속 등장인물과 직접 대화하고, 독서퀴즈 풀이와 독후감 작성까지 풍부한 독후활동을 즐겨보세요.
+                        <br/>꾸준한 독서를 위해 사용자 개인의 독서 선호도를 기반으로 책을 추천해드립니다.
+                        <br/>단순한 독후활동의 도구를 넘어, 독서의 재미를 느끼고 사고력을 넓힐 수 있도록 도와드릴게요.</P>
                 </Div>
             </Div>
             <Div className='Bottom'>
