@@ -161,6 +161,10 @@ export const Button = styled.button`
     border-radius: 10px;
     margin-left: 10px;
     cursor: pointer;
+    &:hover{
+        background-color: rgba(0,0,0,0.1);
+        transition: background-color 0.3s;
+    }
 `;
 
 const StyledPaginationWrapper = styled.div`
@@ -213,6 +217,7 @@ export const Heart = styled(GoHeartFill)`
     position: absolute; /* 위치를 절대적으로 설정 */
     top: 42px; /* 상단 위치를 조정 */
     right: 30px; /* 우측 위치를 조정 */
+    cursor: pointer;
 `;
 
 export const CommentsPage = (props) => {

@@ -10,6 +10,11 @@ const Div = styled.div`
     justify-content: center;
     border-radius: 500px;
     padding: 0 24px 0 24px;
+    &:hover{
+        background-color: rgba(48, 99, 210, 0.8);
+        transition: background-color 0.3s;
+    }
+    cursor: pointer;
 `;
 
 const P = styled.p`
