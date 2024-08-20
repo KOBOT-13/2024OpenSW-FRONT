@@ -88,6 +88,7 @@ export const Li = styled.li`
         display:flex;
         align-items: center;
         user-select: none;
+        cursor: pointer;
     }
 `;
 
@@ -97,6 +98,7 @@ export const Button = styled.button`
     &.Edit{
         color: #FF000A;
     }
+    cursor: pointer;
 `;
 
 export const TextArea = styled.textarea`

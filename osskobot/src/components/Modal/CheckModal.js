@@ -49,12 +49,22 @@ const Button = styled.button`
     &.Cancle{
         border: 1px solid rgba(0,0,0,0.15);
         background-color: white;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.2);
+        }
     }
     &.Delete{
         border: 1px solid rgba(0,0,0,0.15);
         background-color: #ff4d4d;
         color: white;
+        &:hover{
+            background-color: rgba(255, 77, 77, 0.5);
+        }
     }
+    &:hover {
+        transition: background-color 0.3s;
+    }
+    cursor: pointer;
 `;
 
 function CustomModal({ isOpen, icon, onRequestClose, del, msg, content, yes, no }) {

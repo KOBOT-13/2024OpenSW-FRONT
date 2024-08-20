@@ -12,6 +12,11 @@ const Div = styled.div`
     border-radius: 15px;
     display: flex;
     align-items: center;
+    &:hover{
+        background-color: rgba(0,0,0,0.2);
+        transition: background-color 0.3s;
+    }
+    cursor: pointer;
 `;
 
 const InfoContainer = styled.div`

@@ -185,7 +185,8 @@ const StyledPaginationWrapper = styled.div`
         cursor: pointer;
 
         &:hover {
-        background-color: rgba(0, 123, 255, 0.5);
+            background-color: rgba(0, 123, 255, 0.5);
+            transition: background-color 0.3s;
         }
     }
 

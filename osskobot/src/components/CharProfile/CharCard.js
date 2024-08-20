@@ -16,6 +16,7 @@ const Div = styled.div`
         cursor: pointer;
         &:hover{
             background-color: rgba(66, 133, 244, 0.4);
+            transition: background-color 0.3s;
         }
     }
     &.InfoContainer{

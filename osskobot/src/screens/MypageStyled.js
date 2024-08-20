@@ -36,6 +36,7 @@ export const Div = styled.div`
         border: 1px solid rgba(0,0,0,0.15);
         &:hover{
             background-color: #e0e0e0;
+            transition: background-color 0.3s;
         }
     }
     &.Mid{
