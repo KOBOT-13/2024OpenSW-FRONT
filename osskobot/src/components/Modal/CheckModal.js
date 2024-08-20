@@ -7,7 +7,7 @@ import { IoLogOutSharp } from "react-icons/io5";
 const Div = styled.div`
     &.Btns{
         width: 240px;
-        margin-top: 12px;
+        margin-top: 30px;
         display: flex;
         justify-content: space-between;
     }
@@ -15,26 +15,26 @@ const Div = styled.div`
 
 const DeleteIcon = styled(FaTrashAlt)`
     margin-top: 45px;
-    width: 52px;
-    height: 52px;
+    width: 42px;
+    height: 42px;
 `;
 
 const LogoutIcon = styled(IoLogOutSharp)`
     margin-top: 45px;
-    width: 52px;
-    height: 52px;
+    width: 42px;
+    height: 42px;
 `;
 
 const P = styled.p`
     margin: 0;
     &.title{
-        font-family: 'Pretendard-Bold';
-        font-size: 30px;
+        font-family: 'Pretendard-SemiBold';
+        font-size: 25px;
         margin-top: 20px;
     }
     &.content{
         font-family: 'Pretendard-Medium';
-        font-size: 20px;
+        font-size: 16px;
         color: #7a7a7a;
         margin-top: 16px;
     }
