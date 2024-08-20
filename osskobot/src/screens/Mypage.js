@@ -17,6 +17,7 @@ import CommentBoard from '../components/CommentBoard/CommentBoard';
 import { CommentsPage } from './BookClickStyled';
 import Book from '../components/Book/Book';
 import QuizRecordComponent from '../components/Quiz/QuizRecord';
+import CharCard from '../components/CharProfile/CharCard';
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -84,6 +85,7 @@ function Mypage() {
         privateAxios.get(`dialogs/conversation/`)
             .then(response => { 
                 const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                console.log(sortedConversations);
                 setConversations(sortedConversations);
             })
 
@@ -93,7 +95,6 @@ function Mypage() {
         privateAxios.get(`mypages/quizRecord`)
             .then(response => { 
                 console.log(response);
-                // const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
                 setQuizRecords(response.data);
             })
 
@@ -187,8 +188,11 @@ function Mypage() {
                                 })}
                             </Div>
                         :index === 2 ? 
-                            <Div>
-                                
+                            <Div className='ConversationList'>
+                                {conversations.map((value, key) => {
+                                    const book_cover = allBooks.find((item) => item.id === value.book).cover_image;
+                                    return <CharCard key={key} value={value} cover_image={book_cover}/>
+                                })}
                             </Div>
                         :index === 3 ? 
                             <Div className='BookReport'>
