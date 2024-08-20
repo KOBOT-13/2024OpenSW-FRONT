@@ -153,6 +153,7 @@ function Home({searchQuery, setSearchQuery}) {
             filter.sort((a, b) => parseInt(b.wish_count) - parseInt(a.wish_count));
         }
         setTotalBooks(filter);
+        setPage(1);
     }, [books, searchBooks, genreBooks, sortIndex])
 
     useEffect(() => {
@@ -308,7 +309,7 @@ function Home({searchQuery, setSearchQuery}) {
             <CommentsPage
                     activePage={page}
                     itemsCountPerPage={itemsPerPage}
-                    totalItemsCount={books.length}
+                    totalItemsCount={totlaBooks.length}
                     pageRangeDisplayed={12}
                     prevPageText={"<"}
                     nextPageText={">"}
