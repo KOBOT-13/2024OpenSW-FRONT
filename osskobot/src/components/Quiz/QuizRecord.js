@@ -25,7 +25,9 @@ const InfoContainer = styled.div`
     margin-left: 15px;
 `;
 
-const StarContainer = styled.div``;
+const StarContainer = styled.div`
+    margin-top: 5px;
+`;
 
 const StarIcon = styled(Star)``;
 
