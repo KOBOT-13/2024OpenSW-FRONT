@@ -110,6 +110,7 @@ function Home({searchQuery, setSearchQuery}) {
     const [wishes, setWishes] = useState([]);
     const [isActiveData, setIsActiveData] = useState(false);
     const [isLackData, setIsLackData] = useState(false);
+    const [sortIndex, setSortIndex] = useState(1);
     const [state, setState] = useState(null);
     const token = cookies.get('token');
 
@@ -125,9 +126,8 @@ function Home({searchQuery, setSearchQuery}) {
     const currentBooks = totlaBooks.slice(indexOfFirstItem, indexOfLastItem);
 
     const selectList = [
-        {value: 1, name:"신규등록순"},
-        {value: 2, name:"제목순"},
-        {value: 3, name:"인기순"}
+        {value: 1, name:"제목순"},
+        {value: 2, name:"인기순"}
     ];
 
     const category = [
@@ -145,21 +145,18 @@ function Home({searchQuery, setSearchQuery}) {
             searchBooks.some(item2 => item.id === item2.id) &&
             genreBooks.some(item3 => item.id === item3.id)
         );
+        
+        if(parseInt(sortIndex) === 1){
+            filter.sort((a, b) => a.title.localeCompare(b.title));
+        }
+        else{
+            filter.sort((a, b) => parseInt(b.wish_count) - parseInt(a.wish_count));
+        }
         setTotalBooks(filter);
-    }, [books, searchBooks, genreBooks])
-
-    useEffect(() => {
-        privateAxios.get(`books/wishlist/`)
-        .then((response) => {
-            setWishes(response.data);
-        }).catch((error) => {
-            console.log(error);
-        });
-    }, []);
+    }, [books, searchBooks, genreBooks, sortIndex])
 
     useEffect(() => {
         if(searchQuery.length === 0){
-            console.log(books);
             setSearchBooks(books);
             return;
         }
@@ -252,6 +249,17 @@ function Home({searchQuery, setSearchQuery}) {
     }, []);
 
     useEffect(() => {
+        privateAxios.get(`books/wishlist/`)
+        .then((response) => {
+            const tmp = response.data.map(item => item.id);
+            console.log(tmp);
+            setWishes(tmp);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
+    useEffect(() => {
         if(!token){
             setSearchQuery('');
             setIndex(0);
@@ -264,7 +272,7 @@ function Home({searchQuery, setSearchQuery}) {
             <SubHeader index={subHeaderIndex} setSubHeaderIndex={setSubHeaderIndex}/>
             <Div className='Wrap-Heading'>
                 <P>둘러보기</P>
-                <SelectBox selectList={selectList}/>
+                <SelectBox selectList={selectList} onChange={setSortIndex}/>
             </Div>
             <Div className='Category'>
                 {category.map((value, key) => {

@@ -14,7 +14,7 @@ const Select = styled.select`
 
 function SelectBox({selectList, fontSize=14, onChange}) {
     return(
-        <Select fontSize={fontSize} onChange={onChange}>
+        <Select fontSize={fontSize} onChange={(e) => onChange(e.target.value)}>
             {selectList.map((value, key) => {
                 return <option value={value.value} key={key}>
                     {value.name}

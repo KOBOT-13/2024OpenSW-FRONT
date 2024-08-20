@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { GoHeartFill } from "react-icons/go";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { privateAxios } from "../../services/axiosConfig";
 import cookies from 'js-cookie';
 
@@ -77,6 +77,10 @@ function Book({title, author, id, cover_image, isWish}) {
     const onClickBook = () => {
         navigate(`/bookclick/${id}/`);
     }
+
+    useEffect(() => {
+        setIsWish(isWish);
+    }, [isWish])
 
     return (
         <Div className="Book" onClick={onClickBook}>
