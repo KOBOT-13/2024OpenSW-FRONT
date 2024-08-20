@@ -51,4 +51,10 @@ export const Button = styled.button`
     border-radius: 10px;
     align-self: flex-end;
     margin-top: 15px;
+    &.cancle{
+        margin-right: 10px;
+        background-color: white;
+        color: black;
+        border: 1px solid rgba(0,0,0,0.15);
+    }
 `;
