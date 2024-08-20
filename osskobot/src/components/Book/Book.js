@@ -16,7 +16,7 @@ const Div = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items:
+        cursor: pointer;
     }
     &.Info{
         margin-top: 15px;
