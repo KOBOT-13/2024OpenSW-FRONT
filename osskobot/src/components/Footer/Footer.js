@@ -35,7 +35,7 @@ const CustomFooter = styled.footer`
     margin-top: 200px;
     display: flex;
     justify-content: center;
-    border-top: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(0,0,0,0.18);
     background-color: #FAFAFA;
 `;
 
