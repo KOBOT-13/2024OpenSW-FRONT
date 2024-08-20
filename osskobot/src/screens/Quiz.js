@@ -121,9 +121,17 @@ const Quiz = () => {
         /> : showResult ?
           <Div>
             <Div className='Result'>
-              <ResultP className='first'>🎉 퀴즈 맞추기 완료! 🎉</ResultP>
+              <ResultP className='first'>퀴즈 맞추기 완료!</ResultP>
               <ResultP className='second'>5문제 중 <Span>{score}문제</Span>를 맞았어요</ResultP>
-              {score > 3 ? <ResultP className='third'>훌륭해요! 독서를 열심히 했군요!</ResultP> : <ResultP className='third'>다시해볼까? 랄랄랄라라</ResultP>}
+              <ResultP className='third'>
+                    {score === 0 ? "책을 더 꼼꼼히 읽고 퀴즈에 도전해봐요!"
+                    : score === 1 ? `한 문제를 맞았어요! 책을 다시 읽어볼까요?`
+                    : score === 2 ? '두 문제를 맞았어요! 다시 한 번 풀어볼까요?'
+                    : score === 3 ? '세 문제를 맞았어요! 잘했어요!'
+                    : score === 4 ? '네 문제를 맞았어요! 훌륭해요!'
+                    : '모든 문제를 맞았어요! 최고에요!'
+                    } 
+              </ResultP>
             </Div>
             <Div className='Result-Btns'>
               <Button className='retry' onClick={retryQuiz}>다시 시도하기</Button>

@@ -33,11 +33,6 @@ const Image = styled.img`
     width: 214px;
     height: 214px;
 `;
-
-const P = styled.p`
-
-`;
-
 const QuestionP = styled.p`
   position: absolute;
   left: 50%;
