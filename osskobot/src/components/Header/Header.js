@@ -206,7 +206,7 @@ function Header(props) {
                         <Div className='Menu'>
                             <Ul className='content'>
                                 <Li onClick={() => setIsOpen(true)}>도서 신청하기</Li>
-                                <Li>내가 작가 되어보기</Li>
+                                <Li onClick={() => {navigate(`/writeabook`)}}>내가 작가 되어보기</Li>
                                 <Li className='Test'>
                                     <Div className='SearchContainer'>
                                         <SearchIcon />
