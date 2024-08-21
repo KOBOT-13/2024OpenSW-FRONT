@@ -99,7 +99,6 @@ const Li = styled.li`
 function QuizRecordComponent({charImg, quiz}){
     const navigate = useNavigate();
     const score = quiz.score;
-    console.log(quiz);
     const ClickRetry = () => {
         navigate(`/bookclick/${quiz.book.id}/quiz`, {state:{cover_image:charImg, title:quiz.book.title}})
     }
@@ -109,8 +108,8 @@ function QuizRecordComponent({charImg, quiz}){
             <Img src={charImg} />
             <InfoContainer>
                 <Ul>
-                    <Li key={1}>{quiz.book.title}</Li>
-                    <Li key={2}>{format(quiz.completed_at, 'yy.MM.dd HH:mm')}</Li>                    
+                    <Li key={"book-title"}>{quiz.book.title}</Li>
+                    <Li key={"quiz-date"}>{format(quiz.completed_at, 'yy.MM.dd HH:mm')}</Li>                    
                 </Ul>
                 <StarContainer>
                     {[1,2,3,4,5].map((rating) => {
