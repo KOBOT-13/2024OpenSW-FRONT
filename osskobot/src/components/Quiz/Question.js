@@ -14,11 +14,9 @@ const Div = styled.div`
     align-items: center;
   }
   &.Options{
-    margin-top: 83px;
-    display: grid;
-    grid-template-columns: repeat(2, 448px);
-    grid-template-rows: repeat(2, 178px);
-    place-items: center;
+    margin-top: 24px;
+    display: flex;
+    gap: 15px;
   }
 `;
 
@@ -33,11 +31,6 @@ const Image = styled.img`
     width: 214px;
     height: 214px;
 `;
-
-const P = styled.p`
-
-`;
-
 const QuestionP = styled.p`
   position: absolute;
   left: 50%;
@@ -54,8 +47,8 @@ const QuestionP = styled.p`
 `;
 
 const Button = styled.button`
-  width: 400px;
-  height: 130px;
+  width: 230px;
+  height: 73px;
   background-color: ${(props) => {
     if (props.$curruntBtn && props.$clickBtn) return "#cff1d8"; // 정답 클릭 시
     if (!props.$curruntBtn && props.$clickBtn) return "#f4a4a4"; // 오답 클릭 시
@@ -63,21 +56,24 @@ const Button = styled.button`
     return "#f2f3f7"; // 기본 배경색
   }};
   font-family: 'Pretendard-Bold';
-  font-size: 30px;
+  font-size: 20px;
+  color: #3063d2;
   border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.5);
+  border: 1px solid #3063d2;
+  background-color: #f5f7fd;
   &:hover {
-    background-color: #e0e0e0; // 호버 시 색상
+    background-color: #dbe4ff; // 호버 시 색상
+    transition: background-color 0.3s;
   }
 `;
 
-const Question = ({character, data, onAnswer, showAnswer, isCorrect, handleNextQuestion }) => {
+const Question = ({ character, data, onAnswer, showAnswer, isCorrect, handleNextQuestion }) => {
   const [clickBtn, setClickBtn] = useState(undefined);
   useEffect(() => {
     if (showAnswer) {
       const timer = setTimeout(() => {
         handleNextQuestion();
-      }, 2000); 
+      }, 2000);
       return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
     }
   }, [showAnswer]);
@@ -94,7 +90,7 @@ const Question = ({character, data, onAnswer, showAnswer, isCorrect, handleNextQ
         {data.options.map((option, index) => {
           return <Button
             key={index}
-            onClick={() => {setClickBtn(option);onAnswer(option)}}
+            onClick={() => { setClickBtn(option); onAnswer(option) }}
             $curruntBtn={(option === data.answer)}
             $clickBtn={option === clickBtn}
             $showAnswer={showAnswer}

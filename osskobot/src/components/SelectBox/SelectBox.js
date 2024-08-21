@@ -10,6 +10,7 @@ const Select = styled.select`
     }
     text-align: right;
     padding-right: 10px;
+    cursor: pointer;
 `;
 
 function SelectBox({selectList, fontSize=14, onChange}) {

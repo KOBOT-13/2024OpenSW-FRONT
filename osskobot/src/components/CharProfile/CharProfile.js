@@ -1,11 +1,12 @@
 import styles from './CharProfile.module.css';
 import Modal from '../Modal/CharIntroModal';
 import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Image = styled.img`
     width: ${props => props.$size}px;
     border-radius: 500px;
+    cursor: pointer;
 `;
 
 function CharProfile({character, mode, size=100, onClick}){

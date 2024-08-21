@@ -8,6 +8,7 @@ const Div = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: transform .5s, box-shadow .5s;
 `;
 
 const P = styled.p`

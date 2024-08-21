@@ -107,7 +107,7 @@ function ResultModal({ isCorrect, answer }) {
                     <img src={Correct} />
                 </div> : <div className="wrong">
                     <img src={Wrong} />
-                    <P>정답은 <Span>{answer}</Span>에요</P>
+                    <P>정답은 <Span>{answer}</Span>(이)에요</P>
                 </div>}
             </ModalContent>
         </CustomModal>

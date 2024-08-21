@@ -10,6 +10,11 @@ const Button = styled.button`
     border-color: rgba(0, 0, 0, 0.05);
     margin-top: 10px;
     margin-right: 10px;
+    cursor: pointer;
+    &:hover{
+        background-color: ${({$props}) => ($props ? '#38383C' : 'rgba(56,56,60,0.3)')};
+        transition: background-color 0.3s;
+    }
 `;
 
 function CategoryBtn({index, content, onClick}){

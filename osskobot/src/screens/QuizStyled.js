@@ -60,10 +60,18 @@ export const Button = styled.button`
     &.retry{
         border: 1px solid rgba(0,0,0,0.15);
         background-color: white;
+        &:hover{
+            background-color: rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
     }
     &.exit{
         border:none;
         color: white;
         background-color: black;
+        &:hover{
+            background-color: rgba(0,0,0,0.7);
+            transition: background-color 0.3s;
+        }
     }
 `;

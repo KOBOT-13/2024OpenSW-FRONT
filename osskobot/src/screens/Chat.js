@@ -289,38 +289,6 @@ function Chat() {
             </St.Div>
             <audio ref={audioRef} />
         </St.Div>
-        // <div className={styles.mainContainer}>
-        //     <div className={styles.imgChatDiv}>
-        //         <img src={image} className={styles.profileImg} alt="Profile" />
-        //         <div className={styles.chatDiv}>
-        //             {renderMsg()}
-        //             <div ref={messagesEndRef} />
-        //         </div>
-        //     </div>
-        //     {STTNone && (
-            //     <div className={styles.warningContainer}>
-            //         <IoIosWarning size={24} color="red" />
-            //         <span className={styles.warningText}>음성 인식 결과가 없습니다. 다시 시도해 주세요.</span>
-            //     </div>
-            // )}
-        //     <div className={styles.inputDiv}>
-        //         {listening && (
-        //             <div className={styles.sttLoading}>
-                        // <STTLoading type="bubbles" color="#00f" />
-        //             </div>
-        //         )}
-        //         <input
-        //             className={styles.chatInput}
-        //             onChange={handleChatInput}
-        //             value={msg}
-        //             type="text"
-        //             placeholder=""/>
-        //         <button className={styles.chatBtn} onClick={onClickChatBtn}><IoSend size={20} /></button>
-        //         <button className={styles.STTBtn} onClick={onClickSTTBtn}><IoMdMic size={20} color={listening ? "red" : "black"} /></button>
-        //     </div>
-        //     <button className={styles.endBtn} onClick={onClickEndBtn}></button>
-        //     <audio ref={audioRef} />
-        // </div>
     );
 }
 

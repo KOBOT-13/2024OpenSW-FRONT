@@ -62,6 +62,7 @@ const Li = styled.li`
     &:first-child::before {
         content: none;
     }
+    cursor: pointer;
 `;
 
 function SubHeader({index, setSubHeaderIndex}) {

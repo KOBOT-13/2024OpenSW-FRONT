@@ -100,7 +100,8 @@ export const Button = styled.button`
         font-size: 14px;
         padding: 0;
         &:hover{
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7);
+            transition: background-color 0.3s;
         }
     }
     &.Mic{
@@ -110,7 +111,8 @@ export const Button = styled.button`
         border-radius: 10px;
         background-color: white;
         &:hover{
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
         }
         display:flex;
         align-items:center;

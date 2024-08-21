@@ -64,6 +64,11 @@ const Div = styled.div`
         border-radius: 500px;
         padding-left: 24px;
         padding-right: 24px;
+        &:hover {
+            background-color: rgba(48, 99, 210, 0.2);
+            transition: background-color 0.3s;
+        }
+        cursor: pointer;
     }
 `
 
@@ -71,6 +76,8 @@ const P = styled.p`
     margin: 0;
     font-family: 'Pretendard-Medium';
     font-size: 14px;
+    user-select: none;
+    cursor: pointer;
     &.title{
         font-family: 'Pretendard-SemiBold';
         font-size: 30px;
@@ -83,7 +90,6 @@ const P = styled.p`
     &.BookApply{
         margin-right: 20px;
         color: #3063D2;
-        user-select: none;
     }
 `;
 

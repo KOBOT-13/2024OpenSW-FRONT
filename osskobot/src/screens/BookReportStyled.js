@@ -51,4 +51,18 @@ export const Button = styled.button`
     border-radius: 10px;
     align-self: flex-end;
     margin-top: 15px;
+    &.cancle{
+        margin-right: 10px;
+        background-color: white;
+        color: black;
+        border: 1px solid rgba(0,0,0,0.15);
+        &:hover{
+            background-color: rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+    }
+    &:hover{
+        background-color: rgba(0,0,0,0.7);
+        transition: background-color 0.3s;
+    }
 `;

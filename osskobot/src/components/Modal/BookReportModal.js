@@ -73,7 +73,7 @@ const Button = styled.button`
     background: none;
     border: none;
     font-family: 'Pretendard-Regular';
-    font-size: 33px;
+    font-size: 30px;
     cursor: pointer;
 `;
 
@@ -89,6 +89,10 @@ const DeleteBtn = styled.button`
     color: white;
     cursor: pointer;
     padding: 10px 24px 10px 24px;
+    &:hover{
+        background-color: rgba(255, 77, 61, 0.8);
+        transition: background-color 0.3s;
+    }
 `;
 
 function BookReportModal({ isOpen, onRequestClose, content, id, title, date, removePost }) {
