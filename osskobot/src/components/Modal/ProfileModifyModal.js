@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { privateAxios, publicAxios } from '../../services/axiosConfig';
 import styled from 'styled-components';
 import cookies from 'js-cookie';
-
+import Swal from 'sweetalert2';
 const ErrorSpan = styled.span`
     font-family: 'Pretendard-Medium';
     font-size: 10px;
@@ -109,10 +109,13 @@ const Button = styled.button`
         position: absolute;
         left: 564px;
         top: 324px;
+        &:hover{
+            background-color: rgba(0,0,0,0.7);
+        }
     }
-    
     &:hover{
         background-color: #e0e0e0;
+        transition: background-color 0.3s;
     }
 `;
 
@@ -154,7 +157,12 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                     'birth_date': newDate
                 }
             ).then((response) => {
-                alert("프로필을 수정하였습니다.");
+                Swal.fire({
+                    icon: "success",
+                    text: "프로필을 수정하였습니다.",
+                    confirmButtonColor: "#007AFF",
+                    confirmButtonText: "확인"
+                });
                 reload((current) => {return !current});
             }).catch((error) => {
                 console.log(error);
@@ -164,14 +172,19 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                 {
                     "username": newNickName
                 }
-            ).then((response) => {
+            ).then(() => {
                 privateAxios.patch(`users/profile/update/`,
                     {
                         'username': newNickName,
                         'birth_date': newDate
                     }
                 ).then((response) => {
-                    alert("프로필을 수정하였습니다.");
+                    Swal.fire({
+                        icon: "success",
+                        text: "프로필을 수정하였습니다.",
+                        confirmButtonColor: "#007AFF",
+                        confirmButtonText: "확인"
+                    });
                     cookies.set("username", newNickName);
                     reload((current) => {return !current});
                 }).catch((error) => {
@@ -191,7 +204,12 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                     "email" : email
                 }
             ).then(() => {
-                alert("비밀번호 변경 이메일이 전송되었습니다.");
+                Swal.fire({
+                    icon: "info",
+                    text: "비밀번호 변경 이메일이 전송되었습니다.",
+                    confirmButtonColor: "#007AFF",
+                    confirmButtonText: "확인"
+                });
                 setPasswordMsg("");
             }).catch((error) => {
                 setPasswordMsg(error.response.data.detail);

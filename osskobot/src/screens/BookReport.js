@@ -8,6 +8,7 @@ import postReadBook from '../services/postReadBook';
 import ChatHeader from '../components/Header/ChatHeader';
 import SelectBox from '../components/SelectBox/SelectBox';
 import { Div, TextArea, Button } from './BookReportStyled';
+import Swal from 'sweetalert2';
 
 function BookReport() {
     const naviate = useNavigate();
@@ -55,7 +56,12 @@ function BookReport() {
                 "body": formContent
             }
         ).then(() => {
-            alert("독후감 작성이 완료되었습니다.");
+            Swal.fire({
+                icon: "success",
+                text: "독후감 작성이 완료되었습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
             naviate(`/bookclick/${bookId}`);
         }).catch((error) => {
             console.log(error);

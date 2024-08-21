@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import styles from './BookRequestModal.module.css';
 import Modal from 'react-modal';
-import axios from 'axios';
 import { privateAxios } from '../../services/axiosConfig';
-import cookies from 'js-cookie';
 import * as styled from './BookRequestModalStyled';
+import Swal from 'sweetalert2';
 
 function LabelContent({ label, placeholder, value, onChange }) {
     const [activeBorder, setActiveBorder] = useState({
@@ -51,7 +50,12 @@ function BookRequest({isOpen, onRequestClose}) {
 
     const onClickApply = () => {
         if(bookName.length === 0 || author.length === 0){
-            alert("책 제목 / 저자는 필수입니다.");
+            Swal.fire({
+                icon: "warning",
+                text: "책 제목 / 저자는 필수입니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
             return;
         }
         privateAxios.post(`books/book_requests/`, 
@@ -63,10 +67,14 @@ function BookRequest({isOpen, onRequestClose}) {
             },
         ).then((response) => {
             console.log(response);
-            alert("신청되었습니다.");
+            Swal.fire({
+                icon: "success",
+                text: "신청되었습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
         }).catch((error) => {
             console.log(error);
-            alert("실패");
         })
         setBookName('');
         setAuthor('');
