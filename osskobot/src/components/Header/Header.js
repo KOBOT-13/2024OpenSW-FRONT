@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import CustomModal from '../Modal/CheckModal';
 import cookies from 'js-cookie';
 import { privateAxios } from '../../services/axiosConfig';
+import Swal from 'sweetalert2';
 
 const Div = styled.div`
     &.BG1440{
@@ -169,7 +170,12 @@ function Header(props) {
                 cookies.remove('pk');
                 cookies.remove('expires');
                 navigate('/');
-                alert("로그아웃 되었습니다.");
+                Swal.fire({
+                    icon: "success",
+                    text: "로그아웃이 완료되었습니다.",
+                    confirmButtonColor: "#007AFF",
+                    confirmButtonText: "확인"
+                });
                 setIsLogout(undefined);
                 setReload((current) => { return !current });
             }).catch((error) => {

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {privateAxios, publicAxios} from '../services/axiosConfig';
 import cookies from 'js-cookie';
 import {Div, H1, Line, LineWithDots, Input, Button, P, Ul, Li} from './LoginStyled';
+import Swal from 'sweetalert2';
 
 function Login({ setReload }) {
     const navigate = useNavigate();
@@ -53,11 +54,20 @@ function Login({ setReload }) {
                 }).catch((error) => {
                     console.log(error);
                 })
-            alert("로그인이 완료되었습니다.");
+            Swal.fire({
+                icon: "success",
+                text: "로그인이 완료되었습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
             navigate("/");
         }).catch((error) => {
-            console.log(error);
-            alert("이메일 또는 비밀번호가 옳바르지 않습니다.");
+            Swal.fire({
+                icon: "error",
+                text: "이메일 또는 비밀번호가 올바르지 않습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
         })
     }
     return (

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import { privateAxios } from "../../services/axiosConfig";
 import CustomModal from "./CheckModal";
+import Swal from "sweetalert2";
 import { useState } from "react";
 
 const ReportModal = styled(Modal)`
@@ -103,7 +104,12 @@ function BookReportModal({ isOpen, onRequestClose, content, id, title, date, rem
         privateAxios.delete(`books/posts/${id}/`)
             .then(() => {
                 onRequestClose(false);
-                alert("독후감이 삭제되었습니다.");
+                Swal.fire({
+                    icon: "success",
+                    text: "독후감이 삭제되었습니다.",
+                    confirmButtonColor: "#007AFF",
+                    confirmButtonText: "확인"
+                });
             }).catch((error) => {
                 console.log(error);
             })

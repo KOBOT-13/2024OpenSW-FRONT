@@ -11,6 +11,7 @@ import CategoryBtn from '../components/CustomButton/CategoryBtn';
 import Book from '../components/Book/Book';
 import {ReactComponent as ErrorLogo} from '../assets/ErrorLogo.svg';
 import Pagination from 'react-js-pagination';
+import Swal from 'sweetalert2';
 
 const Div = styled.div`
     width: 70%;
@@ -194,12 +195,16 @@ function Home({searchQuery, setSearchQuery}) {
                     setGenreBooks([]);
                     setSearchBooks([]);
                     setTotalBooks([]);
-                    alert("로그인을 해주세요.");
+                    Swal.fire({
+                        icon: "warning",
+                        text: "로그인을 해주세요.",
+                        confirmButtonColor: "#007AFF",
+                        confirmButtonText: "확인"
+                    });
                     navigate('/login');
                 }
             } else{
                 if(token){
-                    console.log(recommendBooks);
                     setBooks(recommendBooks);
                     setGenreBooks(recommendBooks);
                     setSearchBooks(recommendBooks);
@@ -210,7 +215,12 @@ function Home({searchQuery, setSearchQuery}) {
                     setGenreBooks([]);
                     setSearchBooks([]);
                     setTotalBooks([]);
-                    alert("로그인을 해주세요.");
+                    Swal.fire({
+                        icon: "warning",
+                        text: "로그인을 해주세요.",
+                        confirmButtonColor: "#007AFF",
+                        confirmButtonText: "확인"
+                    });
                     navigate('/login');
                 }
             }

@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import {privateAxios} from '../../services/axiosConfig';
 import Cookies from 'js-cookie';
 import refreshToken from '../../services/refreshToken';
+import Swal from 'sweetalert2';
 
 const ProtectedRoute = ({ setReload, children }) => {
     const [isLogin, setIsLogin] = useState(false);
@@ -28,7 +29,12 @@ const ProtectedRoute = ({ setReload, children }) => {
             checkLoginStatus();
         }
         else{
-            alert("로그인을 해주세요.");
+            Swal.fire({
+                icon: "info",
+                text: "로그인 후 이용 가능한 서비스입니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
             navigate('/login');
             setIsLogin(false);
             setLoading(false);
