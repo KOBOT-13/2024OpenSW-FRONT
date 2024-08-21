@@ -113,12 +113,16 @@ const Ul = styled.ul`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    font-family: 'Pretendard-Bold';
+    font-size: 16px;
 `;
 
 const Li = styled.li`
     float: left;
     list-style: none;
     margin-left: 30px;
+    user-select: none;
+    cursor: pointer;
 
     &.Test{
         display: flex;
@@ -128,6 +132,7 @@ const Li = styled.li`
     &::before {
         content: '|';
         padding-right: 30px;
+        font-family: 'Pretendard-Regular';
     }
 
     &:first-child::before {
@@ -206,7 +211,8 @@ function Header(props) {
                         </CustomLink>
                         <Div className='Menu'>
                             <Ul className='content'>
-                                <CustomLink to="/serviceinfo"><Li><P className='service-intro'>서비스 소개</P></Li></CustomLink>
+                                <Li onClick={() => setIsOpen(true)}>도서 신청하기</Li>
+                                <Li onClick={() => {navigate(`/writeabook`)}}>내가 작가 되어보기</Li>
                                 <Li className='Test'>
                                     <Div className='SearchContainer'>
                                         <SearchIcon />
@@ -230,8 +236,8 @@ function Header(props) {
                                     Icon={false}
                                 />
                                 <CustomLink to='/mypage'><P className='Join'>마이페이지</P></CustomLink>
-                                <Div className='BookApplyContainer' onClick={() => setIsOpen(true)}>
-                                    <P className='BookApply'>도서 신청하기</P>
+                                <Div className='BookApplyContainer' onClick={() => navigate(`/serviceinfo`)}>
+                                    <P className='BookApply'>서비스 소개</P>
                                     <Arrow />
                                 </Div>
                                 <BookRequest isOpen={isOpen} onRequestClose={setIsOpen} />
