@@ -26,7 +26,7 @@ function BookReport() {
     const { cover_image, title } = state;
 
     const handleSelect = (e) => {
-        const selectForm = e.target.value;
+        const selectForm = e;
         setSelected(selectForm);
 
         if (selectForm === '1') {

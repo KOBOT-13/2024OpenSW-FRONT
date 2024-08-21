@@ -56,5 +56,13 @@ export const Button = styled.button`
         background-color: white;
         color: black;
         border: 1px solid rgba(0,0,0,0.15);
+        &:hover{
+            background-color: rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+    }
+    &:hover{
+        background-color: rgba(0,0,0,0.7);
+        transition: background-color 0.3s;
     }
 `;
