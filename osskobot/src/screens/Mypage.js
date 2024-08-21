@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
-import styles from './Mypage.module.css';
-import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
-import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
 import { privateAxios, publicAxios } from '../services/axiosConfig';
-import QuizRecord from './MypageQuizRecord';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import MyComments from '../components/MyComments/MyComments';
-import {Div, P, Hr, Image} from './MypageStyled';
+import {Div, P, Hr, Image, Logo} from './MypageStyled';
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
 import CommentBoard from '../components/CommentBoard/CommentBoard';
@@ -35,6 +30,14 @@ function Mypage() {
     const [wishBook, setWishBook] = useState([]);
     const [allBooks, setAllBooks] = useState([]);
     const [allChars, setAllChars] = useState([]);
+    const [isEmpty, setIsEmpty] = useState({
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+    })
 
     const navigate = useNavigate();
     const [index, setIndex] = useState(1);
@@ -66,6 +69,9 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`books/my_posts`)
         .then((response) => {
+            if(response.data.length != 0){
+                setIsEmpty(prev => ({...prev, 3:true}));
+            }
             setReportInfo(response.data);
         }).catch((error) => {
             console.log(error);
@@ -75,6 +81,9 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
+            if(response.data.length != 0){
+                setIsEmpty(prev => ({...prev, 1:true}));
+            }
             setWishBook(response.data);
         }).catch((error) => {
             console.log(error);
@@ -84,8 +93,10 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`dialogs/conversation/`)
             .then(response => { 
+                if(response.data.length != 0){
+                    setIsEmpty(prev => ({...prev, 2:true}));
+                }
                 const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-                console.log(sortedConversations);
                 setConversations(sortedConversations);
             })
 
@@ -94,7 +105,9 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get(`mypages/quizRecord`)
             .then(response => { 
-                console.log(response);
+                if(response.data.length != 0){
+                    setIsEmpty(prev => ({...prev, 4:true}));
+                }
                 setQuizRecords(response.data);
             })
 
@@ -103,6 +116,9 @@ function Mypage() {
     useEffect(() => {
         privateAxios.get('books/my_comments')
             .then(response => {
+                if(response.data.length != 0){
+                    setIsEmpty(prev => ({...prev, 5:true}));
+                }
                 setComments(response.data);
             })
     }, []);
@@ -153,6 +169,7 @@ function Mypage() {
         { index: 3, label: "작성한 독후감" },
         { index: 4, label: "퀴즈 기록 보기" },
         { index: 5, label: "내가 쓴 댓글" },
+        { index: 6, label: "내가 쓴 책" },
     ];
 
     return (
@@ -181,26 +198,38 @@ function Mypage() {
                 </Div>
                 <Div className='Active'>
                     {
-                        index === 1 ?
+                        index === 1 ? isEmpty[1] ? 
                             <Div className='WishList'>
                                 {wishBook.map((value, key) => {
                                     return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={true} />
                                 })}
-                            </Div>
-                        :index === 2 ? 
+                            </Div> :
+                            <Div className='MsgDiv'>
+                                <Logo />
+                                <P className='DataMsg'>찜한 책이 없어요.<br/>책 옆에 하트를 눌러 찜해볼까요?</P>
+                            </Div> 
+                        :index === 2 ? isEmpty[2] ?
                             <Div className='ConversationList'>
                                 {conversations.map((value, key) => {
                                     const book_cover = allBooks.find((item) => item.id === value.book).cover_image;
                                     return <CharCard key={key} value={value} cover_image={book_cover}/>
                                 })}
-                            </Div>
-                        :index === 3 ? 
+                            </Div> :
+                            <Div className='MsgDiv'>
+                                <Logo />
+                                <P className='DataMsg'>이전 대화가 없어요.<br/>등장인물과 대화해볼까요?</P>
+                            </Div> 
+                        :index === 3 ? isEmpty[3] ?
                             <Div className='BookReport'>
                                 {reportInfo.map((value, key) => {
                                     return <BookReportInfo key={key} id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
                                 })}
-                            </Div>
-                        :index === 4 ? 
+                            </Div> :
+                            <Div className='MsgDiv'>
+                                <Logo />
+                                <P className='DataMsg'>작성한 독후감이 없어요.<br/>독후감을 작성해볼까요?</P>
+                            </Div> 
+                        :index === 4 ? isEmpty[4] ?
                             <Div className='QuizRecord'>
                                 {
                                     quizRecords.map((value, key) => {
@@ -208,8 +237,12 @@ function Mypage() {
                                         return <QuizRecordComponent charImg={char.character_image} quiz={value}/>
                                     })
                                 }
-                            </Div>
-                        :
+                            </Div> :
+                            <Div className='MsgDiv'>
+                                <Logo />
+                                <P className='DataMsg'>퀴즈 기록이 없어요.<br/>책을 읽고 퀴즈를 풀어볼까요?</P>
+                            </Div> 
+                        :index === 5 ? isEmpty[5] ?
                         <Div className='Comment-Written'>
                             <Div className='Comments'>
                                 {currentComments.map((value) => {
@@ -235,55 +268,16 @@ function Mypage() {
                                 nextPageText={">"}
                                 onChange={handlePageChange}
                             />
-                        </Div>
+                        </Div> :
+                            <Div className='MsgDiv'>
+                                <Logo />
+                                <P className='DataMsg'>내가 쓴 댓글이 없어요.<br/>댓글로 독후활동을 공유해볼까요?</P>
+                            </Div> 
+                        : null
                     }
                 </Div>
             </Div>
         </Div>
-        // <div className={styles.mainContainer}>
-        //     <div className={styles.profileDiv} onClick={onClickProfile}>
-        //         <img src={image} className={styles.profileImg} />
-        //         <div className={styles.userInfoDiv}>
-        //             <p className={styles.profileP}><u>{nickname}</u>님 안녕하세요.</p>
-        //             <p className={styles.profileP}>생년월일 : {date}</p>
-        //             <p className={styles.profileP}>E-mail : {email}</p>
-        //         </div>
-        //     </div>
-            // <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
-        //     <div className={styles.myReadActDiv}>
-        //         <h3 style={{ marginBottom: "0" }}>나의 독후활동</h3>
-        //         <div className={styles.btnsDiv}>
-        //             {btns.map((label, index) => (
-        //                 <button
-        //                     key={index}
-        //                     className={`${styles['btn']} ${activeIndex === index ? styles['active'] : ''}`}
-        //                     onClick={() => handleButtonClick(index)}
-        //                 >
-        //                     {label}
-        //                 </button>
-        //             ))}
-        //         </div>
-        //         <hr />
-        //         <div className={styles.readActDiv}>
-        //             {
-        //                 activeIndex === 0 ? 
-        //                     readBooks.map((value, key) => {
-        //                         console.log(value);
-        //                         return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book.id].img} title={imgs[value.book.id].title} reviewDate={value.read_date} />
-        //                     })
-        //                     : activeIndex === 1 ? <PreviousChat conversations={conversations} onChatClick={chatlistclick} />    
-        //                         : activeIndex === 2 ?
-        //                             reportInfo.map((value, key) => {
-        //                                 return <BookReportInfo key={key} id={value.id} imageSrc={imgs[value.book].img} title={imgs[value.book].title} reviewDate={format(value.post_date, "yyyy-MM-dd")} content={value.body} setReload={setReloadPost} />
-        //                             })
-        //                             : activeIndex === 3 ? <QuizRecord/>
-        //                                 : activeIndex === 4 ? <MyComments comments={comments} />
-        //                                     : <div>4</div>
-        //             }
-        //         </div>
-
-        //     </div>
-        // </div>
     )
 }
 

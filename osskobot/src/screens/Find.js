@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { publicAxios } from "../services/axiosConfig";
+import Swal from "sweetalert2";
 
 const Container = styled.div`
     height: 163px;
@@ -68,14 +69,24 @@ function Find() {
                 "email" : email
             }
         ).then((response) => {
-            alert("회원가입되지 않은 계정입니다.");
-        }).catch(async(error) => {
-            await publicAxios.post(`users/password_reset/`,
+            Swal.fire({
+                icon: "waring",
+                text: "회원가입되지 않은 계정입니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+        }).catch((error) => {
+            publicAxios.post(`users/password_reset/`,
                 {
                     "email" : email
                 }
             ).then(() => {
-                alert("비밀번호 변경 이메일이 전송되었습니다.");
+                Swal.fire({
+                    icon: "info",
+                    text: "비밀번호 변경 이메일이 전송되었습니다.",
+                    confirmButtonColor: "#007AFF",
+                    confirmButtonText: "확인"
+                });
                 navigate('/login');
             })
             .catch((error) => {

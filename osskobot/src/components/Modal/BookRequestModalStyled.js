@@ -53,6 +53,7 @@ export const Apply = styled.button`
     width: 107px;
     height: 40px;
     &:hover{
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0,0,0,0.7);
+        transition: background-color 0.3s;
     }
 `;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { publicAxios } from '../services/axiosConfig';
-import styles from './Join.module.css';
+import Swal from 'sweetalert2';
 import {Div, H1, Line, LineWithDots, LabelInput, LabelInputButton, Apply} from './JoinStyled';
 
 function Join() {
@@ -156,7 +156,12 @@ function Join() {
             )
                 .then((response) => {
                     navigate("/login");
-                    alert("인증 이메일이 전송되었습니다.");
+                    Swal.fire({
+                        icon: "info",
+                        text: "인증 이메일이 전송되었습니다.",
+                        confirmButtonColor: "#007AFF",
+                        confirmButtonText: "확인"
+                    });
                 })
                 .catch((error) => {
                     console.log(error);
@@ -166,7 +171,12 @@ function Join() {
                 })
         }
         else {
-            alert("정보를 다시 확인해주세요.");
+            Swal.fire({
+                icon: "warning",
+                text: "정보를 다시 확인해주세요.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
         }
     }
 

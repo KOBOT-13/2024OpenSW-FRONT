@@ -62,7 +62,6 @@ function CharCard({value, cover_image}) {
         privateAxios.get(`books/character/${value.character}/`)
         .then((response) => {
             setCharInfo(response.data);
-            console.log(response.data);
         }).catch((error) => {
             console.log(error);
         });
