@@ -6,7 +6,7 @@ import CharProfile from '../components/CharProfile/CharProfile';
 import cookies from 'js-cookie';
 import { format } from 'date-fns'
 import postReadBook from '../services/postReadBook';
-import { Div, Image, P, Hr, TextArea, Button, CommentsPage, Heart } from './BookClickStyled';
+import { Div, Image, P, Hr, TextArea, Button, CommentsPage, Heart, Logo } from './BookClickStyled';
 import BookClickBtn from '../components/CustomButton/BookClickBtn';
 import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';
@@ -31,6 +31,7 @@ function BookClick() {
     const [commentInfos, setCommentInfos] = useState([]);
     const [charProfileInfos, setCharProfileInfos] = useState([]);
     const [_isWish, setIsWish] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
 
     const click = () => {
         privateAxios.post(`books/wishlist/toggle/${params.id}/`, )
@@ -69,7 +70,9 @@ function BookClick() {
             await publicAxios.get(`books/book/${params.id}/`)
                 .then((response) => {
                     setBook(response.data);
-                    console.log(response.data.tags.map((value) => console.log(value)));
+                    if(response.data.synopsis === ""){
+                        setIsEmpty(true);
+                    }
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -162,56 +165,63 @@ function BookClick() {
                         return <BottomBorderBtn key={value.index} onClick={() => setIndex(value.index)} label={value.label} index={value.index === index} />
                     })}
                 </Div>
-                <Div className='Content-Middle'>
+                {isEmpty?
+                    <Div className='MsgDiv'>
+                        <Logo/>
+                        <P className='DataMsg'>준비중인 도서입니다.</P>
+                    </Div> 
+                    :
+                    <Div className='Content-Middle'>
                     {index === 1 ?
                         <Div className='Book-Intro'>
                             {book.synopsis}
                         </Div>
                         : index === 2 ?
-                            <Div className='Char-Intro'>
-                                {charProfileInfos.map((value, key) => {
-                                    return <CharProfile character={value} key={key} mode={1} />
-                                })}
+                        <Div className='Char-Intro'>
+                            {charProfileInfos.map((value, key) => {
+                                return <CharProfile character={value} key={key} mode={1} />
+                            })}
+                        </Div>
+                        : <Div className='Comment-Middle'>
+                            <Div className='Comment-Board'>
+                                <TextArea value={commentMsg} onChange={onChangeComment} placeholder='댓글을 입력해주세요.'></TextArea>
+                                <Div className='Comment-Btn'>
+                                    <P className='comment-size'>{commentMsg.length} / 150</P>
+                                    <Button onClick={onSubmitClk}>댓글달기</Button>
+                                </Div>
                             </Div>
-                            : <Div className='Comment-Middle'>
-                                <Div className='Comment-Board'>
-                                    <TextArea value={commentMsg} onChange={onChangeComment} placeholder='댓글을 입력해주세요.'></TextArea>
-                                    <Div className='Comment-Btn'>
-                                        <P className='comment-size'>{commentMsg.length} / 150</P>
-                                        <Button onClick={onSubmitClk}>댓글달기</Button>
+                            <Div className='Bottom'>
+                                <Div className='Comment-Written'>
+                                    <P className='cwtitle'>작성된 댓글</P>
+                                    <Div className='Comments'>
+                                        {currentComments.map((value) => {
+                                            return <CommentBoard
+                                                key={value.id}
+                                                id={value.id}
+                                                nickname={value.user}
+                                                comment={value.content}
+                                                date={format(new Date(value.created_at), 'yyyy-MM-dd h:mm a')}
+                                                likes={value.likes_count}
+                                                onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
+                                                isMine={value.user === cookies.get('username')}
+                                                delCommnet={removeComment}
+                                            />
+                                        })}
                                     </Div>
+                                    <CommentsPage
+                                        activePage={page}
+                                        itemsCountPerPage={itemsPerPage}
+                                        totalItemsCount={commentInfos.length}
+                                        pageRangeDisplayed={10}
+                                        prevPageText={"<"}
+                                        nextPageText={">"}
+                                        onChange={handlePageChange}
+                                    />
                                 </Div>
-                                <Div className='Bottom'>
-                                    <Div className='Comment-Written'>
-                                        <P className='cwtitle'>작성된 댓글</P>
-                                        <Div className='Comments'>
-                                            {currentComments.map((value) => {
-                                                return <CommentBoard
-                                                    key={value.id}
-                                                    id={value.id}
-                                                    nickname={value.user}
-                                                    comment={value.content}
-                                                    date={format(new Date(value.created_at), 'yyyy-MM-dd h:mm a')}
-                                                    likes={value.likes_count}
-                                                    onLikes={value.likes.includes(parseInt(cookies.get('pk')))}
-                                                    isMine={value.user === cookies.get('username')}
-                                                    delCommnet={removeComment}
-                                                />
-                                            })}
-                                        </Div>
-                                        <CommentsPage
-                                            activePage={page}
-                                            itemsCountPerPage={itemsPerPage}
-                                            totalItemsCount={commentInfos.length}
-                                            pageRangeDisplayed={10}
-                                            prevPageText={"<"}
-                                            nextPageText={">"}
-                                            onChange={handlePageChange}
-                                        />
-                                    </Div>
-                                </Div>
-                            </Div>}
+                            </Div>
+                        </Div>}
                 </Div>
+                }
             </Div>
         </Div>
     )

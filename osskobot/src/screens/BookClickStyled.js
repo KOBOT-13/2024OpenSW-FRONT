@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Pagination from 'react-js-pagination';
 import { GoHeartFill } from "react-icons/go";
+import {ReactComponent as ErrorLogo} from '../assets/ErrorLogo.svg';
 
 export const Div = styled.div`
     &.MainContainer{
@@ -100,6 +101,12 @@ export const Div = styled.div`
         border-top: 1px solid rgba(0, 0, 0, 0.5);
         background-color: #F7F7F7;
     }
+    &.MsgDiv{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 25px;
+    }
 `;
 
 export const Image = styled.img`
@@ -109,25 +116,30 @@ export const Image = styled.img`
 `;
 
 export const P = styled.p`
-    font-family: 'Pretendard-Regular';
+    font-family: 'Pretendard-Bold';
     font-size: 16px;
     color: rgba(0,0,0,0.8);
 
     &.title{
-        font-family: 'Pretendard-Bold';
         font-size: 24px;
         color: black;
         margin-top: 0;
     }
     &.comment-size{
+        font-family: 'Pretendard-Regular';
         margin: 0;
         margin-left: 10px;
         font-size: 11px;
         align-self: flex-end;
     }
     &.cwtitle{
-        font-family: 'Pretendard-Bold';
         font-size: 16px;
+        margin: 0;
+    }
+    &.DataMsg{
+        font-size: 25px;
+        color: rgba(0,0,0,0.35);
+        text-align: center;
         margin: 0;
     }
 `;
@@ -218,6 +230,11 @@ export const Heart = styled(GoHeartFill)`
     top: 42px; /* 상단 위치를 조정 */
     right: 30px; /* 우측 위치를 조정 */
     cursor: pointer;
+`;
+
+export const Logo = styled(ErrorLogo)`
+    width: 67px;
+    height: 67px;
 `;
 
 export const CommentsPage = (props) => {
