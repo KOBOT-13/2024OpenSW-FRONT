@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import CharSelectModal from "../components/Modal/CharSelectModal";
+import { useState } from "react";
+import { BsX } from "react-icons/bs";
 
 const Div = styled.div`
     &.Main{
@@ -48,7 +50,7 @@ const Div = styled.div`
     &.CharContainer{
         border: 1px solid rgba(0,0,0,0.4);
         border-radius: 500px;
-        width: 73px;
+        padding: 0 10px 0 10px;
         height: 36px;
         background-color: #f8f8f8;
         font-family: 'Pretendard-Medium';
@@ -59,6 +61,8 @@ const Div = styled.div`
         justify-content: center;
         box-sizing: border-box; /* 박스 크기를 고정 */
         flex-shrink: 0; /* 크기가 줄어들지 않게 설정 */
+        user-select: none;
+        cursor: pointer;
     }
 `;
 
@@ -136,18 +140,37 @@ const AddChar = styled.button`
     border: 1px solid rgba(0,0,0,0.8);
     border-radius: 500px;
     background-color: #f8f8f8;
+    &:hover{
+        background-color: rgba(0,0,0,0.2);
+        transition: background-color 0.3s;
+    }
 `;
 
-function CharComponent({name}){
+const XIcon = styled(BsX)`
+
+`;
+
+function CharComponent({name, index, deleteChar}){
+    const [isHover, setIsHover] = useState(true);
+
     return(
-        <Div className="CharContainer">
+        <Div className="CharContainer" onMouseOver={() => setIsHover(false)} onMouseOut={() => setIsHover(true)} onClick={() => deleteChar(index)}>
             {name}
+            {isHover ? null : <XIcon/>}
         </Div>
     )
 }
 
 function WriteaBook(){
-    
+    const [chars, setChars] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const deleteChar = (index) => {
+
+        const updateChar = chars.filter(item => item.index !== index)
+        console.log(updateChar);
+        setChars(updateChar);
+    }
 
     return(
         <Div className="Main">
@@ -160,10 +183,12 @@ function WriteaBook(){
                 <Div className="Input">
                     <Label>등장인물</Label>
                     <Div className="Chars">
-                        <CharComponent name={"이재영"}/>
+                        {chars.map((value, key) => {
+                            return <CharComponent key={key} name={value.name} index={value.index} deleteChar={deleteChar}/>
+                        })}
                     </Div>
-                    <AddChar>등장인물 추가</AddChar>
-                    <CharSelectModal isOpen={true}/>
+                    <AddChar onClick={() => setIsOpen(true)}>등장인물 추가</AddChar>
+                    <CharSelectModal isOpen={isOpen} onRequestClose={setIsOpen} setChars={setChars}/>
                 </Div>
                 <Div className="Content">
                     <Label>책 내용</Label>

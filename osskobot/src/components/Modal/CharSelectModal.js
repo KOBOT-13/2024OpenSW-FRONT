@@ -39,18 +39,21 @@ const Div = styled.div`
         flex-direction: column;
         width: 80%;
         margin-top: 46px;
+        align-items: center;
     }
     &.Bottom-Label{
         display: flex;
         align-items: center;
+        width: 100%;
     }
     &.Bottom-Btns{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        row-gap: 34px;
-        column-gap: 18px;
+        row-gap: 18px;
+        column-gap: 34px;
         margin-top: 18px;
+        place-items: center;
     }
     &.Btn-Div{
         position: relative;
@@ -61,9 +64,13 @@ const Div = styled.div`
         height: 47px;
         border: 1px solid #3063d2;
         border-radius: 10px;
-        background-color: rgba(48, 99, 210, 0.15);
+        background-color: ${(props) => props.$isClick ? "rgba(48, 99, 210, 0.3)" : "rgba(48, 99, 210, 0.15)"};
+        transition: background-color 0.3s;
         gap: 5px;
         cursor: pointer;
+        &:hover{
+            background-color: rgba(48, 99, 210, 0.3);
+        }
     }
 `;
 
@@ -119,23 +126,37 @@ const Icon = styled(MdOutlineNotStarted)`
     right: 20px;
 `;
 
-const Btn = ({name, voice}) => {
+const Button = styled.button`
+    width: 107px;
+    height: 40px;
+    background-color: white;
+    border: 1px solid rgba(0,0,0,0.4);
+    border-radius: 10px;
+    margin-top: 37px;
+    font-family: 'Pretendard-Bold';
+    font-size: 17px;
+`;
+
+const Btn = ({name, voice, isClick, onClick}) => {
     const onClickPlay = () => {
         const newAudio = new Audio(require(`../../assets/mp3/${voice}.mp3`));
         newAudio.addEventListener('canplaythrough', () => {
             newAudio.play();
         });
     }
-
     return(
-        <Div className="Btn-Div">
+        <Div className="Btn-Div" $isClick={isClick} onClick={onClick}>
             <P className="Btn-Name">{name}</P>
             <Icon onClick={onClickPlay}/>
         </Div>
     )
 }
 
-function CharSelectModal({isOpen}) {
+function CharSelectModal({isOpen, onRequestClose, setChars}) {
+    const [index, setIndex] = useState(null);
+    const [name, setName] = useState('');
+    const [charIndex, setCharIndex] = useState(0);
+
     const btns = [
         {name: "여자 아이", voice:'little_girl'},
         {name: "남자 아이", voice:'little_boy'},
@@ -145,9 +166,15 @@ function CharSelectModal({isOpen}) {
         {name: "할어버지", voice:'man_old'},
     ]
 
+    const onClickAdd = () => {
+        setChars((prev) => [...prev, {name:name, index:charIndex}]);
+        setCharIndex((prev) => prev+1);
+    }
+
     return(
         <Modal
             isOpen={isOpen}
+            onRequestClose={() => onRequestClose(false)}
         >
             <Div className="Top">
                 <P className="Title-Top">등장인물 추가</P>
@@ -155,7 +182,7 @@ function CharSelectModal({isOpen}) {
             </Div>
             <Div className="Mid">
                 <P className="Name-Mid">이름</P>
-                <Input placeholder="등장인물의 이름을 입력해주세요." />
+                <Input placeholder="등장인물의 이름을 입력해주세요." value={name} onChange={(e) => setName(e.target.value)} />
             </Div>
             <Div className="Bottom">
                 <Div className="Bottom-Label">
@@ -164,9 +191,10 @@ function CharSelectModal({isOpen}) {
                 </Div>
                 <Div className="Bottom-Btns">
                     {btns.map((value, key) => {
-                        return <Btn name={value.name} voice={value.voice}/>
+                        return <Btn key={key} name={value.name} voice={value.voice} onClick={() => setIndex(key)} isClick={index === key} />
                     })}
                 </Div>
+                <Button onClick={onClickAdd}>추가하기</Button>
             </Div>
         </Modal>
     )
