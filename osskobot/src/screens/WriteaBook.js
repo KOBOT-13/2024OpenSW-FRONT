@@ -19,6 +19,7 @@ const Div = styled.div`
     &.Input{
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     &.Content{
         display: flex;
