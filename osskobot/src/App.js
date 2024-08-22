@@ -17,6 +17,7 @@ import cookies from 'js-cookie';
 import Find from "./screens/Find";
 import Quiz from "./screens/Quiz";
 import { ConversationProvider } from "./components/ChatMsg/ConversationContext";
+import { set } from "date-fns";
 
 function App() {
   const [isLogin, setIsLogin] = useState(undefined);
@@ -44,7 +45,7 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/find" element={<Find />} />
         <Route path="/mypage" element={<ProtectedRoute>
-          <Mypage />
+          <Mypage homeReload={setReload} />
         </ProtectedRoute>} />
         <Route path="/serviceinfo" element={<ServiceInfo />} />
         <Route path="/bookclick/:id" element={<ProtectedRoute setReload={setReload}>
