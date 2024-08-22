@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import ReactModal from "react-modal";
 import { MdOutlineNotStarted } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { BsX } from "react-icons/bs";
 
 const Modal = styled(ReactModal)`
     position: fixed;
@@ -24,6 +26,7 @@ const Modal = styled(ReactModal)`
 const Div = styled.div`
     &.Top{
         display: flex;
+        align-items: center;
         justify-content: space-between;
         width: 80%;
         margin-top: 50px;
@@ -135,6 +138,15 @@ const Button = styled.button`
     margin-top: 37px;
     font-family: 'Pretendard-Bold';
     font-size: 17px;
+    &:hover{
+        background-color: rgba(0,0,0,0.1);
+        transition: background-color 0.3s;
+    }
+`;
+
+const XIcon = styled(BsX)`
+    width:1.5em;
+    height:1.5em;
 `;
 
 const Btn = ({name, voice, isClick, onClick}) => {
@@ -167,8 +179,32 @@ function CharSelectModal({isOpen, onRequestClose, setChars}) {
     ]
 
     const onClickAdd = () => {
-        setChars((prev) => [...prev, {name:name, index:charIndex}]);
-        setCharIndex((prev) => prev+1);
+        if(index !== null && name.length !== 0){
+            setChars((prev) => [...prev, {name:name, index:charIndex}]);
+            setCharIndex((prev) => prev+1);
+            Swal.fire({
+                icon: "success",
+                text: "등장인물이 추가되었습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+            setName('');
+            setIndex(null);
+        } else if(name.length === 0){
+            Swal.fire({
+                icon: "warning",
+                text: "등장인물 이름을 작성해주세요.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+        } else{
+            Swal.fire({
+                icon: "warning",
+                text: "목소리를 선택해주세요.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+        }
     }
 
     return(
@@ -178,7 +214,7 @@ function CharSelectModal({isOpen, onRequestClose, setChars}) {
         >
             <Div className="Top">
                 <P className="Title-Top">등장인물 추가</P>
-                <P className="Exit">X</P>
+                <P className="Exit" onClick={() => onRequestClose(false)}><XIcon/></P>
             </Div>
             <Div className="Mid">
                 <P className="Name-Mid">이름</P>
