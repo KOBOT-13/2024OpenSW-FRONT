@@ -18,6 +18,7 @@ import { CommentsPage } from './BookClickStyled';
 import Book from '../components/Book/Book';
 import QuizRecordComponent from '../components/Quiz/QuizRecord';
 import CharCard from '../components/CharProfile/CharCard';
+import { FaUserAltSlash } from "react-icons/fa";
 
 function Mypage() {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -147,6 +148,10 @@ function Mypage() {
         setReportInfo(updatedPost);
     };
 
+    const onClickDelete = () => {
+
+    }
+
     const bottomBtn = [
         { index: 1, label: "나중에 읽을 책" },
         { index: 2, label: "이전 대화 내용 보기" },
@@ -170,6 +175,10 @@ function Mypage() {
                 <Div className='Modify-Btn' onClick={onClickProfile}>
                     <HiOutlinePencilSquare/>
                     <P className='profile-modify'>프로필 수정</P>
+                </Div>
+                <Div className='Delete-Btn' onClick={onClickDelete}>
+                    <FaUserAltSlash/>
+                    <P className='profile-delete'>회원 탈퇴</P>
                 </Div>
                 <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
             </Div>
