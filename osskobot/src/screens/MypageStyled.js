@@ -26,8 +26,24 @@ export const Div = styled.div`
     }
     &.Modify-Btn{
         position: absolute;
-        top: 25px; // 위에서의 거리
-        right: 25px; // 오른쪽에서의 거리
+        top: 25px;
+        right: 25px;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        width: 96px;
+        height: 40px;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.15);
+        &:hover{
+            background-color: #e0e0e0;
+            transition: background-color 0.3s;
+        }
+    }
+    &.Delete-Btn{
+        position: absolute;
+        top: 25px;
+        right: 130px;
         display:flex;
         align-items: center;
         justify-content: center;
@@ -110,6 +126,13 @@ export const P = styled.p`
         font-family: 'Pretendard-Bold';
         font-size: 11px;
         margin-left: 6px;
+        user-select: none;
+    }
+    &.profile-delete{
+        margin: 0;
+        font-family: 'Pretendard-Bold';
+        font-size: 11px;
+        margin-left: 7px;
         user-select: none;
     }
     &.cwtitle{

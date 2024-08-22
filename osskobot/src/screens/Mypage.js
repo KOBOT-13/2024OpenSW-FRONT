@@ -13,10 +13,14 @@ import { CommentsPage } from './BookClickStyled';
 import Book from '../components/Book/Book';
 import QuizRecordComponent from '../components/Quiz/QuizRecord';
 import CharCard from '../components/CharProfile/CharCard';
+import { FaUserAltSlash } from "react-icons/fa";
+import CustomModal from '../components/Modal/CheckModal';
+import Swal from 'sweetalert2';
 
-function Mypage() {
+function Mypage({homeReload}) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+    const [isCheckOpen, setIsCheckOpen] = useState(false);
     const nickname = cookies.get('username');
     const [date, setDate] = useState('');
     const [email, setEmail] = useState('');
@@ -163,6 +167,24 @@ function Mypage() {
         setReportInfo(updatedPost);
     };
 
+    const onClickDelete = () => {
+        privateAxios.delete(`users/delete_account/`)
+        .then(() => {
+            Swal.fire({
+                icon: "success",
+                text: "계정이 삭제되었습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+            const allCookies = cookies.get();
+            for(let cookie in allCookies){
+                cookies.remove(cookie);
+            }
+            navigate('/');
+            homeReload(cur => !cur);
+        })
+    };
+
     const bottomBtn = [
         { index: 1, label: "나중에 읽을 책" },
         { index: 2, label: "이전 대화 내용 보기" },
@@ -188,6 +210,11 @@ function Mypage() {
                     <HiOutlinePencilSquare/>
                     <P className='profile-modify'>프로필 수정</P>
                 </Div>
+                <Div className='Delete-Btn' onClick={() => setIsCheckOpen(true)}>
+                    <FaUserAltSlash/>
+                    <P className='profile-delete'>회원 탈퇴</P>
+                </Div>
+                <CustomModal isOpen={isCheckOpen} icon={true} onRequestClose={setIsCheckOpen} del={onClickDelete} msg={"정말로 삭제하시겠습니까?"} content={"삭제 시 계정을 다시 복구할 수 없습니다."} yes={"삭제하기"} no={"취소하기"} />
                 <ProfileModifyModal reload={setReload} date={date} nickname={nickname} isOpen={isOpen} onRequestClose={setIsOpen} />
             </Div>
             <Div className='Mid'>
