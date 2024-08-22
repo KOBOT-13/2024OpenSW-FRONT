@@ -36,6 +36,29 @@ const Div = styled.div`
         display: flex;
         justify-content: flex-end;
     }
+    &.Chars{
+        width: 83%;
+        overflow-x: auto;  /* 가로 스크롤 활성화 */
+        overflow-y: hidden; /* 필요시 수직 스크롤도 설정 가능 */
+        display: flex;
+        column-gap: 13px;
+        white-space: nowrap; /* 자식들이 한 줄에 나오게 강제 */
+    }
+    &.CharContainer{
+        border: 1px solid rgba(0,0,0,0.4);
+        border-radius: 500px;
+        width: 73px;
+        height: 36px;
+        background-color: #f8f8f8;
+        font-family: 'Pretendard-Medium';
+        font-size: 18px;
+        color: #3063d2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box; /* 박스 크기를 고정 */
+        flex-shrink: 0; /* 크기가 줄어들지 않게 설정 */
+    }
 `;
 
 const P = styled.p`
@@ -104,7 +127,27 @@ const Button = styled.button`
     }
 `;
 
+const AddChar = styled.button`
+    font-family: 'Pretendard-Bold';
+    font-size: 14px;
+    width: 116px;
+    height: 40px;
+    border: 1px solid rgba(0,0,0,0.8);
+    border-radius: 500px;
+    background-color: #f8f8f8;
+`;
+
+function CharComponent({name}){
+    return(
+        <Div className="CharContainer">
+            {name}
+        </Div>
+    )
+}
+
 function WriteaBook(){
+    
+
     return(
         <Div className="Main">
             <Div className="Top">
@@ -115,7 +158,10 @@ function WriteaBook(){
                 </Div>
                 <Div className="Input">
                     <Label>등장인물</Label>
-                    <Input type="text" placeholder="주요 등장인물을 쉼표(,)로 구분해서 적어주세요." />
+                    <Div className="Chars">
+                        <CharComponent name={"이재영"}/>
+                    </Div>
+                    <AddChar>등장인물 추가</AddChar>
                 </Div>
                 <Div className="Content">
                     <Label>책 내용</Label>
