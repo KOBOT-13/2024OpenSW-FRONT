@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import CharSelectModal from "../components/Modal/CharSelectModal";
 
 const Div = styled.div`
     &.Main{
@@ -162,6 +163,7 @@ function WriteaBook(){
                         <CharComponent name={"이재영"}/>
                     </Div>
                     <AddChar>등장인물 추가</AddChar>
+                    <CharSelectModal isOpen={true}/>
                 </Div>
                 <Div className="Content">
                     <Label>책 내용</Label>

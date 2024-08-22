@@ -222,7 +222,7 @@ function Mypage() {
                         :index === 3 ? isEmpty[3] ?
                             <Div className='BookReport'>
                                 {reportInfo.map((value, key) => {
-                                    return <BookReportInfo key={key} id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
+                                    return <BookReportInfo key={key} id={value.id} title={allBooks[value.book-1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
                                 })}
                             </Div> :
                             <Div className='MsgDiv'>
