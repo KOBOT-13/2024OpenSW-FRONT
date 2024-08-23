@@ -1,6 +1,8 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
 import refreshToken from './refreshToken';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const privateAxios = axios.create({
   baseURL: process.env.REACT_APP_API_ADDRESS,
@@ -15,11 +17,22 @@ privateAxios.interceptors.request.use(
     if (token) {
       const expiryTime = new Date(cookies.get('expires'));
       if (expiryTime <= new Date()) {
-        token = await refreshToken();
+        token = refreshToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         } else {
-          throw new Error('Token refresh failed');
+          Swal.fire({
+            icon: "error",
+            text: "세션에 문제가 발생하였습니다. 다시 로그인해 주세요.",
+            confirmButtonColor: "#007AFF",
+            confirmButtonText: "확인"
+        });
+          cookies.remove('token');
+          cookies.remove('refresh_token');
+          cookies.remove('username');
+          cookies.remove('pk');
+          cookies.remove('expires');
+          window.location.href = '/login';
         }
       } else {
         config.headers.Authorization = `Bearer ${token}`;

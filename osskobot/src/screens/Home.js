@@ -267,7 +267,6 @@ function Home({searchQuery, setSearchQuery}) {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
             const tmp = response.data.map(item => item.id);
-            console.log(tmp);
             setWishes(tmp);
         }).catch((error) => {
             console.log(error);

@@ -40,7 +40,6 @@ function Login({ setReload }) {
             const token = response.data.access;
             const refresh_token = response.data.refresh;
             const expires = new Date(new Date().getTime() + 25 * 60000);
-            console.log(expires);
             cookies.set('token', token);
             cookies.set('expires', expires);
             cookies.set('refresh_token', refresh_token);

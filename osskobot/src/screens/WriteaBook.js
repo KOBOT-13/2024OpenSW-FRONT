@@ -200,8 +200,7 @@ function WriteaBook(){
             setChars([]);
             setTitle("");
             setSynopsis("");
-        }).catch((error) => {
-
+        }).catch(() => {
             Swal.fire({
                 icon: "error",
                 text: `책 등록이 실패되었습니다.`,

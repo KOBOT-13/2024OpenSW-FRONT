@@ -184,7 +184,15 @@ function Header(props) {
                 setIsLogout(undefined);
                 setReload((current) => { return !current });
             }).catch((error) => {
-                console.log(error);
+                Swal.fire({
+                    icon: "success",
+                    text: "로그아웃이 완료되었습니다.",
+                    confirmButtonColor: "#007AFF",
+                    confirmButtonText: "확인"
+                });
+                setIsLogout(undefined);
+                setReload((current) => { return !current });
+                navigate('/');
             })
         }
         else if(isLogout === false){
