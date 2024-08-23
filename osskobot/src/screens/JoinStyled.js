@@ -106,7 +106,7 @@ const ErrorDiv = styled.div`
     top: 50px;
     font-family: 'Pretendard-Medium';
     font-size: 10px;
-    color: #ff4040;
+    color: ${props => props.$isValid ? "#00ac55" : "#ff4040"};
 `;
 
 const Button = styled.button`
@@ -124,23 +124,23 @@ const Button = styled.button`
     }
 `;
 
-export function LabelInputButton({label, onChange, onClick, ErrorMsg, name}){
+export function LabelInputButton({label, onChange, onClick, ErrorMsg, name, isValid}){
     return (
         <InputDiv>
             <Label>{label}</Label>
             <Input type='text' name={`${name}`} onChange={onChange} />
             <Button onClick={() => onClick()}>중복확인</Button>
-            <ErrorDiv>{ErrorMsg}</ErrorDiv>
+            <ErrorDiv $isValid={isValid}>{ErrorMsg}</ErrorDiv>
         </InputDiv>
     );
 }
 
-export function LabelInput({label, onChange, ErrorMsg, name, type}){
+export function LabelInput({label, onChange, ErrorMsg, name, type, isValid}){
     return (
         <InputDiv>
             <Label>{label}</Label>
             <Input type={type} name={name} onChange={onChange}/>
-            <ErrorDiv>{ErrorMsg}</ErrorDiv>
+            <ErrorDiv $isValid={isValid}>{ErrorMsg}</ErrorDiv>
         </InputDiv>
     );
 }

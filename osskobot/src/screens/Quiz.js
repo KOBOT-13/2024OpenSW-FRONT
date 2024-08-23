@@ -134,8 +134,8 @@ const Quiz = () => {
               </ResultP>
             </Div>
             <Div className='Result-Btns'>
-              <Button className='retry' onClick={retryQuiz}>다시 시도하기</Button>
-              <Button className='exit' onClick={goCommunity}>결과 공유하기</Button>
+              <Button className='retry' onClick={retryQuiz}>다시 풀기</Button>
+              <Button className='exit' onClick={goCommunity}>나가기</Button>
             </Div>
           </Div> 
           : null

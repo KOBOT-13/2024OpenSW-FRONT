@@ -18,6 +18,8 @@ function Join() {
     const [isPassword, setIsPassword] = useState(false);
     const [isPassword2, setIsPassword2] = useState(false);
     const [isEmail, setIsEmail] = useState(false);
+    const [duplicationEmail, setDuplicationEmail] = useState(false);
+    const [duplicationNickname, setDuplicationNickname] = useState(false);
     const [isNickname, setIsNickname] = useState(false);
     const [isDate, setIsDate] = useState(false);
 
@@ -50,7 +52,7 @@ function Join() {
         }
         else{
             setValidEmailMsg("이메일 중복 확인을 해주세요");
-            setIsEmail(true);
+            setDuplicationEmail(true);
         }
 
     });
@@ -98,7 +100,7 @@ function Join() {
         }
         else{
             setValidNickname("닉네임 중복 확인을 해주세요.");
-            setIsNickname(true);
+            setDuplicationNickname(true);
         }
     });
 
@@ -116,27 +118,30 @@ function Join() {
     });
 
     const onClickCheckEmail = (() => {
-        if(isEmail){
+        if(duplicationEmail){
             publicAxios.post('users/check-email/',
                 {
                     "email": userInfo.email
                 }
             ).then((response) => {
                 setValidEmailMsg(response.data.detail);
+                setIsEmail(true);
             }).catch((error) => {
+                console.log(error);
                 setValidEmailMsg(error.response.data.detail);
             });
         }
     });
 
     const onClickCheckNickname = (() => {
-        if(isNickname){
+        if(duplicationNickname){
             publicAxios.post('users/check-username/',
                 {
                     "username": userInfo.nickname
                 }
             ).then((response) => {
-                setValidNickname(response.data.detail)
+                setValidNickname(response.data.detail);
+                setIsNickname(true);
             }).catch((error) => {
                 setValidNickname(error.response.data.detail);
             });
@@ -154,7 +159,7 @@ function Join() {
                     birth_date: userInfo.date
                 },
             )
-                .then((response) => {
+                .then(() => {
                     navigate("/login");
                     Swal.fire({
                         icon: "info",
@@ -189,45 +194,16 @@ function Join() {
                 </LineWithDots>
             </Div>
             <Div className='Mid'>
-                <LabelInputButton label={"이메일"} onChange={onChangeEmail} onClick={onClickCheckEmail} ErrorMsg={validEmailMsg} name={'email'} />
-                <LabelInputButton label={"닉네임"} onChange={onChangeNickname} onClick={onClickCheckNickname} ErrorMsg={validNicknameMsg} name={'nickname'} />
-                <LabelInput label={"비밀번호"} onChange={onChangePassword} ErrorMsg={validPasswordMsg} name={'password'} type={"password"} />
-                <LabelInput label={"비밀번호 확인"} onChange={onChangePassword2} ErrorMsg={validPassword2Msg} name={'password2'} type={"password"} />
-                <LabelInput label={"생년월일"} onChange={onChangeDate} ErrorMsg={validDateMsg} name={'date'} type={"date"} />
+                <LabelInputButton label={"이메일"} onChange={onChangeEmail} onClick={onClickCheckEmail} ErrorMsg={validEmailMsg} name={'email'} isValid={isEmail} />
+                <LabelInputButton label={"닉네임"} onChange={onChangeNickname} onClick={onClickCheckNickname} ErrorMsg={validNicknameMsg} name={'nickname'} isValid={isNickname} />
+                <LabelInput label={"비밀번호"} onChange={onChangePassword} ErrorMsg={validPasswordMsg} name={'password'} type={"password"} isValid={isPassword} />
+                <LabelInput label={"비밀번호 확인"} onChange={onChangePassword2} ErrorMsg={validPassword2Msg} name={'password2'} type={"password"} isValid={isPassword2} />
+                <LabelInput label={"생년월일"} onChange={onChangeDate} ErrorMsg={validDateMsg} name={'date'} type={"date"} isValid={isDate} />
             </Div>
             <Div className='Bottom'>
                 <Apply onClick={join}>가입하기</Apply>
             </Div>
         </Div>
-        // <div className={styles.mainContainer}>
-        //     <div className={styles.joinDiv}>
-        //         <div className={styles.joinFontDiv}>
-        //             회원가입
-        //         </div>
-        //         <div className={styles.joinInfo1}>
-        //             <div className={styles.emailDiv}>
-        //                 <input type='text' className={styles.emailInput} placeholder='이메일' name='email' onChange={onChangeEmail} />
-        //                 <button onClick={onClickCheckEmail} className={styles.checkBtn}>중복확인</button>
-        //             </div>
-        //             <span className={styles.validSpan}>{validEmailMsg}</span>
-        //             <input type='password' className={styles.passwordInput} placeholder='비밀번호' name='password' onChange={onChangePassword} />
-        //             <span className={styles.validSpan}>{validPasswordMsg}</span>
-        //             <input type='password' className={styles.passwordInput} placeholder='비밀번호 확인' name='password2' onChange={onChangePassword2} />
-        //             <span className={styles.validSpan}>{validPassword2Msg}</span>
-        //             <div>
-        //                 <input type='text' className={styles.idInput} placeholder='닉네임' name='nickname' onChange={onChangeNickname} />
-        //                 <button onClick={onClickCheckNickname} className={styles.checkBtn}>중복확인</button>
-        //             </div>
-        //             <span className={styles.validSpan}>{validNicknameMsg}</span>
-        //             <input type='date' className={styles.idInput} placeholder='생년월일' name='date' onChange={onChangeDate} />
-        //             <span className={styles.validSpan}>{validDateMsg}</span>
-        //         </div>
-        //         <div>
-        //             <pre className={styles.errorMsg}>{errorMsg}</pre>
-        //             <button className={styles.joinBtn} onClick={join}><strong>회원가입</strong></button>
-        //         </div>
-        //     </div>
-        // </div>
     )
 }
 
