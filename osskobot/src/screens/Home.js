@@ -248,7 +248,6 @@ function Home({searchQuery, setSearchQuery}) {
             }).catch((error) => {
                 console.log(error);
             });
-
             privateAxios.get(`books/recommend/`)
             .then(() => {
                 privateAxios.get(`books/recommend/list/`)

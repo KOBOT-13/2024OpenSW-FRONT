@@ -17,6 +17,7 @@ import cookies from 'js-cookie';
 import Find from "./screens/Find";
 import Quiz from "./screens/Quiz";
 import { ConversationProvider } from "./components/ChatMsg/ConversationContext";
+import WriteaBook from "./screens/WriteaBook";
 import { set } from "date-fns";
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
           <BookReport />
         </ProtectedRoute>} />
         <Route path="/bookclick/:id/quiz" element={<Quiz />} />
+        <Route path="/writeabook" element={<ProtectedRoute>
+          <WriteaBook/>
+        </ProtectedRoute>}/>
       </Routes>
       <Footer/>
       </ConversationProvider>

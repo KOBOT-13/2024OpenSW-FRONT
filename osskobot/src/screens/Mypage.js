@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
-import styles from './Mypage.module.css';
-import image from '../assets/profile.png';
 import ProfileModifyModal from '../components/Modal/ProfileModifyModal';
-import PreviousChat from '../components/PreviousChat/PreviousChat';
 import cookies from 'js-cookie';
 import { privateAxios, publicAxios } from '../services/axiosConfig';
-import QuizRecord from './MypageQuizRecord';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +41,7 @@ function Mypage({homeReload}) {
         3: false,
         4: false,
         5: false,
+        6: false,
     })
 
     const navigate = useNavigate();
@@ -80,6 +77,9 @@ function Mypage({homeReload}) {
             if(response.data.length != 0){
                 setIsEmpty(prev => ({...prev, 3:true}));
             }
+            if(response.data.length != 0){
+                setIsEmpty(prev => ({...prev, 3:true}));
+            }
             setReportInfo(response.data);
         }).catch((error) => {
             console.log(error);
@@ -89,6 +89,9 @@ function Mypage({homeReload}) {
     useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
+            if(response.data.length != 0){
+                setIsEmpty(prev => ({...prev, 1:true}));
+            }
             if(response.data.length != 0){
                 setIsEmpty(prev => ({...prev, 1:true}));
             }
@@ -104,6 +107,9 @@ function Mypage({homeReload}) {
                 if(response.data.length != 0){
                     setIsEmpty(prev => ({...prev, 2:true}));
                 }
+                if(response.data.length != 0){
+                    setIsEmpty(prev => ({...prev, 2:true}));
+                }
                 const sortedConversations = response.data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
                 setConversations(sortedConversations);
             })
@@ -116,6 +122,9 @@ function Mypage({homeReload}) {
                 if(response.data.length != 0){
                     setIsEmpty(prev => ({...prev, 4:true}));
                 }
+                if(response.data.length != 0){
+                    setIsEmpty(prev => ({...prev, 4:true}));
+                }
                 setQuizRecords(response.data);
             })
 
@@ -124,6 +133,9 @@ function Mypage({homeReload}) {
     useEffect(() => {
         privateAxios.get('books/my_comments')
             .then(response => {
+                if(response.data.length != 0){
+                    setIsEmpty(prev => ({...prev, 5:true}));
+                }
                 if(response.data.length != 0){
                     setIsEmpty(prev => ({...prev, 5:true}));
                 }
@@ -195,6 +207,7 @@ function Mypage({homeReload}) {
         { index: 3, label: "작성한 독후감" },
         { index: 4, label: "퀴즈 기록 보기" },
         { index: 5, label: "내가 쓴 댓글" },
+        { index: 6, label: "내가 쓴 책" },
     ];
 
     return (
@@ -298,11 +311,11 @@ function Mypage({homeReload}) {
                                 nextPageText={">"}
                                 onChange={handlePageChange}
                             />
-                        </Div>
-                        : <Div className='MsgDiv'>
-                            <Logo />
-                            <P className='DataMsg'>퀴즈 기록이 없어요.<br />책을 읽고 퀴즈를 풀어볼까요?</P>
-                        </Div> 
+                        </Div> :
+                            <Div className='MsgDiv'>
+                                <Logo />
+                                <P className='DataMsg'>내가 쓴 댓글이 없어요.<br/>댓글로 독후활동을 공유해볼까요?</P>
+                            </Div> 
                     }
                 </Div>
             </Div>
