@@ -4,6 +4,7 @@ import { privateAxios } from "../../services/axiosConfig";
 import CustomModal from "./CheckModal";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import { BsX } from "react-icons/bs";
 
 const ReportModal = styled(Modal)`
     position: fixed;
@@ -127,7 +128,7 @@ function BookReportModal({ isOpen, onRequestClose, content, id, title, date, rem
                 </Ul>
                 <TestArea disabled defaultValue={content}>
                 </TestArea>
-                <Button onClick={(event) => {event.stopPropagation();onRequestClose(false)}}>X</Button>
+                <Button onClick={(event) => {event.stopPropagation();onRequestClose(false)}}><BsX/></Button>
                 <DeleteBtn onClick={() => setModalIsOpen(true)}>삭제하기</DeleteBtn>
                 <CustomModal 
                     isOpen={isModalOpen}

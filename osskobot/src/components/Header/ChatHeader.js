@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import SizeBook from "../Book/SizeBook";
 
 const Div = styled.div`
     &.BG-Top{
@@ -15,23 +16,19 @@ const Div = styled.div`
         align-items: center;
     }
 `;
-const Image = styled.img`
-    width: 85px;
-    margin-right: 40px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
-`;
 
 const P = styled.p`
     font-family: 'Pretendard-Bold';
     font-size: 30px;
     margin: 0;
+    margin-left: 40px;
 `;
 
 function ChatHeader({cover_image, title}) {
     return (
         <Div className="BG-Top">
             <Div className="Info">
-                <Image src={cover_image} />
+                <SizeBook cover_image={cover_image} title={title} size={84} font_size={11} />
                 <P>{title}</P>
             </Div>
         </Div>
