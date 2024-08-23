@@ -264,7 +264,7 @@ function Mypage({homeReload}) {
                             {
                                 quizRecords.map((value, key) => {
                                     const char = allChars.find(item => item.book === value.book.id)
-                                    return <QuizRecordComponent charImg={char.character_image} quiz={value}/>
+                                    return <QuizRecordComponent key={key} charImg={char.character_image} quiz={value}/>
                                 })
                             }
                         </Div> :

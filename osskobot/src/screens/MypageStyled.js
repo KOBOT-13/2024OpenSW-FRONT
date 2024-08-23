@@ -85,13 +85,14 @@ export const Div = styled.div`
         width: 100%;
         display: flex;
         flex-flow: row wrap;
+        margin-top: 40px;
     }
     &.BookReport{
         width: 100%;
         background-color: #f7f7f7;
     }
     &.QuizRecord{
-        margin-top: 15px;
+        margin-top: 40px;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         justify-items: start;  /* 왼쪽 정렬 */
