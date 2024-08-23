@@ -170,17 +170,17 @@ function CharSelectModal({isOpen, onRequestClose, setChars}) {
     const [charIndex, setCharIndex] = useState(0);
 
     const btns = [
-        {name: "여자 아이", voice:'little_girl'},
-        {name: "남자 아이", voice:'little_boy'},
-        {name: "성인 여자", voice:'woman_adult'},
-        {name: "성인 남자", voice:'man_adult'},
-        {name: "할머니", voice:'woman_old'},
-        {name: "할어버지", voice:'man_old'},
+        {name: "여자 아이", voice:'little_girl', back:'여자_어린아이'},
+        {name: "남자 아이", voice:'little_boy', back:'남자_어린아이'},
+        {name: "성인 여자", voice:'woman_adult', back:'여자_성인'},
+        {name: "성인 남자", voice:'man_adult', back:'남자_성인'},
+        {name: "할머니", voice:'woman_old', back:'여자_노인'},
+        {name: "할어버지", voice:'man_old', back:'남자_노인'},
     ]
 
     const onClickAdd = () => {
         if(index !== null && name.length !== 0){
-            setChars((prev) => [...prev, {name:name, index:charIndex}]);
+            setChars((prev) => [...prev, {name:name, index:charIndex, voice:btns[index].back}]);
             setCharIndex((prev) => prev+1);
             Swal.fire({
                 icon: "success",

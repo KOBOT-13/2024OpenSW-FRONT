@@ -2,6 +2,10 @@ import styled from "styled-components";
 import CharSelectModal from "../components/Modal/CharSelectModal";
 import { useState } from "react";
 import { BsX } from "react-icons/bs";
+import {privateAxios} from '../services/axiosConfig';
+import cookies from 'js-cookie';
+import {format} from 'date-fns';
+import Swal from "sweetalert2";
 
 const Div = styled.div`
     &.Main{
@@ -165,12 +169,46 @@ function CharComponent({name, index, deleteChar}){
 function WriteaBook(){
     const [chars, setChars] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [synopsis, setSynopsis] = useState("");
 
     const deleteChar = (index) => {
-
         const updateChar = chars.filter(item => item.index !== index)
-        console.log(updateChar);
         setChars(updateChar);
+    }
+
+    const onClickApply = () => {
+        const names = chars.map(item => item.name);
+        const voices = chars.map(item => item.voice);
+        privateAxios.post(`books/writtenbook/`,
+            {
+                user: cookies.get('pk'),
+                title: title,
+                author: cookies.get('username'),
+                publication_date: format(new Date(), 'yyyy-MM-dd'),
+                synopsis: synopsis,
+                chars: names,
+                speaker: voices
+            }
+        ).then(() => {
+            Swal.fire({
+                icon: "success",
+                text: "책이 정상적으로 추가되었습니다.",
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+            setChars([]);
+            setTitle("");
+            setSynopsis("");
+        }).catch((error) => {
+
+            Swal.fire({
+                icon: "error",
+                text: `책 등록이 실패되었습니다.`,
+                confirmButtonColor: "#007AFF",
+                confirmButtonText: "확인"
+            });
+        })
     }
 
     return(
@@ -179,7 +217,7 @@ function WriteaBook(){
                 <P className="H1">내가 작가 되어보기</P>
                 <Div className="Input">
                     <Label>책 제목</Label>
-                    <Input type="text" placeholder="책 제목을 입력해주세요." />
+                    <Input type="text" placeholder="책 제목을 입력해주세요." value={title} onChange={(e) => setTitle(e.target.value)} />
                 </Div>
                 <Div className="Input">
                     <Label>등장인물</Label>
@@ -194,13 +232,13 @@ function WriteaBook(){
                 <Div className="Content">
                     <Label>책 내용</Label>
                     <Div className="TextDiv">
-                        <TextArea placeholder="직접 쓴 책의 내용을 적어주세요." />
+                        <TextArea placeholder="직접 쓴 책의 내용을 적어주세요." value={synopsis} onChange={(e) => setSynopsis(e.target.value)} />
                     </Div>
                 </Div>
             </Div>
             <Div className='Btns-Mid'>
                 <Button className='cancle'>취소하기</Button>
-                <Button>작성하기</Button>
+                <Button onClick={onClickApply}>작성하기</Button>
             </Div>
         </Div>
     )    
