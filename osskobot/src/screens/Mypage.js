@@ -33,6 +33,7 @@ function Mypage({homeReload}) {
     const [quizRecords, setQuizRecords] = useState([]);
     const [comments, setComments] = useState([]);
     const [wishBook, setWishBook] = useState([]);
+    const [myBooks, setMyBooks] = useState([]);
     const [allBooks, setAllBooks] = useState([]);
     const [allChars, setAllChars] = useState([]);
     const [isEmpty, setIsEmpty] = useState({
@@ -58,28 +59,32 @@ function Mypage({homeReload}) {
     const currentComments = comments.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => {
-        const userInfoFetch = async () => {
-            await privateAxios.get(`users/profile/`)
-                .then((response) => {
-                    setDate(response.data.birth_date);
-                    setEmail(response.data.email);
-                    setUserProfile(response.data.profile_image);
-                }).catch((error) => {
-                    console.log(error);
-                });
-        }
-        userInfoFetch();
+        privateAxios.get(`books/writtenbook`)
+        .then((response) => {
+            if(response.data.length != 0){
+                setIsEmpty(prev => ({...prev, 6:true}));
+            }
+            setMyBooks(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
+    useEffect(() => {
+        privateAxios.get(`users/profile/`)
+        .then((response) => {
+            setDate(response.data.birth_date);
+            setEmail(response.data.email);
+            setUserProfile(response.data.profile_image);
+        }).catch((error) => {
+            console.log(error);
+        });
     }, [reload]);
 
     useEffect(() => {
         privateAxios.get(`books/my_posts`)
         .then((response) => {
-            if(response.data.length != 0){
-                setIsEmpty(prev => ({...prev, 3:true}));
-            }
-            if(response.data.length != 0){
-                setIsEmpty(prev => ({...prev, 3:true}));
-            }
             if(response.data.length != 0){
                 setIsEmpty(prev => ({...prev, 3:true}));
             }
@@ -92,9 +97,6 @@ function Mypage({homeReload}) {
     useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
-            if(response.data.length != 0){
-                setIsEmpty(prev => ({...prev, 1:true}));
-            }
             if(response.data.length != 0){
                 setIsEmpty(prev => ({...prev, 1:true}));
             }
@@ -314,11 +316,18 @@ function Mypage({homeReload}) {
                                 nextPageText={">"}
                                 onChange={handlePageChange}
                             />
-                        </Div> :
-                            <Div className='MsgDiv'>
-                                <Logo />
-                                <P className='DataMsg'>내가 쓴 댓글이 없어요.<br/>댓글로 독후활동을 공유해볼까요?</P>
-                            </Div> 
+                        </Div> 
+                    : isEmpty[6] ?
+                        <Div className='WishList'>
+                            {myBooks.map((value, key) => {
+                                return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={false} isMyBook={false} />
+                            })}
+                        </Div>
+                        :
+                        <Div className='MsgDiv'>
+                            <Logo />
+                            <P className='DataMsg'>내가 쓴 책이 없어요.<br/>나만의 책을 쓰고, 등장인물과 대화해보세요!</P>
+                        </Div> 
                     }
                 </Div>
             </Div>
