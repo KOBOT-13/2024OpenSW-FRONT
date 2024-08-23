@@ -180,6 +180,7 @@ function WriteaBook(){
     const onClickApply = () => {
         const names = chars.map(item => item.name);
         const voices = chars.map(item => item.voice);
+        console.log(names, voices);
         privateAxios.post(`books/writtenbook/`,
             {
                 user: cookies.get('pk'),
@@ -187,7 +188,7 @@ function WriteaBook(){
                 author: cookies.get('username'),
                 publication_date: format(new Date(), 'yyyy-MM-dd'),
                 synopsis: synopsis,
-                chars: names,
+                character: names,
                 speaker: voices
             }
         ).then(() => {
