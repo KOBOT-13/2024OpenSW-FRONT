@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {ReactComponent as ErrorLogo} from '../assets/ErrorLogo.svg';
 
 export const Div = styled.div`
     &.Main{
@@ -104,6 +105,13 @@ export const Div = styled.div`
         row-gap: 50px;
         column-gap: 60px;
     }
+    &.MsgDiv{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 110px;
+    }
 `;
 
 export const P = styled.p`
@@ -132,6 +140,13 @@ export const P = styled.p`
         font-size: 16px;
         margin: 0;
     }
+    &.DataMsg{
+        font-family: 'Pretendard-Bold';
+        font-size: 30px;
+        color: rgba(0,0,0,0.35);
+        text-align: center;
+        line-height: 50px;
+    }
 `;
 
 export const Hr = styled.hr`
@@ -144,3 +159,5 @@ export const Image = styled.img`
     width: 125px;
     margin: 38px 55px 38px 55px;
 `;
+
+export const Logo = styled(ErrorLogo)``;
