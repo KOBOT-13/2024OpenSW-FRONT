@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { privateAxios } from '../../services/axiosConfig';
 import * as styled from './BookRequestModalStyled';
 import Swal from 'sweetalert2';
+import { BsX } from "react-icons/bs";
 
 function LabelContent({ label, placeholder, value, onChange }) {
     const [activeBorder, setActiveBorder] = useState({
@@ -89,7 +90,7 @@ function BookRequest({isOpen, onRequestClose}) {
             className={styles.bookRequestModal}
         >
             <styled.H1>도서 신청하기</styled.H1>
-            <styled.Button onClick={() => onRequestClose(false)}>X</styled.Button>
+            <styled.Button onClick={() => onRequestClose(false)}><BsX/></styled.Button>
             <styled.Div className='BookName'>
                 <LabelContent label={"책 제목"} placeholder={"책 제목을 입력해주세요."} value={bookName} onChange={setBookName} />
             </styled.Div>

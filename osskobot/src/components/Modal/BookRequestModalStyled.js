@@ -38,6 +38,7 @@ export const Button = styled.button`
     position: absolute;
     left: 669px;
     top: 35px;
+    cursor:pointer;
 `;
 
 export const Apply = styled.button`

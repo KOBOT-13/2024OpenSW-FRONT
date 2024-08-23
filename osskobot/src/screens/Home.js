@@ -249,13 +249,17 @@ function Home({searchQuery, setSearchQuery}) {
                 console.log(error);
             });
 
-            privateAxios.get(`books/recommend/list/`)
-            .then((response) => {
-                const data = response.data.map((value) => value.book);
-                setRecommendBooks(data);
+            privateAxios.get(`books/recommend/`)
+            .then(() => {
+                privateAxios.get(`books/recommend/list/`)
+                .then((response) => {
+                    setRecommendBooks(response.data);
+                }).catch((error) => {
+                    console.log(error);
+                    setIsLackData(true);
+                });
             }).catch((error) => {
                 console.log(error);
-                setIsLackData(true);
             });
         }
     }, []);
