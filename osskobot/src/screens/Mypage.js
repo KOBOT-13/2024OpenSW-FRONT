@@ -42,7 +42,7 @@ function Mypage({homeReload}) {
         4: false,
         5: false,
         6: false,
-    })
+    });
 
     const navigate = useNavigate();
     const [index, setIndex] = useState(1);
@@ -74,6 +74,9 @@ function Mypage({homeReload}) {
     useEffect(() => {
         privateAxios.get(`books/my_posts`)
         .then((response) => {
+            if(response.data.length != 0){
+                setIsEmpty(prev => ({...prev, 3:true}));
+            }
             if(response.data.length != 0){
                 setIsEmpty(prev => ({...prev, 3:true}));
             }
