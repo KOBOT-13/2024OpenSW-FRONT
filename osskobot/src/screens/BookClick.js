@@ -12,7 +12,7 @@ import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';
 import { ReactComponent as report } from '../assets/report.svg';
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
-
+import SizeBook from '../components/Book/SizeBook';
 
 function BookClick() {
     const params = useParams();
@@ -139,7 +139,9 @@ function BookClick() {
         <Div className='MainContainer'>
             <Div className='Detail'>
                 <Div className='Frame'>
-                    <Image src={book.cover_image} />
+                    <Div className='Book'>
+                        <SizeBook cover_image={book.cover_image} title={book.title} size={220} font_size={30} />
+                    </Div>
                     <Div className='Right'>
                         <Div className='Info'>
                             <P className='title'>{book.title}</P>

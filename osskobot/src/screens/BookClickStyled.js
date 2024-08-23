@@ -107,6 +107,9 @@ export const Div = styled.div`
         align-items: center;
         margin-top: 25px;
     }
+    &.Book{
+        margin: 57px 100px 57px 80px;
+    }
 `;
 
 export const Image = styled.img`
