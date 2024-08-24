@@ -19,6 +19,7 @@ import Quiz from "./screens/Quiz";
 import { ConversationProvider } from "./components/ChatMsg/ConversationContext";
 import WriteaBook from "./screens/WriteaBook";
 import { set } from "date-fns";
+import MyBookClick from "./screens/MyBookClick";
 
 function App() {
   const [isLogin, setIsLogin] = useState(undefined);
@@ -64,6 +65,9 @@ function App() {
         <Route path="/bookclick/:id/quiz" element={<Quiz />} />
         <Route path="/writeabook" element={<ProtectedRoute>
           <WriteaBook/>
+        </ProtectedRoute>}/>
+        <Route path="/mybookclick/:id/" element={<ProtectedRoute>
+          <MyBookClick/>
         </ProtectedRoute>}/>
       </Routes>
       <Footer/>

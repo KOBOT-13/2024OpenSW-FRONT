@@ -75,7 +75,7 @@ const Heart = styled(GoHeartFill)`
     right: 0; /* 우측 위치를 조정 */
 `;
 
-function Book({title, author, id, cover_image, isWish}) {
+function Book({title, author, id, cover_image, isWish, isMyBook = true}) {
     const navigate = useNavigate();
     const [_isWish, setIsWish] = useState(isWish);
     const token = cookies.get('token');
@@ -89,7 +89,9 @@ function Book({title, author, id, cover_image, isWish}) {
     };
 
     const onClickBook = () => {
-        navigate(`/bookclick/${id}/`);
+        if(isMyBook){
+            navigate(`/bookclick/${id}/`);
+        }
     }
 
     useEffect(() => {
@@ -108,7 +110,7 @@ function Book({title, author, id, cover_image, isWish}) {
                         <P className="title">{title}</P>
                         <P className="author">저자 {author}</P>
                     </Div>
-                    {token ? <Heart $isWish={_isWish} onClick={(e) => {e.stopPropagation();click()}}/> : null}
+                    {token ? isMyBook ? <Heart $isWish={_isWish} onClick={(e) => {e.stopPropagation();click()}}/> : null : null}
                 </Div>
             </Div>
         </Div>

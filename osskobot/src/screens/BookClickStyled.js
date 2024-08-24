@@ -56,6 +56,7 @@ export const Div = styled.div`
         margin-top: 30px;
     }
     &.Book-Intro{
+        width: 100%;
         font-family: 'Pretendard-Regular';
         font-size: 16px;
         line-height: 30px;
