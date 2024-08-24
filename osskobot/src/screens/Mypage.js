@@ -290,7 +290,7 @@ function Mypage({homeReload}) {
                             <Logo />
                             <P className='DataMsg'>퀴즈 기록이 없어요.<br/>책을 읽고 퀴즈를 풀어볼까요?</P>
                         </Div> 
-                    : isEmpty[5] ?
+                    :index === 5 ? isEmpty[5] ?
                         <Div className='Comment-Written'>
                             <Div className='Comments'>
                                 {currentComments.map((value) => {
@@ -316,6 +316,10 @@ function Mypage({homeReload}) {
                                 nextPageText={">"}
                                 onChange={handlePageChange}
                             />
+                        </Div> :
+                        <Div className='MsgDiv'>
+                            <Logo />
+                            <P className='DataMsg'>내가 쓴 댓글이 없어요.<br/>댓글로 독후활동을 공유해볼까요?</P>
                         </Div> 
                     : isEmpty[6] ?
                         <Div className='WishList'>
@@ -327,7 +331,7 @@ function Mypage({homeReload}) {
                         :
                         <Div className='MsgDiv'>
                             <Logo />
-                            <P className='DataMsg'>내가 쓴 책이 없어요.<br/>나만의 책을 쓰고, 등장인물과 대화해보세요!</P>
+                            <P className='DataMsg'>내가 쓴 책이 없어요.<br/>작가가 되어 책을 써볼까요?</P>
                         </Div> 
                     }
                 </Div>
