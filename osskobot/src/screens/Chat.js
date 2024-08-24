@@ -37,7 +37,7 @@ function Chat() {
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
 
     const { state } = useLocation();
-    const { cover_image, title, isMyBook } = state;
+    const { cover_image, title, isMyBook=true } = state;
     const [lastMsg, setLastMsg] = useState('');
     
     const [landingTitle, setLandingTitle] = useState("");
