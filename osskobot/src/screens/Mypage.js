@@ -259,8 +259,13 @@ function Mypage({homeReload}) {
                     :index === 2 ? isEmpty[2] ?
                         <Div className='ConversationList'>
                             {conversations.map((value, key) => {
-                                const book_cover = allBooks.find((item) => item.id === value.book).cover_image;
-                                return <CharCard key={key} value={value} cover_image={book_cover}/>
+                                if(value.book !== null){
+                                    const book_cover = allBooks.find((item) => item.id === value.book).cover_image;
+                                    return <CharCard key={key} value={value} cover_image={book_cover}/>
+                                }
+                                else{
+                                    return null;
+                                }
                             })}
                         </Div> :
                         <Div className='MsgDiv'>
