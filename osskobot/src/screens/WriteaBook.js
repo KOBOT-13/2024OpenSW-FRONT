@@ -193,13 +193,14 @@ function WriteaBook(){
         ).then(() => {
             Swal.fire({
                 icon: "success",
-                text: "책이 정상적으로 추가되었습니다.",
+                html: `책이 정상적으로 추가되었습니다.<br/>작성한 책은 마이페이지 → 내가 쓴 책 에서 확인할 수 있습니다.`,
                 confirmButtonColor: "#007AFF",
                 confirmButtonText: "확인"
             });
             setChars([]);
             setTitle("");
             setSynopsis("");
+            
         }).catch(() => {
             Swal.fire({
                 icon: "error",

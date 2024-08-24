@@ -37,7 +37,7 @@ function Chat() {
     const post_mtt_url = process.env.REACT_APP_API_POST_MTT
 
     const { state } = useLocation();
-    const { cover_image, title } = state;
+    const { cover_image, title, isMyBook } = state;
     const [lastMsg, setLastMsg] = useState('');
     
     const [landingTitle, setLandingTitle] = useState("");
@@ -86,7 +86,25 @@ function Chat() {
                 console.error('Error get characters:', error);
             }
         };
-        getCharacters();
+        const getMyBookCharacters = async () => {
+            try {
+                const response = await privateAxios.get(`books/writtenbook/${id}/characters/`);
+                if (response.status !== 200) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const characters = response.data;
+                const foundCharacter = characters.find(char => char.id === Number(characterid));
+                setCharacter(foundCharacter);
+            } catch (error) {
+                console.error('Error get characters:', error);
+            }
+        };
+        if(isMyBook){
+            getCharacters();
+        }
+        else{
+            getMyBookCharacters();
+        }
     }, []);
 
 
@@ -102,7 +120,22 @@ function Chat() {
             console.log(conid);
             setConversationid(conid);
         };
-        createConversation();
+        const createmyBookConversation = async () => {
+            const response = await privateAxios.post(`dialogs/conversation/start_conversation/`,
+                {
+                    written_book: id,
+                    character: characterid,
+                }
+            );
+            const conid = response.data.id;
+            console.log(conid);
+            setConversationid(conid);
+        };
+        if(isMyBook){
+            createConversation();
+        }else{
+            createmyBookConversation();
+        }
     }, []);
 
     useEffect(() => {

@@ -90,7 +90,9 @@ function Book({title, author, id, cover_image, isWish, isMyBook = true}) {
 
     const onClickBook = () => {
         if(isMyBook){
-            navigate(`/bookclick/${id}/`);
+            navigate(`/bookclick/${id}`);
+        } else{
+            navigate(`/mybookclick/${id}`)
         }
     }
 

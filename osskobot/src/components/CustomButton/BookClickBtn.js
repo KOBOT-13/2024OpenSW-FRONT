@@ -26,20 +26,30 @@ const P = styled.p`
     white-space: nowrap;
 `;
 
-function BookClickBtn({icon: Icon, label, path, id}){
+function BookClickBtn({icon: Icon, label, path, id, isMyBook = true}){
     const navigate = useNavigate();
     const [book, setBook] = useState("");
     useEffect(() => {
-        privateAxios.get(`books/book/${id}/`)
+        if(isMyBook){
+            privateAxios.get(`books/book/${id}/`)
             .then((response) => {
                 setBook(response.data);
             }).catch((error) => {
                 console.log(error);
             });
+        }else{
+            privateAxios.get(`books/writtenbook/${id}/`)
+            .then((response) => {
+                setBook(response.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
     }, []);
 
     const onClickDiv = () => {
-        navigate(`/bookclick/${id}/${path}`, {state: {cover_image:book.cover_image, title:book.title}});
+        navigate(`/bookclick/${id}/${path}`, {state: {cover_image:book.cover_image, title:book.title, isMyBook:isMyBook}});
     };
 
     return(

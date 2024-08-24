@@ -65,7 +65,6 @@ function Mypage({homeReload}) {
                 setIsEmpty(prev => ({...prev, 6:true}));
             }
             setMyBooks(response.data);
-            console.log(response.data);
         }).catch((error) => {
             console.log(error);
         });
@@ -249,6 +248,7 @@ function Mypage({homeReload}) {
                         index === 1 ? isEmpty[1] ? 
                         <Div className='WishList'>
                             {wishBook.map((value, key) => {
+                                console.log(value);
                                 return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={true} />
                             })}
                         </Div> :
@@ -320,6 +320,7 @@ function Mypage({homeReload}) {
                     : isEmpty[6] ?
                         <Div className='WishList'>
                             {myBooks.map((value, key) => {
+                                console.log(value);
                                 return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={false} isMyBook={false} />
                             })}
                         </Div>
