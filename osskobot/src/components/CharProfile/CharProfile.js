@@ -26,7 +26,7 @@ function CharProfile({character, mode, size=100, onClick}){
                 <Image src={character.character_image} alt={character.name} $size={size} />
             </button>
             <p className={styles.name}>{character.name}</p>
-            <Modal isOpen={isClk} onRequestClose={onRequestClose} name={character.name} description={character.description} src={character.character_image} mode={mode} content={`${character.description}`} characterid={character.id}/>
+            <Modal isOpen={isClk} onRequestClose={onRequestClose} name={character.name} description={character.greeting} src={character.character_image} mode={mode} content={`${character.description}`} characterid={character.id}/>
         </div>
     )
 };

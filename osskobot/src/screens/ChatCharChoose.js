@@ -72,6 +72,7 @@ const P = styled.p`
     &.description{
         font-family: 'Pretendard-Medium';
         font-size: 25px;
+        margin-right: 30px;
     }
 `;
 
@@ -100,7 +101,7 @@ function CharCharChoose() {
     
     const navigate = useNavigate();
     const {state} = useLocation();
-    const {cover_image, title} = state;
+    const {cover_image, title, isMyBook} = state;
 
     useEffect(() => {
         const getCharacters = async () => {
@@ -112,12 +113,26 @@ function CharCharChoose() {
                 console.log(error);
             }
         };
-        getCharacters();
+        const getMyBookCharacters = async () => {
+            try {
+                const characters_response = await publicAxios.get(`books/writtenbook/${id}/characters/`)
+                setCharacters(characters_response.data)
+                console.log(characters);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        if(isMyBook){
+            getCharacters();
+        }
+        else{
+            getMyBookCharacters();
+        }
     }, [id]);
 
     
     const onClickTalk = () => {
-        navigate(`/bookclick/${id}/chatcharchoose/${characters[charIndex].id}/chat`, {state:{cover_image:cover_image, title:title}})
+        navigate(`/bookclick/${id}/chatcharchoose/${characters[charIndex].id}/chat`, {state:{cover_image:cover_image, title:title, isMyBook:isMyBook}})
     }
 
     return (
@@ -141,7 +156,7 @@ function CharCharChoose() {
                                 <Image className="CharImage" src={characters[charIndex].character_image} />
                                 <P className="name">{characters[charIndex].name}</P>
                             </Div>
-                        <P className="description">{characters[charIndex].description}</P>
+                        <P className="description">{characters[charIndex].greeting}</P>
                     </Div>
                     <Button onClick={onClickTalk}>대화하기</Button>
                 </Div>

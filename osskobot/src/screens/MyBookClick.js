@@ -24,7 +24,7 @@ function MyBookClick(){
     const [charProfileInfos, setCharProfileInfos] = useState([]);
     const [_isWish, setIsWish] = useState(false);
     const [isEmpty, setIsEmpty] = useState(false);
-    
+
     const tags = [
         "사랑",
         "모험",
@@ -103,7 +103,7 @@ function MyBookClick(){
                         </Div>
                         <Div className='Btns'>
                             {featBtn.map((value, key) => {
-                                return <BookClickBtn key={key} label={value.label} icon={value.icon} path={value.path} id={params.id} />
+                                return <BookClickBtn key={key} label={value.label} icon={value.icon} path={value.path} id={params.id} isMyBook={false} />
                             })}
                         </Div>
                     </Div>
