@@ -275,7 +275,8 @@ function Mypage({homeReload}) {
                     :index === 3 ? isEmpty[3] ?
                         <Div className='BookReport'>
                             {reportInfo.map((value, key) => {
-                                return <BookReportInfo key={key} id={value.id} title={allBooks[value.book+1].title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
+                                const book = allBooks.find(item => item.id === value.book);
+                                return <BookReportInfo key={key} id={value.id} title={book.title} content={value.body} reviewDate={format(value.post_date, 'yy-MM-dd HH:mm')} removePost={removePost} />
                             })}
                         </Div> :
                         <Div className='MsgDiv'>
@@ -329,7 +330,6 @@ function Mypage({homeReload}) {
                     : isEmpty[6] ?
                         <Div className='WishList'>
                             {myBooks.map((value, key) => {
-                                console.log(value);
                                 return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={false} isMyBook={false} />
                             })}
                         </Div>

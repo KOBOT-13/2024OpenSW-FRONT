@@ -58,7 +58,10 @@ export const ChatDiv = styled.div`
     height: 206px;
 `;
 
-export const Image = styled.img``;
+export const Image = styled.img`
+    width: 214px;
+    height: 214px;
+`;
 
 export const Speech = styled.p`
     position: absolute;

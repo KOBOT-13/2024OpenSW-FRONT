@@ -237,7 +237,6 @@ function WriteaBook(){
                 </Div>
             </Div>
             <Div className='Btns-Mid'>
-                <Button className='cancle'>취소하기</Button>
                 <Button onClick={onClickApply}>작성하기</Button>
             </Div>
         </Div>
