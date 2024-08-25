@@ -55,7 +55,7 @@ function MyBookClick(){
     ];
 
     useEffect(() => {
-        publicAxios.get(`books/writtenbook/${params.id}/`)
+        privateAxios.get(`books/writtenbook/${params.id}/`)
         .then((response) => {
             setBook(response.data);
             if(response.data.synopsis === ""){
