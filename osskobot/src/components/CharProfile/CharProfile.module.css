@@ -4,6 +4,7 @@
     align-items: center;
     margin: 0 60px 0 60px;
     user-select: none;
+    cursor:pointer;
     .profileBtn{
         padding: 0;
         border: 0;

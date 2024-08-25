@@ -7,9 +7,9 @@ const Image = styled.img`
     border-radius: 500px;
 `;
 
-function CharProfile({character, size=100}){
+function CharProfile({character, size=100, onClick}){
     return (
-        <div className={styles.profileDiv}>
+        <div className={styles.profileDiv} onClick={onClick}>
             <Image src={character.character_image} alt={character.name} $size={size} />
             <p className={styles.name}>{character.name}</p>
         </div>
