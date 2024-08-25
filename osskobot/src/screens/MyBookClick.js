@@ -98,7 +98,7 @@ function MyBookClick(){
                             <Div className='Sub-Info'>
                                 <P>저자 : {book.author}</P>
                                 <P>카테고리 : {book.category}</P>
-                                <P>태그 : {book.tags.map(tag => `#${tags[tag+1]}`).join(' ')}</P>
+                                <P>태그 : {book.tags.map(tag => `#${tags[tag-1]}`).join(' ')}</P>
                             </Div>
                         </Div>
                         <Div className='Btns'>
