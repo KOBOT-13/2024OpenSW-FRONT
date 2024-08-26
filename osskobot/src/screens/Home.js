@@ -285,7 +285,7 @@ function Home({searchQuery, setSearchQuery}) {
         <div className={styles.mainDiv}>
             <SubHeader index={subHeaderIndex} setSubHeaderIndex={setSubHeaderIndex}/>
             <Div className='Wrap-Heading'>
-                <P>둘러보기</P>
+                <P>{subHeaderIndex === 0 ? "둘러보기" : subHeaderIndex === 1 ? "내 책장" : "추천도서"}</P>
                 <SelectBox selectList={selectList} onChange={setSortIndex}/>
             </Div>
             <Div className='Category'>
