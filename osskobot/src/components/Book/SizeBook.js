@@ -24,7 +24,7 @@ const P = styled.p`
 function SizeBook({cover_image, size, title, font_size}){
     return(
         <Div>
-            <Img src={cover_image} $size={size}/>
+            <Img src={`${process.env.REACT_APP_ADDRESS}${cover_image}`} $size={size}/>
             <P $font_size={font_size}>{title}</P>
         </Div>
     )

@@ -330,6 +330,7 @@ function Mypage({homeReload}) {
                     : isEmpty[6] ?
                         <Div className='WishList'>
                             {myBooks.map((value, key) => {
+                                console.log(value);
                                 return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={false} isMyBook={false} />
                             })}
                         </Div>
