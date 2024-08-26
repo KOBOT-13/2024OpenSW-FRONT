@@ -255,7 +255,7 @@ function Header(props) {
                                 <CustomLink to='/login'><P className='Login'>로그인</P></CustomLink>
                                 <CustomLink to='/join'><P className='Join'>회원가입</P></CustomLink>
                                 <Div className='BookApplyContainer'>
-                                    <P className='BookApply'>도서 신청하기</P>
+                                    <P className='BookApply'>서비스 소개</P>
                                     <Arrow />
                                 </Div>
                             </Div>
