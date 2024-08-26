@@ -140,7 +140,7 @@ function BookClick() {
             <Div className='Detail'>
                 <Div className='Frame'>
                     <Div className='Book'>
-                        <SizeBook cover_image={`${process.env.REACT_APP_ADDRESS}${book.cover_image}`} title={book.title} size={220} font_size={30} />
+                        <SizeBook cover_image={book.cover_image} title={book.title} size={220} font_size={30} />
                     </Div>
                     <Div className='Right'>
                         <Div className='Info'>

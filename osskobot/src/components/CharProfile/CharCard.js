@@ -68,7 +68,7 @@ function CharCard({value, cover_image}) {
     }, []);
 
     const onClickCard = () => {
-        navigate(`/bookclick/${value.book}/chatcharchoose/${value.character}/chat`, {state:{cover_image:`${process.env.REACT_APP_ADDRESS}${cover_image}`, title:value.book_title}});
+        navigate(`/bookclick/${value.book}/chatcharchoose/${value.character}/chat`, {state:{cover_image:cover_image, title:value.book_title}});
     }
 
     return (

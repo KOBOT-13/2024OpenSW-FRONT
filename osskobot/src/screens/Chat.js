@@ -285,7 +285,7 @@ function Chat() {
             audioRef.current.play();
         }
     };
-
+    console.log(cover_image);
     return (
         <St.Div className='Main'>
             <St.Div className='Top'>
