@@ -75,7 +75,7 @@ const Heart = styled(GoHeartFill)`
     right: 0; /* 우측 위치를 조정 */
 `;
 
-function Book({title, author, id, cover_image, isWish, isMyBook = true}) {
+function Book({title, author, id, cover_image, isWish, isMyBook = true, toggleWish}) {
     const navigate = useNavigate();
     const [_isWish, setIsWish] = useState(isWish);
     const token = cookies.get('token');
@@ -83,6 +83,7 @@ function Book({title, author, id, cover_image, isWish, isMyBook = true}) {
         privateAxios.post(`books/wishlist/toggle/${id}/`, )
         .then(() => {
             setIsWish((current) => !current);
+            toggleWish();
         }).catch((error) => {
             console.log(error);
         });
@@ -95,8 +96,8 @@ function Book({title, author, id, cover_image, isWish, isMyBook = true}) {
             navigate(`/mybookclick/${id}`)
         }
     }
-
     useEffect(() => {
+        console.log(isWish);
         setIsWish(isWish);
     }, [isWish])
 
@@ -104,7 +105,7 @@ function Book({title, author, id, cover_image, isWish, isMyBook = true}) {
         <Div className="Book" onClick={onClickBook}>
             <Div className="Frame">
                 <Div className="BookCover">
-                    <BookImage src={`${process.env.REACT_APP_ADDRESS}/${cover_image}`} />
+                    <BookImage src={`${process.env.REACT_APP_ADDRESS}${cover_image}`} />
                     <P className="bookTitle">{title}</P>
                 </Div>
                 <Div className="WishList">

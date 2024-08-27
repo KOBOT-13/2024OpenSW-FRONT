@@ -140,6 +140,12 @@ function Home({searchQuery, setSearchQuery}) {
         {index: 6, content: "우화"},
     ];
     
+    const toggleWish = (id) => {
+        setWishes(prev =>
+            prev.includes(id) ? prev.filter(wishId => wishId !== id) : [...prev, id]
+        );
+    };
+
     useEffect(() => {
         const filter = books.filter(item => 
             searchBooks.some(item2 => item.id === item2.id) &&
@@ -294,7 +300,7 @@ function Home({searchQuery, setSearchQuery}) {
             <Div className='Books'>
                 {subHeaderIndex === 0 ?
                     currentBooks.map((value, key) => {
-                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
+                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} toggleWish={() => toggleWish(value.id)} />
                     })
                     :
                 subHeaderIndex === 1 ?
@@ -304,7 +310,7 @@ function Home({searchQuery, setSearchQuery}) {
                         <P className='DataMsg'>내 책장이 비어있어요.<br/>독후활동을 하고 책을 꽂아보아요!</P>
                     </Div> :
                     currentBooks.map((value, key) => {
-                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
+                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} toggleWish={() => toggleWish(value.id)} />
                     })
                     :
                     isLackData ? 
@@ -313,7 +319,7 @@ function Home({searchQuery, setSearchQuery}) {
                         <P className='DataMsg'>독후활동을 해볼까요?<br/>자신에게 맞는 책을 추천받을 수 있어요!</P>
                     </Div> :
                     currentBooks.map((value, key) => {
-                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} />
+                        return <Book key={key} title={value.title} author={value.author} id={value.id} cover_image={value.cover_image} isWish={wishes.includes(value.id)} toggleWish={() => toggleWish(value.id)} />
                     })
                 }
             </Div>
