@@ -2,7 +2,6 @@ import axios from 'axios';
 import cookies from 'js-cookie';
 import refreshToken from './refreshToken';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 
 const privateAxios = axios.create({
   baseURL: process.env.REACT_APP_API_ADDRESS,
@@ -45,7 +44,6 @@ privateAxios.interceptors.request.use(
   }
 );
 
-// Public Axios instance without token
 const publicAxios = axios.create({
     baseURL: process.env.REACT_APP_API_ADDRESS,
     headers: {

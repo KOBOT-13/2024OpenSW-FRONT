@@ -18,9 +18,8 @@ function BookReport() {
         { value: 1, name: "독후감" },
         { value: 2, name: "등장인물에게 편지쓰기" },
         { value: 3, name: "뒷 내용 생각해보기" }
-    ]
+    ];
 
-    const [selected, setSelected] = useState("양식 선택");
     const [formContent, setFormContent] = useState("");
 
     const { state } = useLocation();
@@ -28,7 +27,6 @@ function BookReport() {
 
     const handleSelect = (e) => {
         const selectForm = e;
-        setSelected(selectForm);
 
         if (selectForm === '1') {
             setFormContent(reportForm1);

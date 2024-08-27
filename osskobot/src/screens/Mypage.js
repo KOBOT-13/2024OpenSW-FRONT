@@ -5,7 +5,6 @@ import { privateAxios, publicAxios } from '../services/axiosConfig';
 import BookReportInfo from '../components/BookReport/BookReportInfo';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import MyComments from '../components/MyComments/MyComments';
 import {Div, P, Hr, Image, Logo} from './MypageStyled';
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import BottomBorderBtn from '../components/CustomButton/BottomBorderBtn';
@@ -19,7 +18,6 @@ import CustomModal from '../components/Modal/CheckModal';
 import Swal from 'sweetalert2';
 
 function Mypage({homeReload}) {
-    const [activeIndex, setActiveIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [isCheckOpen, setIsCheckOpen] = useState(false);
     const nickname = cookies.get('username');
@@ -165,17 +163,9 @@ function Mypage({homeReload}) {
         });
     }, []);
 
-    const handleButtonClick = (index) => {
-        setActiveIndex(index);
-    };
-
     const onClickProfile = () => {
         setIsOpen(true);
     }
-
-    const chatlistclick = (id, characterid) => {
-        navigate(`/bookclick/${id}/chatcharchoose/${characterid}/chat`);
-    };
 
     const removeComment = (id) => {
         const updatedComments = comments.filter(commnet => commnet.id !== id);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { publicAxios, privateAxios } from '../services/axiosConfig';
+import { privateAxios } from '../services/axiosConfig';
 import CharProfile from '../components/CharProfile/CharProfile';
 import { Div, P, Hr, Logo } from './BookClickStyled';
 import BookClickBtn from '../components/CustomButton/BookClickBtn';

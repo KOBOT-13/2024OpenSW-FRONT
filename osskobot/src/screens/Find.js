@@ -68,14 +68,14 @@ function Find() {
             {
                 "email" : email
             }
-        ).then((response) => {
+        ).then(() => {
             Swal.fire({
                 icon: "waring",
                 text: "회원가입되지 않은 계정입니다.",
                 confirmButtonColor: "#007AFF",
                 confirmButtonText: "확인"
             });
-        }).catch((error) => {
+        }).catch(() => {
             publicAxios.post(`users/password_reset/`,
                 {
                     "email" : email

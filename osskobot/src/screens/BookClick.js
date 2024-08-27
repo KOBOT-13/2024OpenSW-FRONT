@@ -6,7 +6,7 @@ import CharProfile from '../components/CharProfile/CharProfile';
 import cookies from 'js-cookie';
 import { format } from 'date-fns'
 import postReadBook from '../services/postReadBook';
-import { Div, Image, P, Hr, TextArea, Button, CommentsPage, Heart, Logo } from './BookClickStyled';
+import { Div, P, Hr, TextArea, Button, CommentsPage, Heart, Logo } from './BookClickStyled';
 import BookClickBtn from '../components/CustomButton/BookClickBtn';
 import { ReactComponent as talk } from '../assets/talk.svg';
 import { ReactComponent as quiz } from '../assets/quiz.svg';

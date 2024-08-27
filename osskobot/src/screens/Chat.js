@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styles from './Chat.module.css'; // 이미 정의된 스타일 파일
-import { IoBowlingBallOutline, IoSend } from "react-icons/io5";
-import { IoMdMic } from "react-icons/io";
 import { IoIosWarning } from "react-icons/io";
-import image from '../assets/profile.png';
 import ChatMsg from '../components/ChatMsg/ChatMsg';
 import STT from '../components/ChatMsg/STT';
-import EndChat from '../components/ChatMsg/EndChat'
+import EndChat from '../components/ChatMsg/EndChat';
 import STTLoading from '../components/ChatMsg/STTLoading';
 import { format } from 'date-fns';
 import SpeechRecognition from 'react-speech-recognition';
@@ -117,7 +114,6 @@ function Chat() {
                 }
             );
             const conid = response.data.id;
-            console.log(conid);
             setConversationid(conid);
         };
         const createmyBookConversation = async () => {
@@ -128,7 +124,6 @@ function Chat() {
                 }
             );
             const conid = response.data.id;
-            console.log(conid);
             setConversationid(conid);
         };
         if(isMyBook){
@@ -191,7 +186,6 @@ function Chat() {
                     isOwnMessage: false,
                     date: formatDate(new Date()),
                 };
-                console.log(newMsg.tts)
                 setLastMsg(newMsg.message);
                 setMessages((prevMessages) => [...prevMessages, newMsg]);
                 playAudio(`${process.env.REACT_APP_ADDRESS}${tts_url}`)
@@ -217,8 +211,6 @@ function Chat() {
             isOwnMessage: true,
             data: formatDate(new Date()),
         }
-        console.log(msg)
-        console.log(character.id)
         setMessages((prevMessages) => [...prevMessages, newMsg]);
         MTT(msg)
         setMsg("");
@@ -267,12 +259,6 @@ function Chat() {
         });
     };
 
-    const onClickEndBtn = () => {
-        console.log(conversationid)
-        EndChat(conversationid)
-        navigate(`/bookclick/${id}`)
-    };
-
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
@@ -285,7 +271,7 @@ function Chat() {
             audioRef.current.play();
         }
     };
-    console.log(cover_image);
+
     return (
         <St.Div className='Main'>
             <St.Div className='Top'>

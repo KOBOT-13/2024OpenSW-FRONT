@@ -2,7 +2,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import {privateAxios, publicAxios} from '../services/axiosConfig';
 import cookies from 'js-cookie';
-import {Div, H1, Line, LineWithDots, Input, Button, P, Ul, Li} from './LoginStyled';
+import {Div, H1, Line, LineWithDots, Input, Button, Ul, Li} from './LoginStyled';
 import Swal from 'sweetalert2';
 
 function Login({ setReload }) {

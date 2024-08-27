@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import BookReportModal from "../Modal/BookReportModal";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 const Div = styled.div`
   padding: 20px 50px 0 50px;

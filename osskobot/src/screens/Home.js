@@ -1,8 +1,7 @@
 import styles from './Home.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import BookRequestModal from '../components/Modal/BookRequestModal';
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { publicAxios, privateAxios } from '../services/axiosConfig';
 import cookies from 'js-cookie';
 import SubHeader from '../components/Header/SubHeader';
@@ -99,7 +98,6 @@ const CommentsPage = (props) => {
 
 function Home({searchQuery, setSearchQuery}) {
     const navigate = useNavigate();
-    const [isBookRequestModalOpen, setIsBookRequestModalOpen] = useState(false);
     const [books, setBooks] = useState([]);
     const [allBooks, setAllBooks] = useState([]);
     const [myBooks, setMyBooks] = useState([]);

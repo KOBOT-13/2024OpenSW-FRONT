@@ -1,7 +1,7 @@
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import Question from '../components/Quiz/Question';
-import './Quiz.css'; // 추가된 CSS 파일 import
+import './Quiz.css';
 import { privateAxios } from '../services/axiosConfig';
 import postReadBook from '../services/postReadBook';
 import { Div, Span, Button, ResultP } from './QuizStyled';

@@ -1,9 +1,6 @@
 import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
 
 function PreviousChat({ conversations, onChatClick }) {
-    const navigate = useNavigate();
-
     return (
         <div>
             <h1>이전 대화</h1>

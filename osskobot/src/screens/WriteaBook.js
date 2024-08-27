@@ -151,9 +151,7 @@ const AddChar = styled.button`
     }
 `;
 
-const XIcon = styled(BsX)`
-
-`;
+const XIcon = styled(BsX)``;
 
 function CharComponent({name, index, deleteChar}){
     const [isHover, setIsHover] = useState(true);

@@ -13,18 +13,4 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    .buttonDiv{
-        margin-top: 10%;
-        display: flex;
-        justify-content: space-between;
-        width: 30%;
-        .yesBtn, .noBtn{
-            border: 1px solid black;
-            background: none;
-            color: black;
-            font-size: 15px;
-            cursor: pointer;
-        }
-    }
 }

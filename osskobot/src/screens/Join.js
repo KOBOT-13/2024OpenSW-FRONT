@@ -8,7 +8,6 @@ import {Div, H1, Line, LineWithDots, LabelInput, LabelInputButton, Apply} from '
 function Join() {
     const navigate = useNavigate();
 
-    const [errorMsg, setErrorMsg] = useState("");
     const [validPasswordMsg, setValidPasswordMsg] = useState("");
     const [validPassword2Msg, setValidPassword2Msg] = useState("");
     const [validEmailMsg, setValidEmailMsg] = useState("");
@@ -170,10 +169,7 @@ function Join() {
                 })
                 .catch((error) => {
                     console.log(error);
-                    const usernameErr = error.response.data['username'];
-                    const emailErr = error.response.data['email'];
-                    setErrorMsg(`${usernameErr!==undefined ? usernameErr : ""}\n${emailErr!==undefined ? emailErr : ""}`);
-                })
+                });
         }
         else {
             Swal.fire({

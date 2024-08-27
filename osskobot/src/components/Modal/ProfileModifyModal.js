@@ -156,7 +156,7 @@ function ProfileModify({ isOpen, onRequestClose, nickname, date, reload }) {
                 {
                     'birth_date': newDate
                 }
-            ).then((response) => {
+            ).then(() => {
                 Swal.fire({
                     icon: "success",
                     text: "프로필을 수정하였습니다.",
