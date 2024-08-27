@@ -67,3 +67,10 @@ npm start
  - hooks : 커스텀 훅이 위치하는 폴더
  - screens : 웹사이트 각각의 스크린 파일이 위치하는 폴더
  - services : api 관련 파일이 위치하는 폴더
+
+   
+## Team
+| <img src="https://avatars.githubusercontent.com/u/105336619?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/51287968?v=4" height="150"/> | <img src="https://avatars.githubusercontent.com/u/68416831?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/113083948?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/134242170?v=4" width="150" height="150"/> |
+|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
+|                   임혜진<br/>[@ima9ine4](https://github.com/ima9ine4)                    |                    성창민<br/>[@forestsol](https://github.com/forestsol)                    |                  이재영<br/>[@rktlskan021](https://github.com/rktlskan021)                |         장원준 <br/>[@IamWonILuvWon](https://github.com/IamWonILuvWon)        |                     김명원<br/>[@coladribble](https://github.com/coladribble)                      |
+
