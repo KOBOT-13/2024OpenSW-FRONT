@@ -107,7 +107,7 @@ function BookClick() {
     useEffect(() => {
         privateAxios.get(`books/wishlist/`)
         .then((response) => {
-            setIsWish(response.data.includes(parseInt(params.id)));
+            setIsWish(response.data[0].id === parseInt(params.id));
         }).catch((error) => {
             console.log(error);
         });
