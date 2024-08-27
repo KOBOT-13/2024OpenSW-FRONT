@@ -1,3 +1,7 @@
+<div align="center" style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+    <img src="https://github.com/KOBOT-13/2024OpenSW-FRONT/blob/main/osskobot/src/assets/Logo320.svg" alt="Web Logo" width="320"/>
+</div>
+
 # 아이랑 아이(AI)랑
 공개 SW 개발자 대회 출품작인 **아이랑 아이(AI)랑**의 Front-End 레포지토리입니다.
 
